@@ -56,17 +56,20 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="Scripts" />
-    <Folder Include="ForeignKeys" />
     <Folder Include="Tables" />
+    <Folder Include="ForeignKeys" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Scripts\Genres.sql" />
-    <None Include="Scripts\Songs.sql" />
-    <None Include="Scripts\Albums.sql" />
-    <None Include="Scripts\Perfomers.sql" />
-    <None Include="ForeignKeys\FK_SongAlbum.sql" />
-    <None Include="ForeignKeys\FK_GenreSong.sql" />
-    <None Include="ForeignKeys\FK_PerformerSong.sql" />
+    <Build Include="ForeignKeys\FK_SongAlbum.sql" />
+    <Build Include="ForeignKeys\FK_GenreSong.sql" />
+    <Build Include="ForeignKeys\FK_PerformerSong.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Albums.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="Tables\Genres.sql" />
+    <Build Include="Tables\Performers.sql" />
+    <Build Include="Tables\Songs.sql" />
   </ItemGroup>
 </Project>
