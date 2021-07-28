@@ -63,6 +63,7 @@
     <Build Include="ForeignKeys\FK_SongAlbum.sql" />
     <Build Include="ForeignKeys\FK_GenreSong.sql" />
     <Build Include="ForeignKeys\FK_PerformerSong.sql" />
+    <Build Include="TestData.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Albums.sql" />
