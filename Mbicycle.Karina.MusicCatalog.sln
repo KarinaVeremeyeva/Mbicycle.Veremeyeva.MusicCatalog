@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MusicCatalogDatabase", "MusicCatalogDatabase\MusicCatalogDatabase.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Mbicycle.Karina.MusicCatalogDatabase", "Mbicycle.Karina.MusicCatalogDatabase\Mbicycle.Karina.MusicCatalogDatabase.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,7 +9,6 @@ INSERT INTO [MusicCatalogDatabase].[dbo].[Performers]
 		('Performer3'),
 		('Performer4'),
 		('Performer5')
-
 GO
 
 INSERT INTO [MusicCatalogDatabase].[dbo].[Genres]
