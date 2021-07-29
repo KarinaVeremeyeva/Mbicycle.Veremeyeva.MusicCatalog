@@ -1,4 +1,4 @@
-﻿namespace Mbicycle.Karina.MusicCatalog.DAL
+﻿namespace Mbicycle.Karina.MusicCatalog.Domain
 {
     public class Song
     {

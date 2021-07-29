@@ -1,6 +1,6 @@
-﻿namespace Mbicycle.Karina.MusicCatalog.DAL
+﻿namespace Mbicycle.Karina.MusicCatalog.Domain
 {
-    public class Genre
+    public class Performer
     {
         public int Id { get; set; }
         public string Name { get; set; }

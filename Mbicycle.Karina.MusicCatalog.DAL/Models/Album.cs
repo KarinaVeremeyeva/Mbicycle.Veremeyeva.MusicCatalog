@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mbicycle.Karina.MusicCatalog.DAL
+namespace Mbicycle.Karina.MusicCatalog.Domain
 {
     public class Album
     {
