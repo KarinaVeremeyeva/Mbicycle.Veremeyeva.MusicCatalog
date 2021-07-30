@@ -10,6 +10,7 @@
             <th scope="col">Name</th>
             <th scope="col">Release date</th>
             <th scope="col">Song</th>
+            <th></th>
         </tr>
     </thead>
     @foreach (var album in Model)
@@ -19,6 +20,10 @@
             <td>@album.Name</td>
             <td>@album.ReleaseDate.ToShortDateString()</td>
             <td>@album.Song.Name</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@album.AlbumId">Edit</a>
+                <a asp-action="Delete" asp-route-id="@album.AlbumId">Delete</a>
+            </td>
         </tr>
     }
 </table>

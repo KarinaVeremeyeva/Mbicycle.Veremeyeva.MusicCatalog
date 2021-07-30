@@ -23,7 +23,7 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(albums);
         }
 
-        public ActionResult CreateAlbum(Album album)
+        public IActionResult CreateAlbum(Album album)
         {
             if (ModelState.IsValid)
             {
@@ -34,6 +34,34 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             }
 
             return View(album);
+        }
+
+        public IActionResult EditAlbum(int? id)
+        {
+            var albumToUpdate = db.Albums.FirstOrDefault(album => album.AlbumId == id);
+
+            if (id != null)
+            {
+                db.Entry(albumToUpdate).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return View(albumToUpdate);
+        }
+
+        public IActionResult DeleteAlbum(int? id)
+        {
+            var albumToDelete = db.Albums.FirstOrDefault(album => album.AlbumId == id);
+
+            if (id != null)
+            {
+                db.Remove(albumToDelete);
+                db.SaveChanges();
+
+                return View(albumToDelete);
+            }
+
+            return NotFound();
         }
     }
 }
