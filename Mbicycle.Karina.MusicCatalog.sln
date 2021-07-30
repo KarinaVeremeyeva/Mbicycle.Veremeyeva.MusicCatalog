@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Mbicycle.Karina.MusicCatalogDatabase", "Mbicycle.Karina.MusicCatalogDatabase\Mbicycle.Karina.MusicCatalogDatabase.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Mbicycle.Karina.MusicCatalog.Database", "Mbicycle.Karina.MusicCatalogDatabase\Mbicycle.Karina.MusicCatalog.Database.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mbicycle.Karina.MusicCatalog.Domain", "Mbicycle.Karina.MusicCatalog.DAL\Mbicycle.Karina.MusicCatalog.Domain.csproj", "{0ADCD499-D916-4230-B13E-EFD96D135914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mbicycle.Karina.MusicCatalog.Web", "Mbicycle.Karina.MusicCatalog.Web\Mbicycle.Karina.MusicCatalog.Web.csproj", "{96ADEB97-453D-465A-83C6-12CCFBAA9DBF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mbicycle.Karina.MusicCatalog.Web", "Mbicycle.Karina.MusicCatalog.Web\Mbicycle.Karina.MusicCatalog.Web.csproj", "{96ADEB97-453D-465A-83C6-12CCFBAA9DBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mbicycle.Karina.MusicCatalog.Domain", "Mbicycle.Karina.MusicCatalog.Domain\Mbicycle.Karina.MusicCatalog.Domain.csproj", "{0ADCD499-D916-4230-B13E-EFD96D135914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mbicycle.Karina.MusicCatalog.Infrastructure", "Mbicycle.Karina.MusicCatalog.Infrastructure\Mbicycle.Karina.MusicCatalog.Infrastructure.csproj", "{58D89979-95F2-46A5-8BFD-346528DDCFF5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,14 +23,18 @@ Global
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{0ADCD499-D916-4230-B13E-EFD96D135914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0ADCD499-D916-4230-B13E-EFD96D135914}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0ADCD499-D916-4230-B13E-EFD96D135914}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0ADCD499-D916-4230-B13E-EFD96D135914}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96ADEB97-453D-465A-83C6-12CCFBAA9DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96ADEB97-453D-465A-83C6-12CCFBAA9DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96ADEB97-453D-465A-83C6-12CCFBAA9DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96ADEB97-453D-465A-83C6-12CCFBAA9DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

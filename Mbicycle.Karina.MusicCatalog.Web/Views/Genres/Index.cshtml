@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Mbicycle.Karina.MusicCatalog.Domain.Genre>
+@{
+    ViewData["Title"] = "Genres list";
+}
+<h3>Genres list</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+    </tr>
+    @foreach (var genre in Model)
+    {
+        <tr>
+            <td>@genre.GenreId</td>
+            <td>@genre.Name</td>
+        </tr>
+    }
+</table>
+

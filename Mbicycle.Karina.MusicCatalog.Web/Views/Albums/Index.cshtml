@@ -1,0 +1,25 @@
+﻿@model IEnumerable<Mbicycle.Karina.MusicCatalog.Domain.Album>
+@{
+    ViewData["Title"] = "Albums list";
+}
+<h3>Albums list</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Release date</th>
+            <th scope="col">Song</th>
+        </tr>
+    </thead>
+    @foreach (var album in Model)
+    {
+        <tr>
+            <td>@album.AlbumId</td>
+            <td>@album.Name</td>
+            <td>@album.ReleaseDate.ToShortDateString()</td>
+            <td>@album.Song.Name</td>
+        </tr>
+    }
+</table>
+

@@ -1,0 +1,30 @@
+﻿a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+}
+
+a {
+    color: #0366d6;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px;
+}
+

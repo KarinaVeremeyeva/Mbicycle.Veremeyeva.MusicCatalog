@@ -1,12 +1,20 @@
-﻿namespace Mbicycle.Karina.MusicCatalog.Domain
+﻿using System.Collections.Generic;
+
+namespace Mbicycle.Karina.MusicCatalog.Domain
 {
     public class Song
     {
-        public int Id { get; set; }
+        public int SongId { get; set; }
         public string Name { get; set; }
         public int GenreId { get; set; }
         public Genre Genre { get; set; }
         public int PerformerId { get; set; }
         public Performer Performer { get; set; }
+
+        public List<Album> Albums { get; set; }
+        public Song()
+        {
+            Albums = new List<Album>();
+        }
     }
 }

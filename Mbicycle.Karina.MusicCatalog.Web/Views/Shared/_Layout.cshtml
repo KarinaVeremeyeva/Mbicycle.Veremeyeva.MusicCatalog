@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light border-bottom">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Music catalog</a>
+
+                <ul class="nav navbar-nav flex-grow-1">
+                    <li>
+                        <a href="~/Home/Index" class="navbar-brand">Main</a>
+                    </li>
+                    <li>
+                        <a href="~/Albums/Index" class="navbar-brand">Albums</a>
+                    </li>
+                    <li>
+                        <a href="~/Genres/Index" class="navbar-brand">Genres</a>
+                    </li>
+                    <li>
+                        <a href="~/Performers/Index" class="navbar-brand">Performers</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; 2021 - MusicCatalog</p>
+        </footer>
+    </div>
+</body>
+</html>
