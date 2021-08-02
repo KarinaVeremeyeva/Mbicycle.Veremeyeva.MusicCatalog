@@ -23,6 +23,13 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(albums);
         }
 
+        [HttpGet]
+        public IActionResult CreateAlbum()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult CreateAlbum(Album album)
         {
             if (ModelState.IsValid)
@@ -36,6 +43,7 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(album);
         }
 
+        [HttpPost]
         public IActionResult EditAlbum(int? id)
         {
             var albumToUpdate = db.Albums.FirstOrDefault(album => album.AlbumId == id);
@@ -49,6 +57,7 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(albumToUpdate);
         }
 
+        [HttpPost]
         public IActionResult DeleteAlbum(int? id)
         {
             var albumToDelete = db.Albums.FirstOrDefault(album => album.AlbumId == id);
