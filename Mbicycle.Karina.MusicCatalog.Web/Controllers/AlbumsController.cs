@@ -18,56 +18,60 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
         public ActionResult Index()
         {
             var albums = db.Albums
-                .Include(album => album.Song).ToList();
+                .Include(album => album.Song)
+                //.Select(song => song.ReleaseDate.ToShortDateString())
+                .ToList();
 
             return View(albums);
         }
 
         [HttpGet]
-        public IActionResult CreateAlbum()
+        public IActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult CreateAlbum(Album album)
+        public IActionResult Create(Album album)
         {
             if (ModelState.IsValid)
             {
-                db.Add(album);
+                db.Albums.Add(album);
                 db.SaveChanges();
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index");
             }
 
-            return View(album);
+            return View("Create", album);
         }
 
         [HttpPost]
-        public IActionResult EditAlbum(int? id)
+        public IActionResult Edit(int? id)
         {
             var albumToUpdate = db.Albums.FirstOrDefault(album => album.AlbumId == id);
 
-            if (id != null)
+            if (ModelState.IsValid)
             {
                 db.Entry(albumToUpdate).State = EntityState.Modified;
                 db.SaveChanges();
+
+                return RedirectToAction("Index");
             }
 
             return View(albumToUpdate);
         }
 
         [HttpPost]
-        public IActionResult DeleteAlbum(int? id)
+        public IActionResult Delete(int? id)
         {
             var albumToDelete = db.Albums.FirstOrDefault(album => album.AlbumId == id);
 
             if (id != null)
             {
-                db.Remove(albumToDelete);
+                db.Albums.Remove(albumToDelete);
                 db.SaveChanges();
 
-                return View(albumToDelete);
+                return RedirectToAction("Index");
             }
 
             return NotFound();

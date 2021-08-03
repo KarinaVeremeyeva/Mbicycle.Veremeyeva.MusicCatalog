@@ -1,0 +1,21 @@
+﻿@model Genre
+@{
+    ViewData["Title"] = "Edit";
+}
+<h3>Edit genre</h3>
+<form asp-action="Edit">
+    <input type="hidden" asp-for="GenreId" name="GenreId" />
+    <table class="table">
+        <tr>
+            <th scope="col">Name</th>
+            <td><input type="text" name="Name" /></td>
+        </tr>
+        <tr>
+            <td><button type="submit" class="btn btn-outline-primary">Save</button></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+<a asp-action="Index">Back to list</a>
+
+

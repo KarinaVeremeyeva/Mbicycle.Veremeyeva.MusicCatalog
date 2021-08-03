@@ -1,0 +1,21 @@
+﻿@model Album
+@{
+    ViewData["Title"] = "Edit album";
+}
+<h3>Create genre</h3>
+<form asp-action="Edit" method="post">
+    <input type="hidden" value="@ViewBag.AlbumId" name="AlbumId" />
+    <table class="table">
+        <tr>
+            <th scope="col">Name</th>
+            <td><input type="text" name="Name" /></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+<a asp-action="Index">Back to list</a>
+
+

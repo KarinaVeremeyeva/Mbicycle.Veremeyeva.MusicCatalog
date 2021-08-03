@@ -1,9 +1,9 @@
-﻿@model IEnumerable<Mbicycle.Karina.MusicCatalog.Domain.Album>
+﻿@model Album
 @{
-    ViewData["Title"] = "Create album";
+    ViewData["Title"] = "Create";
 }
 <h3>Create album</h3>
-<form action="/Albums/CreateAlbum" method="post">
+<form asp-action="Create" method="post">
     <input type="hidden" value="@ViewBag.AlbumId" name="AlbumId" />
     <table class="table">
         <tr>
@@ -19,9 +19,10 @@
             <td><input type="text" name="Song" /></td>
         </tr>
         <tr>
-            <td><input type="submit" name="submit" /> </td>
+            <td><button type="submit" class="btn btn-outline-primary">Create</button></td>
             <td></td>
         </tr>
     </table>
 </form>
+<a asp-action="Index">Back to list</a>
 

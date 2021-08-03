@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Mbicycle.Karina.MusicCatalog.Domain.Performer>
+﻿@model IEnumerable<Performer>
 @{
     ViewData["Title"] = "Performers list";
 }
@@ -18,4 +18,8 @@
         </tr>
     }
 </table>
+<p>
+    @Html.ActionLink("Create performer", "Create", "Performers", null, new { @class = "btn btn-outline-primary" })
+</p>
+
 

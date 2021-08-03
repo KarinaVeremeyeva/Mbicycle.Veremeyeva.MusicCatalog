@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Mbicycle.Karina.MusicCatalog.Domain.Genre>
+﻿@model IEnumerable<Genre>
 @{
     ViewData["Title"] = "Genres list";
 }
@@ -6,16 +6,28 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.GenreId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
         </tr>
     </thead>
     @foreach (var genre in Model)
     {
         <tr>
-            <td>@genre.GenreId</td>
-            <td>@genre.Name</td>
+            <td>@Html.DisplayFor(modelItem => genre.GenreId)</td>
+            <td>@Html.DisplayFor(modelItem => genre.Name)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = genre.GenreId })
+                @Html.ActionLink("Delete", "Delete", new { id = genre.GenreId })
+            </td>
         </tr>
     }
 </table>
+<p>
+    @Html.ActionLink("Create genre", "Create", "Genres", null, new { @class = "btn btn-outline-primary" })
+</p>
 

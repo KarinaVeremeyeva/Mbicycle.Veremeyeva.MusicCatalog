@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Mbicycle.Karina.MusicCatalog.Domain.Album>
+﻿@model IEnumerable<Album>
 @{
     ViewData["Title"] = "Albums list";
 }
@@ -6,9 +6,9 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">Id</th>
+            <th scope="col">AlbumId</th>
             <th scope="col">Name</th>
-            <th scope="col">Release date</th>
+            <th scope="col">ReleaseDate</th>
             <th scope="col">Song</th>
             <th></th>
         </tr>
@@ -16,14 +16,17 @@
     @foreach (var album in Model)
     {
         <tr>
-            <td>@album.AlbumId</td>
-            <td>@album.Name</td>
-            <td>@album.ReleaseDate.ToShortDateString()</td>
-            <td>@album.Song.Name</td>
+            <td>@Html.DisplayFor(modelItem => album.AlbumId)</td>
+            <td>@Html.DisplayFor(modelItem => album.Name)</td>
+            <td>@Html.DisplayFor(modelItem => album.ReleaseDate)</td>
+            <td>@Html.DisplayFor(modelItem => album.Song.Name)</td>
             <td>
-                <a asp-action="Edit" asp-route-id="@album.AlbumId">Edit</a>
-                <a asp-action="Delete" asp-route-id="@album.AlbumId">Delete</a>
+                @Html.ActionLink("Edit", "Edit", new { id = album.AlbumId })
+                @Html.ActionLink("Delete", "Delete", new { id = album.AlbumId })
             </td>
         </tr>
     }
 </table>
+<p>
+    @Html.ActionLink("Create album", "Create", "Albums", null, new { @class = "btn btn-outline-primary" })
+</p>

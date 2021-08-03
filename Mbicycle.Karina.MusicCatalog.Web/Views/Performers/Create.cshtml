@@ -1,0 +1,23 @@
+﻿@model Genre
+@{
+    ViewData["Title"] = "Create";
+}
+<h3>Create performer</h3>
+<form asp-action="Create">
+    <input type="hidden" value="@ViewBag.PerformerId" name="PerformerId" />
+    <table class="table">
+        <tr>
+            <th scope="col">Name</th>
+            <td><input type="text" name="Name" /></td>
+        </tr>
+        <tr>
+            <td><button type="submit" value="Create" class="btn btn-outline-primary">Create</button></td>
+            <td></td>
+        </tr>
+    </table>
+</form>
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
+
+
