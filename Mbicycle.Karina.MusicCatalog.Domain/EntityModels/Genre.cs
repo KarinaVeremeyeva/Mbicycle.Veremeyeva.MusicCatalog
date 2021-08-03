@@ -6,12 +6,6 @@ namespace Mbicycle.Karina.MusicCatalog.Domain
     {
         public int GenreId { get; set; }
         public string Name { get; set; }
-
-        public List<Song> Songs { get; set; }
-
-        public Genre()
-        {
-            Songs = new List<Song>();
-        }
+        public virtual ICollection<Song> Songs { get; set; }
     }
 }
