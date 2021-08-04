@@ -1,10 +1,8 @@
-﻿@model Genre
+﻿@model Performer
 @{
     ViewData["Title"] = "Edit";
 }
-<h3>Edit genre</h3>
-<form asp-action="Edit" asp-controller="Genres" asp-route-id="@Model.GenreId">
-    <input type="hidden" asp-for="GenreId" name="GenreId" />
+<form asp-action="Edit" asp-controller="Performers" asp-route-id="@Model.PerformerId">
     <table class="table">
         <tr>
             <th scope="col">Name</th>
@@ -17,5 +15,4 @@
     </table>
 </form>
 <a asp-action="Index">Back to list</a>
-
 

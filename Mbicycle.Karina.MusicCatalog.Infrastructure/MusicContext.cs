@@ -10,8 +10,6 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure
         {
         }
 
-        public MusicContext() { }
-
         public virtual DbSet<Genre> Genres { get; set; }
         public virtual DbSet<Performer> Performers { get; set; }
         public virtual DbSet<Song> Songs { get; set; }

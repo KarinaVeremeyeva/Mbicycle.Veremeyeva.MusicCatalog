@@ -6,11 +6,14 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
 {
     public class PerformersController : Controller
     {
+        private  MusicContext context;
         private readonly UnitOfWork unitOfWork;
 
-        public PerformersController()
+        public PerformersController(MusicContext context)
         {
-            unitOfWork = new UnitOfWork();
+            this.context = context;
+            unitOfWork = new UnitOfWork(context);
+
         }
 
         public ActionResult Index()
@@ -61,6 +64,7 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
 
                 return RedirectToAction("Index");
             }
+
             return View(performer);
         }
 

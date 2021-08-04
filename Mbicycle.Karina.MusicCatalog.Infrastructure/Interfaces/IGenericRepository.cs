@@ -9,5 +9,6 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure.Repositories
         void Delete(int id);
         IEnumerable<T> GetAll();
         T GetById(int id);
+        void Save();
     }
 }

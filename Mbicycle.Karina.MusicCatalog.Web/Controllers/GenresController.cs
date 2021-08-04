@@ -1,23 +1,21 @@
 ﻿using Mbicycle.Karina.MusicCatalog.Domain;
-using Mbicycle.Karina.MusicCatalog.Infrastructure;
+using Mbicycle.Karina.MusicCatalog.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
 {
     public class GenresController : Controller
     {
-        private readonly MusicContext db;
+        private IGenreRepository genreRepository;
 
-        public GenresController(MusicContext context)
+        public GenresController(IGenreRepository genreRepository)
         {
-            this.db = context;
+            this.genreRepository = genreRepository;
         }
 
         public ActionResult Index()
         {
-            return View(db.Genres.ToList());
+            return View(genreRepository.GetAll());
         }
 
         [HttpGet]
@@ -31,8 +29,8 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Genres.Add(genre);
-                db.SaveChanges();
+                genreRepository.Create(genre);
+                genreRepository.Save();
 
                 return RedirectToAction("Index");
             }
@@ -41,14 +39,14 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int? id)
+        public IActionResult Edit(int id)
         {
-            var genreToUpdate = db.Genres.FirstOrDefault(genre => genre.GenreId == id);
+            var genreToUpdate = genreRepository.GetById(id);
 
             if (ModelState.IsValid)
             {
-                db.Entry(genreToUpdate).State = EntityState.Modified;
-                db.SaveChanges();
+                genreRepository.Update(genreToUpdate);
+                genreRepository.Save();
 
                 return RedirectToAction("Index");
             }
@@ -57,14 +55,9 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var genreToDelete = db.Genres.FirstOrDefault(genre => genre.GenreId == id);
+            var genreToDelete = genreRepository.GetById(id);
 
             if (genreToDelete == null)
             {
@@ -75,20 +68,12 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeleteConfirmed(int? id)
+        public IActionResult DeleteConfirmed(int id)
         {
-            var genreToDelete = db.Genres.FirstOrDefault(genre => genre.GenreId == id);
-
-            db.Genres.Remove(genreToDelete);
-            db.SaveChanges();
+            genreRepository.Delete(id);
+            genreRepository.Save();
 
             return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            db.Dispose();
-            base.Dispose(disposing);
         }
     }
 }

@@ -5,25 +5,30 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure
 {
     public class UnitOfWork : IDisposable
     {
-        private readonly MusicContext db = new MusicContext();
+        private readonly MusicContext _context;
 
-        private AlbumRepository albumRepository;
-        private GenreRepository genreRepository;
-        private PerformerRepository performerRepository;
-        private SongRepository songRepository;
+        private AlbumRepository _albumRepository;
+        private GenreRepository _genreRepository;
+        private PerformerRepository _performerRepository;
+        private SongRepository _songRepository;
 
         private bool disposed;
+
+        public UnitOfWork(MusicContext context)
+        {
+            _context = context;
+        }
 
         public AlbumRepository Albums
         {
             get
             {
-                if (albumRepository == null)
+                if (_albumRepository == null)
                 {
-                    albumRepository = new AlbumRepository(db);
+                    _albumRepository = new AlbumRepository(_context);
                 }
 
-                return albumRepository;
+                return _albumRepository;
             }
         }
 
@@ -31,12 +36,12 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure
         {
             get
             {
-                if (genreRepository == null)
+                if (_genreRepository == null)
                 {
-                    genreRepository = new GenreRepository(db);
+                    _genreRepository = new GenreRepository(_context);
                 }
 
-                return genreRepository;
+                return _genreRepository;
             }
         }
 
@@ -44,12 +49,12 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure
         {
             get 
             { 
-                if (performerRepository == null)
+                if (_performerRepository == null)
                 {
-                    performerRepository = new PerformerRepository(db);
+                    _performerRepository = new PerformerRepository(_context);
                 }
 
-                return performerRepository;
+                return _performerRepository;
             }
         }
 
@@ -57,18 +62,18 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure
         {
             get
             {
-                if (songRepository == null)
+                if (_songRepository == null)
                 {
-                    songRepository = new SongRepository(db);
+                    _songRepository = new SongRepository(_context);
                 }
 
-                return songRepository;
+                return _songRepository;
             }
         }
 
         public void Save()
         {
-            db.SaveChanges();
+            _context.SaveChanges();
         }
 
         protected virtual void Dispose(bool disposing)
@@ -77,7 +82,7 @@ namespace Mbicycle.Karina.MusicCatalog.Infrastructure
             {
                 if (disposing)
                 {
-                    db.Dispose();
+                    _context.Dispose();
                 }
 
                 disposed = true;

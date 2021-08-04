@@ -6,15 +6,28 @@
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Name</th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerformerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
         </tr>
     </thead>
     @foreach (var performer in Model)
     {
         <tr>
-            <td>@performer.PerformerId</td>
-            <td>@performer.Name</td>
+            <td>
+                @Html.DisplayFor(model => performer.PerformerId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => performer.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", "Performers", new { id = performer.PerformerId })
+                @Html.ActionLink("Delete", "Delete", "Performers", new { id = performer.PerformerId })
+            </td>
         </tr>
     }
 </table>

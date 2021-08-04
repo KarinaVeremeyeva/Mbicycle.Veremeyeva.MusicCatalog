@@ -1,9 +1,9 @@
-﻿@model Genre
+﻿@model Performer
 @{
     ViewData["Title"] = "Create";
 }
 <h3>Create performer</h3>
-<form asp-action="Create">
+<form method="post" action="~/Performers/Create">
     <input type="hidden" value="@ViewBag.PerformerId" name="PerformerId" />
     <table class="table">
         <tr>
