@@ -42,39 +42,59 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View("Create", album);
+            return View(album);
         }
 
-        [HttpPost]
-        public IActionResult Edit(int? id)
+        [HttpGet]
+        public ActionResult Edit(int id)
         {
             var albumToUpdate = db.Albums.FirstOrDefault(album => album.AlbumId == id);
 
-            if (ModelState.IsValid)
+            if (albumToUpdate == null)
             {
-                db.Entry(albumToUpdate).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return RedirectToAction("Index");
+                return NotFound();
             }
 
             return View(albumToUpdate);
         }
 
         [HttpPost]
-        public IActionResult Delete(int? id)
+        public IActionResult Edit(Album album)
         {
-            var albumToDelete = db.Albums.FirstOrDefault(album => album.AlbumId == id);
-
-            if (id != null)
+            if (ModelState.IsValid)
             {
-                db.Albums.Remove(albumToDelete);
+                db.Entry(album).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("Index");
             }
 
-            return NotFound();
+            return View(album);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var albumToDelete = db.Albums.FirstOrDefault(album => album.AlbumId == id);
+
+            if (albumToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return View(albumToDelete);
+        }
+
+        [HttpPost, ActionName("Delete")]
+
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var albumToDelete = db.Albums.FirstOrDefault(album => album.AlbumId == id);
+
+            db.Albums.Remove(albumToDelete);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

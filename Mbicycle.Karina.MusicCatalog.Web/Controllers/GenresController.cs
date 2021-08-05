@@ -1,21 +1,25 @@
 ﻿using Mbicycle.Karina.MusicCatalog.Domain;
-using Mbicycle.Karina.MusicCatalog.Infrastructure.Repositories;
+using Mbicycle.Karina.MusicCatalog.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
 {
     public class GenresController : Controller
     {
-        private IGenreRepository genreRepository;
+        private readonly MusicContext context;
+        private readonly UnitOfWork unitOfWork;
 
-        public GenresController(IGenreRepository genreRepository)
+        public GenresController(MusicContext context)
         {
-            this.genreRepository = genreRepository;
+            this.context = context;
+            unitOfWork = new UnitOfWork(context);
         }
 
         public ActionResult Index()
         {
-            return View(genreRepository.GetAll());
+            var genres = unitOfWork.Genres.GetAll();
+
+            return View(genres);
         }
 
         [HttpGet]
@@ -29,8 +33,8 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                genreRepository.Create(genre);
-                genreRepository.Save();
+                unitOfWork.Genres.Create(genre);
+                unitOfWork.Save();
 
                 return RedirectToAction("Index");
             }
@@ -38,26 +42,37 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(genre);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Edit(int id)
         {
-            var genreToUpdate = genreRepository.GetById(id);
+            var genreToUpdate = unitOfWork.Genres.GetById(id);
 
-            if (ModelState.IsValid)
+            if (genreToUpdate == null)
             {
-                genreRepository.Update(genreToUpdate);
-                genreRepository.Save();
-
-                return RedirectToAction("Index");
+                return NotFound();
             }
 
             return View(genreToUpdate);
         }
 
+        [HttpPost]
+        public IActionResult Edit(Genre genre)
+        {
+            if (ModelState.IsValid)
+            {
+                unitOfWork.Genres.Update(genre);
+                unitOfWork.Save();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(genre);
+        }
+
         [HttpGet]
         public IActionResult Delete(int id)
         {
-            var genreToDelete = genreRepository.GetById(id);
+            var genreToDelete = unitOfWork.Genres.GetById(id);
 
             if (genreToDelete == null)
             {
@@ -67,11 +82,11 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(genreToDelete);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
-            genreRepository.Delete(id);
-            genreRepository.Save();
+            unitOfWork.Genres.Delete(id);
+            unitOfWork.Save();
 
             return RedirectToAction("Index");
         }

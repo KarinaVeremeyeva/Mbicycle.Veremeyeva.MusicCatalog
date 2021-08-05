@@ -15,21 +15,23 @@
             <th></th>
         </tr>
     </thead>
-    @foreach (var performer in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(model => performer.PerformerId)
-            </td>
-            <td>
-                @Html.DisplayFor(model => performer.Name)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", "Performers", new { id = performer.PerformerId })
-                @Html.ActionLink("Delete", "Delete", "Performers", new { id = performer.PerformerId })
-            </td>
-        </tr>
-    }
+    <tbody>
+        @foreach (var performer in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(model => performer.PerformerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(model => performer.Name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", "Performers", new { id = performer.PerformerId })
+                    @Html.ActionLink("Delete", "Delete", "Performers", new { id = performer.PerformerId })
+                </td>
+            </tr>
+        }
+    </tbody>
 </table>
 <p>
     @Html.ActionLink("Create performer", "Create", "Performers", null, new { @class = "btn btn-outline-primary" })

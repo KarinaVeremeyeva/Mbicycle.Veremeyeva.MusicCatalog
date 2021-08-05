@@ -4,25 +4,34 @@
 }
 <h3>Create album</h3>
 <form asp-action="Create" method="post">
-    <input type="hidden" value="@ViewBag.AlbumId" name="AlbumId" />
-    <table class="table">
-        <tr>
-            <th scope="col">Name</th>
-            <td><input type="text" name="Name" /></td>
-        </tr>
-        <tr>
-            <th scope="col">Release date</th>
-            <td><input type="date" name="ReleaseDate" /></td>
-        </tr>
-        <tr>
-            <th scope="col">Song</th>
-            <td><input type="text" name="Song" /></td>
-        </tr>
-        <tr>
-            <td><button type="submit" class="btn btn-outline-primary">Create</button></td>
-            <td></td>
-        </tr>
-    </table>
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="ReleaseDate" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input type="date" asp-for="ReleaseDate" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="Song.Name" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input type="text" asp-for="Song.Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </div>
 </form>
-<a asp-action="Index">Back to list</a>
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
 

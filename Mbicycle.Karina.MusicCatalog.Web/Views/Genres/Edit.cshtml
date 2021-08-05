@@ -3,19 +3,25 @@
     ViewData["Title"] = "Edit";
 }
 <h3>Edit genre</h3>
-<form asp-action="Edit" asp-controller="Genres" asp-route-id="@Model.GenreId">
-    <input type="hidden" asp-for="GenreId" name="GenreId" />
-    <table class="table">
-        <tr>
-            <th scope="col">Name</th>
-            <td><input type="text" name="Name" /></td>
-        </tr>
-        <tr>
-            <td><button type="submit" class="btn btn-outline-primary">Save</button></td>
-            <td></td>
-        </tr>
-    </table>
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <hr />
+        <input type="hidden" asp-for="GenreId" />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </div>
 </form>
-<a asp-action="Index">Back to list</a>
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
 
 

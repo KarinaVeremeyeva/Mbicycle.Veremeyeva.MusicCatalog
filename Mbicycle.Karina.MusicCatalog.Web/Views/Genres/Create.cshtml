@@ -3,18 +3,21 @@
     ViewData["Title"] = "Create";
 }
 <h3>Create genre</h3>
-<form asp-action="Create">
-    <input type="hidden" value="@ViewBag.GenreId" name="GenreId" />
-    <table class="table">
-        <tr>
-            <th scope="col">Name</th>
-            <td><input type="text" name="Name" /></td>
-        </tr>
-        <tr>
-            <td><button type="submit" value="Create" class="btn btn-outline-primary">Create</button></td>
-            <td></td>
-        </tr>
-    </table>
+<form asp-action="Create" method="post">
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </div>
 </form>
 <div>
     <a asp-action="Index">Back to list</a>

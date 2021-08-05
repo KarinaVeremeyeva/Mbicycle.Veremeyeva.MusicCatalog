@@ -2,20 +2,31 @@
 @{
     ViewData["Title"] = "Edit album";
 }
-<h3>Create genre</h3>
+<h3>Edit album</h3>
 <form asp-action="Edit" method="post">
-    <input type="hidden" value="@ViewBag.AlbumId" name="AlbumId" />
-    <table class="table">
-        <tr>
-            <th scope="col">Name</th>
-            <td><input type="text" name="Name" /></td>
-        </tr>
-        <tr>
-            <td><button type="submit">Save</button></td>
-            <td></td>
-        </tr>
-    </table>
+    <input type="hidden" asp-for="AlbumId" />
+    <div class="form-group">
+        <label asp-for="Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Name" class="form-control" />
+        </div>
+        <label asp-for="ReleaseDate" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input type="date" asp-for="ReleaseDate" class="form-control" />
+        </div>
+        <label asp-for="Song.Name" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Song.Name" class="form-control" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-outline-primary" />
+        </div>
+    </div>
 </form>
-<a asp-action="Index">Back to list</a>
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
 
 

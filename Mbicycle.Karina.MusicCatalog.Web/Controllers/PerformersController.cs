@@ -6,14 +6,13 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
 {
     public class PerformersController : Controller
     {
-        private  MusicContext context;
+        private readonly MusicContext context;
         private readonly UnitOfWork unitOfWork;
 
         public PerformersController(MusicContext context)
         {
             this.context = context;
             unitOfWork = new UnitOfWork(context);
-
         }
 
         public ActionResult Index()
@@ -23,6 +22,7 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(performers);
         }
 
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -42,6 +42,7 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(performer);
         }
 
+        [HttpGet]
         public ActionResult Edit(int id)
         {
             var performer = unitOfWork.Performers.GetById(id);
@@ -68,7 +69,21 @@ namespace Mbicycle.Karina.MusicCatalog.Web.Controllers
             return View(performer);
         }
 
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var performerToDelete = unitOfWork.Performers.GetById(id);
+
+            if (performerToDelete == null)
+            {
+                return NotFound();
+            }
+
+            return View(performerToDelete);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
         {
             unitOfWork.Performers.Delete(id);
             unitOfWork.Save();
