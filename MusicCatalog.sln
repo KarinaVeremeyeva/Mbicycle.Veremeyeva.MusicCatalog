@@ -1,0 +1,62 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{05AA60F1-3030-430C-967A-8458B4261D5C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{20E67A24-71F9-4A14-B2A5-835C4EF8BADC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.UnitTests", "tests\MusicCatalog.UnitTests\MusicCatalog.UnitTests.csproj", "{9C8DCA2F-7063-4837-9593-1FE3213B42F4}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MusicCatalog.Database", "src\MusicCatalog.Database\MusicCatalog.Database.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCatalog.Domain", "src\MusicCatalog.Domain\MusicCatalog.Domain.csproj", "{0ADCD499-D916-4230-B13E-EFD96D135914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCatalog.Infrastructure", "src\MusicCatalog.Infrastructure\MusicCatalog.Infrastructure.csproj", "{58D89979-95F2-46A5-8BFD-346528DDCFF5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.Web", "src\MusicCatalog.Web\MusicCatalog.Web.csproj", "{FDB99998-EF66-4A95-B668-0C669008AA9C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9C8DCA2F-7063-4837-9593-1FE3213B42F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C8DCA2F-7063-4837-9593-1FE3213B42F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C8DCA2F-7063-4837-9593-1FE3213B42F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C8DCA2F-7063-4837-9593-1FE3213B42F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ADCD499-D916-4230-B13E-EFD96D135914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB99998-EF66-4A95-B668-0C669008AA9C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB99998-EF66-4A95-B668-0C669008AA9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB99998-EF66-4A95-B668-0C669008AA9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB99998-EF66-4A95-B668-0C669008AA9C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9C8DCA2F-7063-4837-9593-1FE3213B42F4} = {20E67A24-71F9-4A14-B2A5-835C4EF8BADC}
+		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6} = {05AA60F1-3030-430C-967A-8458B4261D5C}
+		{0ADCD499-D916-4230-B13E-EFD96D135914} = {05AA60F1-3030-430C-967A-8458B4261D5C}
+		{58D89979-95F2-46A5-8BFD-346528DDCFF5} = {05AA60F1-3030-430C-967A-8458B4261D5C}
+		{FDB99998-EF66-4A95-B668-0C669008AA9C} = {05AA60F1-3030-430C-967A-8458B4261D5C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {177EE9A9-5031-484E-A389-0AD3A3BA4770}
+	EndGlobalSection
+EndGlobal
