@@ -11,8 +11,8 @@
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>MusicCatalogDatabase</RootNamespace>
-    <AssemblyName>MusicCatalogDatabase</AssemblyName>
+    <RootNamespace>MusicCatalog.Database</RootNamespace>
+    <AssemblyName>MusicCatalog.Database</AssemblyName>
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -58,12 +58,12 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="ForeignKeys" />
+    <Folder Include="Data" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="ForeignKeys\FK_SongAlbum.sql" />
     <Build Include="ForeignKeys\FK_GenreSong.sql" />
     <Build Include="ForeignKeys\FK_PerformerSong.sql" />
-    <Build Include="TestData.sql" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\Albums.sql" />
@@ -72,5 +72,8 @@
     <Build Include="Tables\Genres.sql" />
     <Build Include="Tables\Performers.sql" />
     <Build Include="Tables\Songs.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Data\FillTables.PostDeployment.sql" />
   </ItemGroup>
 </Project>
