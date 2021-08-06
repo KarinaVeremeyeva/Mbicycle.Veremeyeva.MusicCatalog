@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -49,5 +49,4 @@
     <ProjectReference Include="..\MusicCatalog.Domain\MusicCatalog.Domain.csproj" />
     <ProjectReference Include="..\MusicCatalog.Infrastructure\MusicCatalog.Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

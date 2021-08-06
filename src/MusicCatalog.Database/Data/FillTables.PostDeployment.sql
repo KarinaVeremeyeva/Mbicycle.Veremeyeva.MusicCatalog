@@ -1,4 +1,4 @@
-USE [MusicCatalogDatabase]
+﻿USE [MusicCatalogDatabase]
 GO
 
 INSERT INTO [MusicCatalogDatabase].[dbo].[Performers]
@@ -43,4 +43,3 @@ INSERT INTO [MusicCatalogDatabase].[dbo].[Albums]
 		('Album5', '2021-01-05', 5)
 
 GO
-
