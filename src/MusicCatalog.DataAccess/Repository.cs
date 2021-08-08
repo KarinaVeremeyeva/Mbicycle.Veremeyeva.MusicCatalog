@@ -1,40 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MusicCatalog.DataAccess
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public abstract class Repository<T> : IRepository<T> where T : class
     {
-        public Repository(string connectionStr)
+        public Repository(string connectionString)
         {
-            ConnectionStr = connectionStr;
+            ConnectionString = connectionString;
         }
 
-        protected string ConnectionStr { get; }
+        protected string ConnectionString { get; }
 
-        public void Create(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Create(T entity);
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Delete(int id);
 
-        public IEnumerable<T> GetAll()
-        {
-            throw new NotImplementedException();
-        }
+        public abstract IEnumerable<T> GetAll();
 
-        public T GetById(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract T GetById(int id);
 
-        public void Update(T entity)
-        {
-            throw new NotImplementedException();
-        }
+        public abstract void Update(T entity);
     }
 }
