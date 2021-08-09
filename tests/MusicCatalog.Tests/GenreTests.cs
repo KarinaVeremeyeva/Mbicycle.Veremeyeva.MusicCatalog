@@ -1,6 +1,7 @@
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories;
 using NUnit.Framework;
+using System.Data.SqlClient;
 using System.Linq;
 
 namespace MusicCatalog.Tests
@@ -8,7 +9,19 @@ namespace MusicCatalog.Tests
     [TestFixture]
     public class GenreTests
     {
-        private const string conncetionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TestMusicCatalog;Integrated Security=True";
+        private const string conncetionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestMusicCatalog;Integrated Security=True";
+
+        [SetUp]
+        public void SetUp()
+        {
+            string sqlExpression = $"DELETE FROM Genres";
+            using (var connection = new SqlConnection(conncetionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                command.ExecuteNonQuery();
+            }
+        }
 
         [Test]
         public void Create_CreatingGenre_SavingCorrectGenre()
@@ -16,20 +29,13 @@ namespace MusicCatalog.Tests
             GenreRepository genreRepository = new GenreRepository(conncetionString);
             var genre = new Genre()
             {
-                GenreId = 1,
                 Name = "Genre1"
             };
-
             genreRepository.Create(genre);
 
-            var actual = genreRepository.GetAll().Where(g => g.GenreId == 1).Single();
-            var expected = new Genre()
-            {
-                GenreId = 1,
-                Name = "Genre1"
-            };
+            var actual = genreRepository.GetAll().Single();
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(genre.Name, actual.Name);
         }
 
         [Test]
@@ -38,20 +44,18 @@ namespace MusicCatalog.Tests
             GenreRepository genreRepository = new GenreRepository(conncetionString);
             var genreToUpdate = new Genre()
             {
-                GenreId = 1,
-                Name = "NewGenre1"
+                Name = "Genre1"
             };
+            genreRepository.Create(genreToUpdate);
 
-            genreRepository.Update(genreToUpdate);
+            var savedGenre = genreRepository.GetAll().Single();
+            savedGenre.Name = "ChangedName";
+            genreRepository.Update(savedGenre);
 
-            var actual = genreRepository.GetAll().Where(g => g.GenreId == 1).Single();
-            var expected = new Genre()
-            {
-                GenreId = 1,
-                Name = "NewGenre1"
-            };
+            var expected = genreRepository.GetAll().Single();
 
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(expected.Name, savedGenre.Name);
+            Assert.AreEqual(expected.GenreId, savedGenre.GenreId);
         }
 
         [Test]
@@ -63,7 +67,6 @@ namespace MusicCatalog.Tests
                 GenreId = 3,
                 Name = "New genre"
             };
-
             genreRepository.Delete(genreToDelete.GenreId);
 
             var actual = genreRepository.GetAll().Where(g => g.GenreId == 3)
@@ -73,23 +76,43 @@ namespace MusicCatalog.Tests
         }
 
         [Test]
-        public void GetById_GettingGenreById_GenreWasFinded()
+        public void GetById_GettingGenreById_GenreWasFound()
         {
             GenreRepository genreRepository = new GenreRepository(conncetionString);
-            var actual = genreRepository.GetById(1);
-            var expected = genreRepository.GetAll().Where(g => g.GenreId == 1).FirstOrDefault();
+            var genre = new Genre
+            {
+                Name = "Genre1"
+            };
+            genreRepository.Create(genre);
 
-            Assert.AreEqual(expected, actual);
+            var expected = genreRepository.GetAll().FirstOrDefault();
+            var actual = genreRepository.GetById(expected.GenreId);
+
+            Assert.AreEqual(expected.Name, actual.Name);
+            Assert.AreEqual(expected.GenreId, actual.GenreId);
         }
 
         [Test]
         public void GetAll_GettingGenres_GetAllGenres()
         {
             GenreRepository genreRepository = new GenreRepository(conncetionString);
-            var actual = genreRepository.GetAll();
-            var expected = genreRepository.GetAll().Where(g => g.GenreId == 1).FirstOrDefault();
+            var genre1 = new Genre
+            {
+                Name = "Genre1"
+            };
+            genreRepository.Create(genre1);
 
-            Assert.AreEqual(expected, actual);
+            var genre2 = new Genre
+            {
+                Name = "Genre2"
+            };
+            genreRepository.Create(genre2);
+
+            var allGenres = genreRepository.GetAll().ToList();
+
+            Assert.AreEqual(allGenres.Count, 2);
+            Assert.AreEqual(allGenres[0].Name, genre1.Name);
+            Assert.AreEqual(allGenres[1].Name, genre2.Name);
         }
     }
 }

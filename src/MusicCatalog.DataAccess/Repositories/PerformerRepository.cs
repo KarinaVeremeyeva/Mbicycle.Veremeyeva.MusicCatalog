@@ -97,7 +97,6 @@ namespace MusicCatalog.DataAccess.Repositories
                     {
                         performer.PerformerId = reader.GetInt32(0);
                         performer.Name = reader.GetString(1);
-
                     }
                 }
             }

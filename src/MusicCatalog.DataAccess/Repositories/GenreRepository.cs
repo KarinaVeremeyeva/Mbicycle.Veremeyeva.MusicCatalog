@@ -97,7 +97,6 @@ namespace MusicCatalog.DataAccess.Repositories
                     {
                         genre.GenreId = reader.GetInt32(0);
                         genre.Name = reader.GetString(1);
-
                     }
                 }
             }
