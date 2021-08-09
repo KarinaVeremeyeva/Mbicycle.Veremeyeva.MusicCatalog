@@ -1,5 +1,0 @@
-﻿CREATE TABLE [dbo].[Genres]
-(
-	[GenreId] INT IDENTITY(1,1) PRIMARY KEY,
-	[Name] VARCHAR(15) NOT NULL
-)
