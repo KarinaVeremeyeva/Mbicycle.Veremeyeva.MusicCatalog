@@ -12,12 +12,30 @@ namespace MusicCatalog.DataAccess.Repositories
 
         public override void Create(Genre genre)
         {
-            string sqlExpression = string.Format($"INSERT INTO Genres (Name) VALUES ('{genre.Name}')");
+            string sqlExpression = string.Format($"INSERT INTO Genres (Name) VALUES (@Name)");
 
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
+                SqlParameter nameParam = new SqlParameter("@Name", genre.Name);
+                command.Parameters.Add(nameParam);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public override void Update(Genre genre)
+        {
+            string sqlExpression = string.Format($"UPDATE Genres SET Name=@Name WHERE GenreId=@GenreId");
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                SqlParameter idParam = new SqlParameter("@GenreId", genre.GenreId);
+                SqlParameter nameParam = new SqlParameter("@Name", genre.Name);
+                command.Parameters.Add(idParam);
+                command.Parameters.Add(nameParam);
                 command.ExecuteNonQuery();
             }
         }
@@ -85,18 +103,6 @@ namespace MusicCatalog.DataAccess.Repositories
             }
 
             return genre;
-        }
-
-        public override void Update(Genre genre)
-        {
-            string sqlExpression = string.Format($"UPDATE Genres SET Name='{genre.Name}' WHERE GenreId={genre.GenreId}");
-
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                command.ExecuteNonQuery();
-            }
         }
     }
 }

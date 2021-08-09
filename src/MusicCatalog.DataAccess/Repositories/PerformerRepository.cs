@@ -12,12 +12,30 @@ namespace MusicCatalog.DataAccess.Repositories
 
         public override void Create(Performer performer)
         {
-            string sqlExpression = string.Format($"INSERT INTO Performers (Name) VALUES ('{performer.Name}')");
+            string sqlExpression = string.Format($"INSERT INTO Performers (Name) VALUES (@Name)");
             
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
+                SqlParameter nameParam = new SqlParameter("@Name", performer.Name);
+                command.Parameters.Add(nameParam);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public override void Update(Performer performer)
+        {
+            string sqlExpression = string.Format($"UPDATE Performers SET Name=@Name WHERE PerformerId=@PerformerId");
+
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                SqlParameter idParam = new SqlParameter("@PerformerId", performer.PerformerId);
+                SqlParameter nameParam = new SqlParameter("@Name", performer.Name);
+                command.Parameters.Add(idParam);
+                command.Parameters.Add(nameParam);
                 command.ExecuteNonQuery();
             }
         }
@@ -85,18 +103,6 @@ namespace MusicCatalog.DataAccess.Repositories
             }
 
             return performer;
-        }
-
-        public override void Update(Performer performer)
-        {
-            string sqlExpression = string.Format($"UPDATE Performers SET Name='{performer.Name}' WHERE PerformerId='{performer.PerformerId}'");
-
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                command.ExecuteNonQuery();
-            }
         }
     }
 }
