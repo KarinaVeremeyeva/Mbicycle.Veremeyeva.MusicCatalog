@@ -9,7 +9,7 @@ namespace MusicCatalog.Tests
     [TestFixture]
     public class PerformerTests
     {
-        private const string conncetionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=TestMusicCatalog;Integrated Security=True";
+        private const string conncetionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TestMusicCatalog;Integrated Security=True";
 
         [SetUp]
         public void SetUp()
