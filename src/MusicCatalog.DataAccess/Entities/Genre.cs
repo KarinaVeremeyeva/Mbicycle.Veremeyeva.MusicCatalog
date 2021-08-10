@@ -2,6 +2,9 @@
 
 namespace MusicCatalog.DataAccess.Entities
 {
+    /// <summary>
+    /// Represents a genre
+    /// </summary>
     public class Genre
     {
         public int GenreId { get; set; }

@@ -2,6 +2,9 @@
 
 namespace MusicCatalog.DataAccess.Entities
 {
+    /// <summary>
+    /// Represents an album
+    /// </summary>
     public class Album
     {
         public int AlbumId { get; set; }

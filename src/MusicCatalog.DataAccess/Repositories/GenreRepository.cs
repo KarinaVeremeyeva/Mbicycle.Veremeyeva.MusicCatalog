@@ -4,12 +4,19 @@ using System.Data.SqlClient;
 
 namespace MusicCatalog.DataAccess.Repositories
 {
+    /// <summary>
+    /// A concrete repository for genres
+    /// </summary>
     public class GenreRepository : Repository<Genre>
     {
         public GenreRepository(string connectionStr) : base(connectionStr)
         {
         }
 
+        /// <summary>
+        /// Creates genre
+        /// </summary>
+        /// <param name="genre"></param>
         public override void Create(Genre genre)
         {
             string sqlExpression = string.Format($"INSERT INTO Genres (Name) VALUES (@Name)");
@@ -24,6 +31,10 @@ namespace MusicCatalog.DataAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// Updates genre
+        /// </summary>
+        /// <param name="genre"></param>
         public override void Update(Genre genre)
         {
             string sqlExpression = string.Format($"UPDATE Genres SET Name=@Name WHERE GenreId=@GenreId");
@@ -40,6 +51,10 @@ namespace MusicCatalog.DataAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// Deletes genre by id
+        /// </summary>
+        /// <param name="id"></param>
         public override void Delete(int id)
         {
             string sqlExpression = string.Format($"DELETE FROM Genres WHERE GenreId='{id}'");
@@ -52,6 +67,10 @@ namespace MusicCatalog.DataAccess.Repositories
             }
         }
 
+        /// <summary>
+        /// Returns all genres
+        /// </summary>
+        /// <returns></returns>
         public override IEnumerable<Genre> GetAll()
         {
             var genres = new List<Genre>();
@@ -80,6 +99,11 @@ namespace MusicCatalog.DataAccess.Repositories
             return genres;
         }
 
+        /// <summary>
+        /// Returns genre by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public override Genre GetById(int id)
         {
             var genre = new Genre();
