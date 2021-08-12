@@ -3,11 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{E0A16EFC-C361-4C0D-BCBE-F6E112A32F3C}"
-EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MusicCatalog.Database", "src\MusicCatalog.Database\MusicCatalog.Database.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{A3D4EE99-21AF-4F7C-97BB-9F345ADCC64F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.DataAccess", "src\MusicCatalog.DataAccess\MusicCatalog.DataAccess.csproj", "{DEB4D13A-C868-489A-A3F4-9AB34022566F}"
 EndProject
@@ -19,6 +14,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{29CDE277-8F81-4BF2-AF50-BA360F58246F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29CDE277-8F81-4BF2-AF50-BA360F58246F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29CDE277-8F81-4BF2-AF50-BA360F58246F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29CDE277-8F81-4BF2-AF50-BA360F58246F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
