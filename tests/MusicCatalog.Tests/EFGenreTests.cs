@@ -29,23 +29,28 @@ namespace MusicCatalog.Tests
         [Test]
         public void Create_SaveCorrectGenre_GenreWasSaved()
         {
+            // Arrange
             var genre = new Genre
             {
                 GenreId = 1,
                 Name = "Genre1",
             };
+
+            // Act
             GenreRepository.Create(genre);
             Context.SaveChanges();
 
             var actual = Context.Genres.Single();
             var expected = Context.Genres.First();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Update_UpdateGenre_GenreWasChanged()
         {
+            // Arrange
             var genre = new Genre
             {
                 GenreId = 1,
@@ -56,20 +61,25 @@ namespace MusicCatalog.Tests
 
             var genreToUpdate = Context.Genres.Single();
             genreToUpdate.Name = "ChangedName";
+
+            // Act
             GenreRepository.Update(genreToUpdate);
             Context.SaveChanges();
 
             var actual = Context.Genres.Single();
             var expected = Context.Genres.First();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Update_UpdateNotExistingGenre_ThrowsArgumentNullException()
         {
+            // Arrange
             var genre = Context.Genres.Where(g => g.GenreId == 1).FirstOrDefault();
 
+            // Assert
             Assert.Throws<ArgumentNullException>(
                () => GenreRepository.Update(genre),
                $"Genre doesn't exist");
@@ -78,6 +88,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void Delete_DeleteGenre_GenreWasDeleted()
         {
+            // Arrange
             var genre = new Genre
             {
                 GenreId = 1,
@@ -86,20 +97,24 @@ namespace MusicCatalog.Tests
             GenreRepository.Create(genre);
             Context.SaveChanges();
 
+            // Act
             GenreRepository.Delete(genre.GenreId);
             Context.SaveChanges();
 
             var actual = Context.Genres.DefaultIfEmpty();
             var expected = Context.Genres.DefaultIfEmpty();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Delete_DeleteNotExistingGenreId_ThrowsArgumentNullException()
         {
+            // Arrange
             var id = 1;
 
+            // Assert
             Assert.Throws<ArgumentNullException>(
                () => GenreRepository.Delete(id),
                $"Genre with id={id} doesn't exist");
@@ -108,6 +123,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetById_GetGenreById_GenreWithExpectingId()
         {
+            // Arrange
             var genre = new Genre
             {
                 GenreId = 1,
@@ -116,17 +132,21 @@ namespace MusicCatalog.Tests
             GenreRepository.Create(genre);
             Context.SaveChanges();
 
+            // Act
             var expected = Context.Genres.First();
             var actual = GenreRepository.GetById(genre.GenreId);
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void GetById_GenreNotExists_ThrowsArgumentNullException()
         {
+            // Arrange
             var id = 1;
 
+            // Assert
             Assert.Throws<ArgumentNullException>(
                () => GenreRepository.GetById(id),
                $"Genre with id={id} doesn't exist");
@@ -135,6 +155,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetAll_GetGenres_GetGenresList()
         {
+            // Arrange
             var genre1 = new Genre
             {
                 GenreId = 1,
@@ -150,9 +171,11 @@ namespace MusicCatalog.Tests
 
             Context.SaveChanges();
 
+            // Act
             var expected = Context.Genres.ToList();
             var actual = GenreRepository.GetAll();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 

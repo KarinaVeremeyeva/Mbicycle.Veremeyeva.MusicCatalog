@@ -32,20 +32,24 @@ namespace MusicCatalog.Tests
         [Test]
         public void Create_CreatingPerformer_SavingCorrectPerformer()
         {
+            // Arrange
             var performer = new Performer()
             {
                 Name = "Performer1"
             };
-            PerformerRepository.Create(performer);
 
+            // Act
+            PerformerRepository.Create(performer);
             var actual = PerformerRepository.GetAll().Single();
 
+            // Assert
             Assert.AreEqual(performer.Name, actual.Name);
         }
 
         [Test]
         public void Update_UpdatingPerformer_PerformerWasUpdated()
         {
+            // Arrange
             var performer = new Performer()
             {
                 Name = "Performer1"
@@ -54,10 +58,12 @@ namespace MusicCatalog.Tests
 
             var savedPerformer = PerformerRepository.GetAll().Single();
             savedPerformer.Name = "ChangedName";
-            PerformerRepository.Update(savedPerformer);
 
+            // Act
+            PerformerRepository.Update(savedPerformer);
             var expected = PerformerRepository.GetAll().Single();
 
+            // Assert
             Assert.AreEqual(expected.Name, savedPerformer.Name);
             Assert.AreEqual(expected.PerformerId, savedPerformer.PerformerId);
         }
@@ -65,31 +71,37 @@ namespace MusicCatalog.Tests
         [Test]
         public void Delete_DeletingPerformer_PerformerWasDeleted()
         {
+            // Arrange
             var performer = new Performer()
             {
                 PerformerId = 2,
                 Name = "Performer2"
             };
-            PerformerRepository.Delete(performer.PerformerId);
 
+            // Act
+            PerformerRepository.Delete(performer.PerformerId);
             var actual = PerformerRepository.GetAll().Where(g => g.PerformerId == 2)
                 .DefaultIfEmpty().Single();
 
+            // Assert
             Assert.AreEqual(null, actual);
         }
 
         [Test]
         public void GetById_GettingPerformerById_PerformerWasFound()
         {
+            // Arrange
             var performer = new Performer()
             {
                 Name = "Performer1"
             };
             PerformerRepository.Create(performer);
 
+            // Act
             var expected = PerformerRepository.GetAll().FirstOrDefault();
             var actual = PerformerRepository.GetById(expected.PerformerId);
 
+            // Assert
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.PerformerId, actual.PerformerId);
         }
@@ -97,6 +109,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetAll_GettingPerformers_GetAllPerformers()
         {
+            // Arrange
             var performer1 = new Performer()
             {
                 Name = "Performer1"
@@ -109,8 +122,10 @@ namespace MusicCatalog.Tests
             };
             PerformerRepository.Create(performer2);
 
+            // Act
             var performers = PerformerRepository.GetAll().ToList();
 
+            // Assert
             Assert.AreEqual(performers.Count, 2);
             Assert.AreEqual(performers[0].Name, performer1.Name);
             Assert.AreEqual(performers[1].Name, performer2.Name);

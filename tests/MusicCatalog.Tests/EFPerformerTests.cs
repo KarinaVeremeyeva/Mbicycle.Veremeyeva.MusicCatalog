@@ -29,23 +29,28 @@ namespace MusicCatalog.Tests
         [Test]
         public void Create_SaveCorrectPerformer_PerformerWasSaved()
         {
+            // Arrange
             var performer = new Performer
             {
                 PerformerId = 1,
                 Name = "Performer1",
             };
+
+            // Act
             PerformerRepository.Create(performer);
             Context.SaveChanges();
 
             var actual = Context.Performers.Single();
             var expected = Context.Performers.First();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Update_UpdatePerformer_PerformerWasChanged()
         {
+            // Arrange
             var performer = new Performer
             {
                 PerformerId = 1,
@@ -56,20 +61,25 @@ namespace MusicCatalog.Tests
 
             var performerToUpdate = Context.Performers.Single();
             performerToUpdate.Name = "ChangedName";
+
+            // Act
             PerformerRepository.Update(performerToUpdate);
             Context.SaveChanges();
 
             var actual = Context.Performers.Single();
             var expected = Context.Performers.First();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Update_UpdateNotExistingPerformer_ThrowsArgumentNullException()
         {
+            // Arrange
             var performer = Context.Performers.Where(p => p.PerformerId == 1).FirstOrDefault();
-            
+
+            // Assert
             Assert.Throws<ArgumentNullException>(
                () => PerformerRepository.Update(performer),
                $"Performer doesn't exist");
@@ -78,6 +88,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void Delete_DeletePerformer_PerformerWasDeleted()
         {
+            // Arrange
             var performer = new Performer
             {
                 PerformerId = 1,
@@ -86,20 +97,24 @@ namespace MusicCatalog.Tests
             PerformerRepository.Create(performer);
             Context.SaveChanges();
 
+            // Act
             PerformerRepository.Delete(performer.PerformerId);
             Context.SaveChanges();
 
             var actual = Context.Performers.DefaultIfEmpty();
             var expected = Context.Performers.DefaultIfEmpty();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void Delete_DeleteNotExistingPerformerId_ThrowsArgumentNullException()
         {
+            // Arrange
             var id = 1;
 
+            // Assert
             Assert.Throws<ArgumentNullException>(
                () => PerformerRepository.Delete(id),
                $"Performer with id={id} doesn't exist");
@@ -108,6 +123,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetById_GetPerformerById_PerformerWithExpectingId()
         {
+            // Arrange
             var performer = new Performer
             {
                 PerformerId = 1,
@@ -116,17 +132,21 @@ namespace MusicCatalog.Tests
             PerformerRepository.Create(performer);
             Context.SaveChanges();
 
+            // Act
             var expected = Context.Performers.First();
             var actual = PerformerRepository.GetById(performer.PerformerId);
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
         [Test]
         public void GetById_PerformerNotExists_ThrowsArgumentNullException()
         {
+            // Arrange
             var id = 1;
 
+            // Assert
             Assert.Throws<ArgumentNullException>(
                () => PerformerRepository.GetById(id),
                $"Performer with id={id} doesn't exist");
@@ -135,6 +155,7 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetAll_GetPerformers_GetPerformersList()
         {
+            // Arrange
             var performer1 = new Performer
             {
                 PerformerId = 1,
@@ -150,9 +171,11 @@ namespace MusicCatalog.Tests
 
             Context.SaveChanges();
 
+            // Act
             var expected = Context.Performers.ToList();
             var actual = PerformerRepository.GetAll();
 
+            // Assert
             Assert.AreEqual(expected, actual);
         }
 
