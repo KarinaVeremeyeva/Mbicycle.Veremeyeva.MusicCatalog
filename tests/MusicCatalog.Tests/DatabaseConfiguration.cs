@@ -42,6 +42,7 @@ namespace MusicCatalog.Tests
 
             var dacService = new DacServices(_connectionString);
             var dacPacPath = _configuration.GetSection("appSettings")["dacpacFilePath"];
+            dacPacPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + dacPacPath;
 
             if (File.Exists(dacPacPath))
             {
