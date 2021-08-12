@@ -1,7 +1,7 @@
-﻿using MusicCatalog.DataAccess.Entities;
+﻿using Microsoft.Extensions.Configuration;
+using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories;
 using NUnit.Framework;
-using System.Data.SqlClient;
 using System.Linq;
 
 namespace MusicCatalog.Tests
@@ -9,31 +9,36 @@ namespace MusicCatalog.Tests
     [TestFixture]
     public class PerformerTests
     {
-        private const string conncetionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=TestMusicCatalog;Integrated Security=True";
+        private PerformerRepository PerformerRepository { get; set; }
+
+        private IConfiguration Configuration { get; set; }
+
+        private DatabaseConfiguration dbConfiguration;
 
         [SetUp]
         public void SetUp()
         {
-            string sqlExpression = $"DELETE FROM Performers";
-            using (var connection = new SqlConnection(conncetionString))
-            {
-                connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                command.ExecuteNonQuery();
-            }
+            Configuration = new ConfigurationBuilder()
+                .AddJsonFile(path: "appsettings.json")
+                .Build();
+
+            dbConfiguration = new DatabaseConfiguration(Configuration);
+            dbConfiguration.DeployTestDatabase();
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            PerformerRepository = new PerformerRepository(connectionString);
         }
 
         [Test]
         public void Create_CreatingPerformer_SavingCorrectPerformer()
         {
-            PerformerRepository performerRepository = new PerformerRepository(conncetionString);
             var performer = new Performer()
             {
                 Name = "Performer1"
             };
-            performerRepository.Create(performer);
+            PerformerRepository.Create(performer);
 
-            var actual = performerRepository.GetAll().Single();
+            var actual = PerformerRepository.GetAll().Single();
 
             Assert.AreEqual(performer.Name, actual.Name);
         }
@@ -41,18 +46,17 @@ namespace MusicCatalog.Tests
         [Test]
         public void Update_UpdatingPerformer_PerformerWasUpdated()
         {
-            PerformerRepository performerRepository = new PerformerRepository(conncetionString);
             var performer = new Performer()
             {
                 Name = "Performer1"
             };
-            performerRepository.Create(performer);
+            PerformerRepository.Create(performer);
 
-            var savedPerformer = performerRepository.GetAll().Single();
+            var savedPerformer = PerformerRepository.GetAll().Single();
             savedPerformer.Name = "ChangedName";
-            performerRepository.Update(savedPerformer);
+            PerformerRepository.Update(savedPerformer);
 
-            var expected = performerRepository.GetAll().Single();
+            var expected = PerformerRepository.GetAll().Single();
 
             Assert.AreEqual(expected.Name, savedPerformer.Name);
             Assert.AreEqual(expected.PerformerId, savedPerformer.PerformerId);
@@ -61,15 +65,14 @@ namespace MusicCatalog.Tests
         [Test]
         public void Delete_DeletingPerformer_PerformerWasDeleted()
         {
-            PerformerRepository performerRepository = new PerformerRepository(conncetionString);
             var performer = new Performer()
             {
                 PerformerId = 2,
                 Name = "Performer2"
             };
-            performerRepository.Delete(performer.PerformerId);
+            PerformerRepository.Delete(performer.PerformerId);
 
-            var actual = performerRepository.GetAll().Where(g => g.PerformerId == 2)
+            var actual = PerformerRepository.GetAll().Where(g => g.PerformerId == 2)
                 .DefaultIfEmpty().Single();
 
             Assert.AreEqual(null, actual);
@@ -78,15 +81,14 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetById_GettingPerformerById_PerformerWasFound()
         {
-            PerformerRepository performerRepository = new PerformerRepository(conncetionString);
             var performer = new Performer()
             {
                 Name = "Performer1"
             };
-            performerRepository.Create(performer);
+            PerformerRepository.Create(performer);
 
-            var expected = performerRepository.GetAll().FirstOrDefault();
-            var actual = performerRepository.GetById(expected.PerformerId);
+            var expected = PerformerRepository.GetAll().FirstOrDefault();
+            var actual = PerformerRepository.GetById(expected.PerformerId);
 
             Assert.AreEqual(expected.Name, actual.Name);
             Assert.AreEqual(expected.PerformerId, actual.PerformerId);
@@ -95,24 +97,29 @@ namespace MusicCatalog.Tests
         [Test]
         public void GetAll_GettingPerformers_GetAllPerformers()
         {
-            PerformerRepository performerRepository = new PerformerRepository(conncetionString);
             var performer1 = new Performer()
             {
                 Name = "Performer1"
             };
-            performerRepository.Create(performer1);
+            PerformerRepository.Create(performer1);
 
             var performer2 = new Performer
             {
                 Name = "Performer2"
             };
-            performerRepository.Create(performer2);
+            PerformerRepository.Create(performer2);
 
-            var performers = performerRepository.GetAll().ToList();
+            var performers = PerformerRepository.GetAll().ToList();
 
             Assert.AreEqual(performers.Count, 2);
             Assert.AreEqual(performers[0].Name, performer1.Name);
             Assert.AreEqual(performers[1].Name, performer2.Name);
+        }
+
+        [TearDown]
+        public void CleanUp()
+        {
+            dbConfiguration.DropTestDatabase();
         }
     }
 }

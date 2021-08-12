@@ -11,27 +11,22 @@ namespace MusicCatalog.Tests
     {
         private GenreRepository GenreRepository { get; set; }
 
+        private IConfiguration Configuration { get; set; }
+
+        private DatabaseConfiguration _dbConfiguration;
+
         [SetUp]
         public void SetUp()
         {
-            var configuration = new ConfigurationBuilder()
+            Configuration = new ConfigurationBuilder()
                 .AddJsonFile(path: "appsettings.json")
                 .Build();
 
-            var dbConfiguration = new DatabaseConfiguration(configuration);
-            var connectionString = dbConfiguration.ConnectionString;
+            _dbConfiguration = new DatabaseConfiguration(Configuration);
+            _dbConfiguration.DeployTestDatabase();
 
-            dbConfiguration.DeployTestDatabase();
-
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             GenreRepository = new GenreRepository(connectionString);
-
-            //string sqlExpression = $"DELETE FROM Genres";
-            //using (var connection = new SqlConnection(conncetionString))
-            //{
-            //    connection.Open();
-            //    SqlCommand command = new SqlCommand(sqlExpression, connection);
-            //    command.ExecuteNonQuery();
-            //}
         }
 
         [Test]
@@ -121,12 +116,10 @@ namespace MusicCatalog.Tests
             Assert.AreEqual(allGenres[1].Name, genre2.Name);
         }
 
-        //[TearDown]
-        //public void CleanUp()
-        //{
-        //    var dbConfiguration = new DatabaseConfiguration(configuration);
-
-        //    dbConfiguration.DropTestDatabase();
-        //}
+        [TearDown]
+        public void CleanUp()
+        {
+            _dbConfiguration.DropTestDatabase();
+        }
     }
 }

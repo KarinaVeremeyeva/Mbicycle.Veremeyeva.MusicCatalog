@@ -18,11 +18,6 @@ namespace MusicCatalog.Tests
         private string _connectionString;
 
         /// <summary>
-        /// Connection string
-        /// </summary>
-        public string ConnectionString { get; }
-
-        /// <summary>
         /// Configuration properties
         /// </summary>
         private readonly IConfiguration _configuration;
@@ -47,12 +42,6 @@ namespace MusicCatalog.Tests
 
             var dacService = new DacServices(_connectionString);
             var dacPacPath = _configuration.GetSection("appSettings")["dacpacFilePath"];
-            
-            //if (dacPacPath != null && dacPacPath.Contains("src"))
-            //{
-            //    dacPacPath = AppDomain.CurrentDomain.SetupInformation.ApplicationBase
-            //        + dacPacPath.Replace("src", string.Empty);
-            //}
 
             if (File.Exists(dacPacPath))
             {
@@ -64,7 +53,7 @@ namespace MusicCatalog.Tests
             else
             {
                 throw new ConfigurationErrorsException($"Error load database from dacpac file.({AppDomain.CurrentDomain.SetupInformation.ApplicationBase})");
-            }    
+            }
         }
 
         /// <summary>
@@ -72,8 +61,6 @@ namespace MusicCatalog.Tests
         /// </summary>
         public void DropTestDatabase()
         {
-            _connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-
             using (var connection = new SqlConnection(_connectionString))
             {
                 using (var command = connection.CreateCommand())
@@ -81,7 +68,6 @@ namespace MusicCatalog.Tests
                     connection.Open();
                     command.CommandText = @"
                         USE master;
-                        alter database[TestMusicCatalog] set single_user with rollback immediate;
                         drop database[TestMusicCatalog]";
                     command.ExecuteNonQuery();
                 }
