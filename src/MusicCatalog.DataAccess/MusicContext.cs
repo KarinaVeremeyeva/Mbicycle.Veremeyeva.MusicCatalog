@@ -36,7 +36,7 @@ namespace MusicCatalog.DataAccess
         /// <summary>
         /// Overrides to configure models
         /// </summary>
-        /// <param name="modelBuilder"></param>
+        /// <param name="modelBuilder">Defines the relationships between entities</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Album>().HasKey(x => x.AlbumId);

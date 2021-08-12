@@ -16,7 +16,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Creates performer
         /// </summary>
-        /// <param name="performer"></param>
+        /// <param name="performer">New performer</param>
         public override void Create(Performer performer)
         {
             string sqlExpression = string.Format($"INSERT INTO Performers (Name) VALUES (@Name)");
@@ -34,7 +34,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Updates performer
         /// </summary>
-        /// <param name="performer"></param>
+        /// <param name="performer">Performer to update</param>
         public override void Update(Performer performer)
         {
             string sqlExpression = string.Format($"UPDATE Performers SET Name=@Name WHERE PerformerId=@PerformerId");
@@ -54,7 +54,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Deletes performer by id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Performer id to delete</param>
         public override void Delete(int id)
         {
             string sqlExpression = string.Format($"DELETE FROM Performers WHERE PerformerId='{id}'");
@@ -70,7 +70,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns all performers
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Performers</returns>
         public override IEnumerable<Performer> GetAll()
         {
             var performers = new List<Performer>();
@@ -102,8 +102,8 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns performer by id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Performer id</param>
+        /// <returns>Performer with expecting id</returns>
         public override Performer GetById(int id)
         {
             var performer = new Performer();

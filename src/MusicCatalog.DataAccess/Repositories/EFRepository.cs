@@ -7,7 +7,7 @@ namespace MusicCatalog.DataAccess.Repositories
     /// <summary>
     /// A generic repository for crud using entity framework
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Entity</typeparam>
     public class EFRepository<T> : IRepository<T> where T : class
     {
         /// <summary>

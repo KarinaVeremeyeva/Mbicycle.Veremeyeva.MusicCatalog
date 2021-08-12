@@ -5,7 +5,7 @@ namespace MusicCatalog.DataAccess.Repositories
     /// <summary>
     /// An abstract generic repository for crud
     /// </summary>
-    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T">Entity</typeparam>
     public abstract class Repository<T> : IRepository<T> where T : class
     {
         public Repository(string connectionString)

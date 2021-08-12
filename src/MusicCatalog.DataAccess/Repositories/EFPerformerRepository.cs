@@ -18,7 +18,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Creates performer
         /// </summary>
-        /// <param name="performer"></param>
+        /// <param name="performer">New performer</param>
         public override void Create(Performer performer)
         {
             context.Performers.Add(performer);
@@ -27,7 +27,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Deletes performer by id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Performer id to delete</param>
         public override void Delete(int id)
         {
             var performerToDelete = GetById(id);
@@ -43,7 +43,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns all performers
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Performers</returns>
         public override IEnumerable<Performer> GetAll()
         {
             return context.Performers.ToList();
@@ -52,8 +52,8 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns performer by id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Performer id</param>
+        /// <returns>Performer with expecting id</returns>
         public override Performer GetById(int id)
         {
             var performerToFind = context.Performers.Find(id);
@@ -69,7 +69,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Updates performer
         /// </summary>
-        /// <param name="performer"></param>
+        /// <param name="performer">Performer to update</param>
         public override void Update(Performer performer)
         {
             if (performer == null)

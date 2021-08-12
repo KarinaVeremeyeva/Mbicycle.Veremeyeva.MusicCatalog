@@ -18,7 +18,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Creates genre
         /// </summary>
-        /// <param name="genre"></param>
+        /// <param name="genre">New genre</param>
         public override void Create(Genre genre)
         {
             context.Genres.Add(genre);
@@ -27,7 +27,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Deletes genre by id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Genre id to delete</param>
         public override void Delete(int id)
         {
             var genreToDelete = GetById(id);
@@ -43,7 +43,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns all genres
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Genres</returns>
         public override IEnumerable<Genre> GetAll()
         {
             return context.Genres.ToList();
@@ -52,8 +52,8 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns genre by id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Genre id</param>
+        /// <returns>Genre with expecting id</returns>
         public override Genre GetById(int id)
         {
             var genreToFind = context.Genres.Find(id);
@@ -69,7 +69,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Updates genre
         /// </summary>
-        /// <param name="genre"></param>
+        /// <param name="genre">Genre to update</param>
         public override void Update(Genre genre)
         {
             if (genre == null)

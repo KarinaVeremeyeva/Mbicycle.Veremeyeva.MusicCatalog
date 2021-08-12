@@ -16,7 +16,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Creates genre
         /// </summary>
-        /// <param name="genre"></param>
+        /// <param name="genre">New genre</param>
         public override void Create(Genre genre)
         {
             string sqlExpression = string.Format($"INSERT INTO Genres (Name) VALUES (@Name)");
@@ -34,7 +34,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Updates genre
         /// </summary>
-        /// <param name="genre"></param>
+        /// <param name="genre">Genre to update</param>
         public override void Update(Genre genre)
         {
             string sqlExpression = string.Format($"UPDATE Genres SET Name=@Name WHERE GenreId=@GenreId");
@@ -54,7 +54,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Deletes genre by id
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">Genre id to update</param>
         public override void Delete(int id)
         {
             string sqlExpression = string.Format($"DELETE FROM Genres WHERE GenreId='{id}'");
@@ -70,7 +70,7 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns all genres
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Genres</returns>
         public override IEnumerable<Genre> GetAll()
         {
             var genres = new List<Genre>();
@@ -102,8 +102,8 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <summary>
         /// Returns genre by id
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">Genre id</param>
+        /// <returns>Genre with expecting id</returns>
         public override Genre GetById(int id)
         {
             var genre = new Genre();
