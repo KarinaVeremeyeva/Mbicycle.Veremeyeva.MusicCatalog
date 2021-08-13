@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Genre>
+@{
+    ViewData["Title"] = "Genres list";
+}
+<h3>Genres list</h3>
+<p>
+    @Html.ActionLink("Create genre", "Create", "Genres", null, new { @class = "btn btn-outline-primary" })
+</p>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.GenreId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var genre in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => genre.GenreId)</td>
+            <td>@Html.DisplayFor(modelItem => genre.Name)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = genre.GenreId })
+                @Html.ActionLink("Delete", "Delete", new { id = genre.GenreId })
+            </td>
+        </tr>
+    }
+</table>

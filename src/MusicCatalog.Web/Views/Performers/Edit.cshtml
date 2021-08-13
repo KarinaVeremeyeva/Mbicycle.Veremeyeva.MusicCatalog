@@ -1,0 +1,25 @@
+﻿@model Performer
+@{
+    ViewData["Title"] = "Edit";
+}
+<h3>Edit performer</h3>
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <hr />
+        <input type="hidden" asp-for="PerformerId" />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>

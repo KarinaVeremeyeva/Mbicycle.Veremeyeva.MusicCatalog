@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Song>
+@{
+    ViewData["Title"] = "Music catalog";
+}
+<h3>Songs list</h3>
+<table class="table table-striped table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Genre</th>
+            <th scope="col">Performer</th>
+        </tr>
+    </thead>
+    @foreach (var song in Model)
+    {
+        <tr>
+            <td>@song.SongId</td>
+            <td>@song.Name</td>
+            <td>@song.Genre.Name</td>
+            <td>@song.Performer.Name</td>
+        </tr>
+     }
+</table>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>

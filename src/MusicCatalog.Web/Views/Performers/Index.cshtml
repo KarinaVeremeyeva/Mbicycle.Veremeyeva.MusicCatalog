@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Performer>
+@{
+    ViewData["Title"] = "Performers list";
+}
+<h3>Genres list</h3>
+<p>
+    @Html.ActionLink("Create performer", "Create", "Performers", null, new { @class = "btn btn-outline-primary" })
+</p>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.PerformerId)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var performer in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => performer.PerformerId)</td>
+            <td>@Html.DisplayFor(modelItem => performer.Name)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = performer.PerformerId })
+                @Html.ActionLink("Delete", "Delete", new { id = performer.PerformerId })
+            </td>
+        </tr>
+    }
+</table>
