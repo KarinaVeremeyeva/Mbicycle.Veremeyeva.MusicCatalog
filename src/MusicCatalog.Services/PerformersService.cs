@@ -58,9 +58,7 @@ namespace MusicCatalog.Services
             _performerRepository.Delete(performerId);
         }
 
-        /// <summary>
-        /// Saves changes of the context to the database
-        /// </summary>
+        /// <inheritdoc cref="IPerformersService.Save"/>
         public void Save()
         {
             _context.SaveChanges();

@@ -12,9 +12,9 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Performer service
         /// </summary>
-        private readonly PerformersService _performersService;
+        private readonly IPerformersService _performersService;
 
-        public PerformersController(PerformersService performersService)
+        public PerformersController(IPerformersService performersService)
         {
             _performersService = performersService;
         }

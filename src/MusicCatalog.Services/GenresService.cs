@@ -58,9 +58,7 @@ namespace MusicCatalog.Services
             _genreRepository.Delete(genreId);
         }
 
-        /// <summary>
-        /// Saves changes of the context to the database
-        /// </summary>
+        /// <inheritdoc cref="IGenresService.Save"/>
         public void Save()
         {
             _context.SaveChanges();

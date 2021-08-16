@@ -12,9 +12,9 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Genre service
         /// </summary>
-        private readonly GenresService _genresService;
+        private readonly IGenresService _genresService;
 
-        public GenresController(GenresService genresService)
+        public GenresController(IGenresService genresService)
         {
             _genresService = genresService;
         }

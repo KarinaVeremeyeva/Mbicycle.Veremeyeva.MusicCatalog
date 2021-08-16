@@ -11,32 +11,37 @@ namespace MusicCatalog.Services
         /// <summary>
         /// Creates a performer
         /// </summary>
-        /// <param name="performer"></param>
+        /// <param name="performer">Performer</param>
         void CreatePerformer(Performer performer);
 
         /// <summary>
         /// Updates the performer
         /// </summary>
-        /// <param name="performer"></param>
+        /// <param name="performer">Performer</param>
         void UpdatePerformer(Performer performer);
 
         /// <summary>
         /// Delete the performer by id
         /// </summary>
-        /// <param name="performerId"></param>
+        /// <param name="performerId">Performer id</param>
         void DeletePerformer(int performerId);
 
         /// <summary>
         /// Returns the performer by id
         /// </summary>
-        /// <param name="performerId"></param>
+        /// <param name="performerId">Performer id</param>
         /// <returns></returns>
         Performer GetPerformerById(int performerId);
 
         /// <summary>
         /// Returns all performers
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Performers</returns>
         IEnumerable GetPerformers();
+
+        /// <summary>
+        /// Saves changes of the context to the database
+        /// </summary>
+        void Save();
     }
 }
