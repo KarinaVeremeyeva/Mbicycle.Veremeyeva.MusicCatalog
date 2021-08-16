@@ -146,9 +146,9 @@ namespace MusicCatalog.UnitTests
         {
             var genres = new List<Performer>
             {
-                new Performer { PerformerId = 1, Name="TestPerformer1" },
-                new Performer { PerformerId = 2, Name="TestPerformer2" },
-                new Performer { PerformerId = 3, Name="TestPerformer3" },
+                new Performer { PerformerId = 1, Name = "TestPerformer1" },
+                new Performer { PerformerId = 2, Name = "TestPerformer2" },
+                new Performer { PerformerId = 3, Name = "TestPerformer3" },
             };
 
             return genres;

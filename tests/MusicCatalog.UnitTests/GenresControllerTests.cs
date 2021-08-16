@@ -146,9 +146,9 @@ namespace MusicCatalog.UnitTests
         {
             var genres = new List<Genre>
             {
-                new Genre { GenreId = 1, Name="TestGenre1" },
-                new Genre { GenreId = 2, Name="TestGenre2" },
-                new Genre { GenreId = 3, Name="TestGenre3" },
+                new Genre { GenreId = 1, Name = "TestGenre1" },
+                new Genre { GenreId = 2, Name = "TestGenre2" },
+                new Genre { GenreId = 3, Name = "TestGenre3" },
             };
 
             return genres;
