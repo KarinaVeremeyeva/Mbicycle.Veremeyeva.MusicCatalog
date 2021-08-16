@@ -6,7 +6,7 @@ using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories;
 using System;
 
-namespace MusicCatalog.Tests
+namespace MusicCatalog.IntegrationTests
 {
     [TestFixture]
     public class EFGenreTests

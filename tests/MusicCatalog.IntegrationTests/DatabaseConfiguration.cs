@@ -5,7 +5,7 @@ using System.IO;
 using Microsoft.Extensions.Configuration;
 using Microsoft.SqlServer.Dac;
 
-namespace MusicCatalog.Tests
+namespace MusicCatalog.IntegrationTests
 {
     /// <summary>
     /// Setting configuration for a test database

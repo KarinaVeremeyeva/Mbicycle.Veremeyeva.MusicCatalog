@@ -4,7 +4,7 @@ using MusicCatalog.DataAccess.Repositories;
 using NUnit.Framework;
 using System.Linq;
 
-namespace MusicCatalog.Tests
+namespace MusicCatalog.IntegrationTests
 {
     [TestFixture]
     public class GenreTests
