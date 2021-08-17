@@ -10,9 +10,6 @@
     <thead>
         <tr>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.PerformerId)
-            </th>
-            <th scope="col">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
@@ -21,7 +18,6 @@
     @foreach (var performer in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => performer.PerformerId)</td>
             <td>@Html.DisplayFor(modelItem => performer.Name)</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = performer.PerformerId })

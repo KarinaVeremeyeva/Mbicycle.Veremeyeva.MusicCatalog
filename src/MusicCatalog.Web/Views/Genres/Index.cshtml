@@ -10,9 +10,6 @@
     <thead>
         <tr>
             <th scope="col">
-                @Html.DisplayNameFor(model => model.GenreId)
-            </th>
-            <th scope="col">
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th></th>
@@ -21,7 +18,6 @@
     @foreach (var genre in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => genre.GenreId)</td>
             <td>@Html.DisplayFor(modelItem => genre.Name)</td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = genre.GenreId })
