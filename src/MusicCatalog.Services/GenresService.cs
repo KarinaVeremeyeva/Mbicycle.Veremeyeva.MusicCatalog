@@ -1,6 +1,5 @@
 ﻿using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
-using System;
 using System.Collections;
 
 namespace MusicCatalog.Services
@@ -8,23 +7,14 @@ namespace MusicCatalog.Services
     /// <summary>
     /// An implementation of the genres service
     /// </summary>
-    public class GenresService : IGenresService, IDisposable
+    public class GenresService : IGenresService
     {
-        /// <inheritdoc cref="MusicContext"/>
-        private readonly MusicContext _context;
-
         /// <inheritdoc cref="IRepository{T}"/>
         private readonly IRepository<Genre> _genreRepository;
 
-        /// <summary>
-        /// A dispose value
-        /// </summary>
-        private bool _disposed = false;
-
-        public GenresService(MusicContext context, IRepository<Genre> repository)
+        public GenresService(IRepository<Genre> repository)
         {
             _genreRepository = repository;
-            _context = context;
         }
 
         /// <inheritdoc cref="IGenresService.CreateGenre(Genre)"/>
@@ -55,37 +45,6 @@ namespace MusicCatalog.Services
         public void DeleteGenre(int genreId)
         {
             _genreRepository.Delete(genreId);
-        }
-
-        /// <inheritdoc cref="IGenresService.Save"/>
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
-        /// <summary>
-        /// Implements dispose method
-        /// </summary>
-        /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!this._disposed)
-            {
-                if (disposing)
-                {
-                    _context.Dispose();
-                }
-            }
-            this._disposed = true;
-        }
-
-        /// <summary>
-        /// Clears resources
-        /// </summary>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
     }
 }

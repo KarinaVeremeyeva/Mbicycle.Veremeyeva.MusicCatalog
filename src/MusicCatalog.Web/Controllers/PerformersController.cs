@@ -50,7 +50,6 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 _performersService.CreatePerformer(performer);
-                _performersService.Save();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -86,7 +85,6 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 _performersService.UpdatePerformer(performer);
-                _performersService.Save();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -120,7 +118,6 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             _performersService.DeletePerformer(id);
-            _performersService.Save();
 
             return RedirectToAction(nameof(Index));
         }

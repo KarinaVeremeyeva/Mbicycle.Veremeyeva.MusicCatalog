@@ -38,10 +38,5 @@ namespace MusicCatalog.Services
         /// </summary>
         /// <returns>Performers</returns>
         IEnumerable GetPerformers();
-
-        /// <summary>
-        /// Saves changes of the context to the database
-        /// </summary>
-        void Save();
     }
 }

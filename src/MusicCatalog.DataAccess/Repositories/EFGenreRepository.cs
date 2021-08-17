@@ -22,6 +22,7 @@ namespace MusicCatalog.DataAccess.Repositories
         public override void Create(Genre genre)
         {
             context.Genres.Add(genre);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace MusicCatalog.DataAccess.Repositories
             }
 
             context.Genres.Remove(genreToDelete);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace MusicCatalog.DataAccess.Repositories
             }
 
             context.Entry(genre).State = EntityState.Modified;
+            context.SaveChanges();
         }
     }
 }

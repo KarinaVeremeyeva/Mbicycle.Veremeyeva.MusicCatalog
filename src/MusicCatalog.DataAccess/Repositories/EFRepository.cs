@@ -30,18 +30,24 @@ namespace MusicCatalog.DataAccess.Repositories
         public virtual void Create(T entity)
         {
             dbSet.Add(entity);
+            context.SaveChanges();
         }
 
         /// <inheritdoc cref="IRepository{T}.Update(T)"/>
         public virtual void Update(T entity)
         {
             dbSet.Update(entity);
+            context.SaveChanges();
         }
 
         /// <inheritdoc cref="IRepository{T}.Delete(int)"/>
         public virtual void Delete(int id)
         {
-            dbSet.Find(id);
+            var genreToDelete = GetById(id);
+
+            dbSet.Remove(genreToDelete);
+            context.SaveChanges();
+
         }
 
         /// <inheritdoc cref="IRepository{T}.GetAll"/>

@@ -22,6 +22,7 @@ namespace MusicCatalog.DataAccess.Repositories
         public override void Create(Performer performer)
         {
             context.Performers.Add(performer);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace MusicCatalog.DataAccess.Repositories
             }
 
             context.Performers.Remove(performerToDelete);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -63,7 +65,7 @@ namespace MusicCatalog.DataAccess.Repositories
                 throw new ArgumentNullException($"Performer with id={id} doesn't exist");
             }
 
-            return context.Performers.Find(id);
+            return performerToFind;
         }
 
         /// <summary>
@@ -78,6 +80,7 @@ namespace MusicCatalog.DataAccess.Repositories
             }
 
             context.Entry(performer).State = EntityState.Modified;
+            context.SaveChanges();
         }
     }
 }

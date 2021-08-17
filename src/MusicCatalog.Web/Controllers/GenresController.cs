@@ -50,7 +50,6 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 _genresService.CreateGenre(genre);
-                _genresService.Save();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -86,7 +85,6 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 _genresService.UpdateGenre(genre);
-                _genresService.Save();
 
                 return RedirectToAction(nameof(Index));
             }
@@ -120,7 +118,6 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             _genresService.DeleteGenre(id);
-            _genresService.Save();
 
             return RedirectToAction(nameof(Index));
         }

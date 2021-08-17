@@ -38,10 +38,5 @@ namespace MusicCatalog.Services
         /// </summary>
         /// <returns>Genres</returns>
         IEnumerable GetGenres();
-
-        /// <summary>
-        /// Saves changes of the context to the database
-        /// </summary>
-        void Save();
     }
 }
