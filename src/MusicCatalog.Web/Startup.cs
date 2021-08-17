@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MusicCatalog.DataAccess;
+using MusicCatalog.DataAccess.Entities;
+using MusicCatalog.DataAccess.Repositories;
 using MusicCatalog.Services;
 
 namespace MusicCatalog.Web
@@ -28,12 +30,12 @@ namespace MusicCatalog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            
-            services.AddScoped<IGenresService, GenresService>();
-            services.AddScoped<GenresService>();
 
+            services.AddScoped<IRepository<Genre>, EFGenreRepository>();
+            services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
+
+            services.AddScoped<IGenresService, GenresService>();
             services.AddScoped<IPerformersService, PerformersService>();
-            services.AddScoped<PerformersService>();
 
             services.AddControllers();
             services.AddMvc();

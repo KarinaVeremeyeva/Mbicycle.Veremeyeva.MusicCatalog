@@ -1,6 +1,5 @@
 ﻿using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.DataAccess.Repositories;
 using System;
 using System.Collections;
 
@@ -14,17 +13,17 @@ namespace MusicCatalog.Services
         /// <inheritdoc cref="MusicContext"/>
         private readonly MusicContext _context;
 
-        /// <inheritdoc cref="EFPerformerRepository"/>
-        private readonly EFPerformerRepository _performerRepository;
+        /// <inheritdoc cref="IRepository{T}"/>
+        private readonly IRepository<Performer> _performerRepository;
 
         /// <summary>
         /// A dispose value
         /// </summary>
         private bool _disposed = false;
 
-        public PerformersService(MusicContext context)
+        public PerformersService(MusicContext context, IRepository<Performer> repository)
         {
-            _performerRepository = new EFPerformerRepository(context);
+            _performerRepository = repository;
             _context = context;
         }
 

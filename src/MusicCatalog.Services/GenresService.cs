@@ -1,6 +1,5 @@
 ﻿using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.DataAccess.Repositories;
 using System;
 using System.Collections;
 
@@ -14,17 +13,17 @@ namespace MusicCatalog.Services
         /// <inheritdoc cref="MusicContext"/>
         private readonly MusicContext _context;
 
-        /// <inheritdoc cref="EFGenreRepository"/>
-        private readonly EFGenreRepository _genreRepository;
+        /// <inheritdoc cref="IRepository{T}"/>
+        private readonly IRepository<Genre> _genreRepository;
 
         /// <summary>
         /// A dispose value
         /// </summary>
         private bool _disposed = false;
 
-        public GenresService(MusicContext context)
+        public GenresService(MusicContext context, IRepository<Genre> repository)
         {
-            _genreRepository = new EFGenreRepository(context);
+            _genreRepository = repository;
             _context = context;
         }
 
