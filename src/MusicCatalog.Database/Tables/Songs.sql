@@ -4,4 +4,6 @@
 	[Name] VARCHAR(15) NOT NULL,
 	[GenreId] INT NOT NULL,
 	[PerformerId] INT NOT NULL,
+	[AlbumId] INT NOT NULL,
+
 )

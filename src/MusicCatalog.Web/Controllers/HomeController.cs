@@ -26,7 +26,8 @@ namespace MusicCatalog.Web.Controllers
         {
             var songs = _context.Songs
                 .Include(song => song.Performer)
-                .Include(song => song.Genre).ToList();
+                .Include(song => song.Genre)
+                .Include(song => song.Album).ToList();
 
             return View(songs);
         }

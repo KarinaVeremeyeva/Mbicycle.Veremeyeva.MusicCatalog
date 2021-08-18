@@ -10,6 +10,7 @@
             <th scope="col">Name</th>
             <th scope="col">Genre</th>
             <th scope="col">Performer</th>
+            <th scope="col">Album</th>
         </tr>
     </thead>
     @foreach (var song in Model)
@@ -19,10 +20,7 @@
             <td>@song.Name</td>
             <td>@song.Genre.Name</td>
             <td>@song.Performer.Name</td>
+            <td>@song.Album.Name</td>
         </tr>
      }
 </table>
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
