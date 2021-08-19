@@ -40,7 +40,7 @@ namespace MusicCatalog.IntegrationTests
 
             // Act
             GenreRepository.Create(genre);
-            var actual = GenreRepository.GetAll().Single();
+            var actual = GenreRepository.GetAll().First();
 
             // Assert
             Assert.AreEqual(genre.Name, actual.Name);
@@ -56,12 +56,12 @@ namespace MusicCatalog.IntegrationTests
             };
             GenreRepository.Create(genreToUpdate);
 
-            var savedGenre = GenreRepository.GetAll().Single();
+            var savedGenre = GenreRepository.GetAll().First();
             savedGenre.Name = "ChangedName";
 
             // Act
             GenreRepository.Update(savedGenre);
-            var expected = GenreRepository.GetAll().Single();
+            var expected = GenreRepository.GetAll().First();
 
             // Assert
             Assert.AreEqual(expected.Name, savedGenre.Name);

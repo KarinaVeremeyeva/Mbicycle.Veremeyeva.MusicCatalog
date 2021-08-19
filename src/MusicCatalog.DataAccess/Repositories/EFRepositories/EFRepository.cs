@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MusicCatalog.DataAccess.Repositories
+namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 {
     /// <summary>
     /// A generic repository for crud using entity framework

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MusicCatalog.DataAccess.Repositories
+namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 {
     /// <summary>
-    /// A performers repository
+    /// A repository performers
     /// </summary>
     public class EFPerformerRepository : EFRepository<Performer>
     {

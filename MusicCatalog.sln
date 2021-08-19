@@ -5,6 +5,7 @@ VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.DataAccess", "src\MusicCatalog.DataAccess\MusicCatalog.DataAccess.csproj", "{DEB4D13A-C868-489A-A3F4-9AB34022566F}"
 EndProject
+<<<<<<< HEAD
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MusicCatalog.Database", "src\MusicCatalog.Database\MusicCatalog.Database.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.Services", "src\MusicCatalog.Services\MusicCatalog.Services.csproj", "{08FF2E99-97F9-4511-B155-8D4B0DFA9784}"
@@ -18,6 +19,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCatalog.UnitTests", "tests\MusicCatalog.UnitTests\MusicCatalog.UnitTests.csproj", "{9CF5D080-EA48-4646-91CA-194119B48ED8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.IntegrationTests", "tests\MusicCatalog.IntegrationTests\MusicCatalog.IntegrationTests.csproj", "{80CB7906-482D-47B1-BF5F-A8961263F436}"
+=======
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.Tests", "tests\MusicCatalog.Tests\MusicCatalog.Tests.csproj", "{093F9012-BE88-460A-B3A2-03055C743DA0}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MusicCatalog.Database", "src\MusicCatalog.Database\MusicCatalog.Database.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
+>>>>>>> 6eaff59acdd126263cefa21c5ba05761cb15d388
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +35,20 @@ Global
 		{DEB4D13A-C868-489A-A3F4-9AB34022566F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEB4D13A-C868-489A-A3F4-9AB34022566F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEB4D13A-C868-489A-A3F4-9AB34022566F}.Release|Any CPU.Build.0 = Release|Any CPU
+<<<<<<< HEAD
+=======
+		{093F9012-BE88-460A-B3A2-03055C743DA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{093F9012-BE88-460A-B3A2-03055C743DA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{093F9012-BE88-460A-B3A2-03055C743DA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{093F9012-BE88-460A-B3A2-03055C743DA0}.Release|Any CPU.Build.0 = Release|Any CPU
+>>>>>>> 6eaff59acdd126263cefa21c5ba05761cb15d388
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
+<<<<<<< HEAD
 		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,10 +65,13 @@ Global
 		{80CB7906-482D-47B1-BF5F-A8961263F436}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80CB7906-482D-47B1-BF5F-A8961263F436}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80CB7906-482D-47B1-BF5F-A8961263F436}.Release|Any CPU.Build.0 = Release|Any CPU
+=======
+>>>>>>> 6eaff59acdd126263cefa21c5ba05761cb15d388
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+<<<<<<< HEAD
 	GlobalSection(NestedProjects) = preSolution
 		{DEB4D13A-C868-489A-A3F4-9AB34022566F} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
@@ -63,6 +80,8 @@ Global
 		{9CF5D080-EA48-4646-91CA-194119B48ED8} = {A96B76DE-A40D-4119-9C0A-9BEDF3412DCA}
 		{80CB7906-482D-47B1-BF5F-A8961263F436} = {A96B76DE-A40D-4119-9C0A-9BEDF3412DCA}
 	EndGlobalSection
+=======
+>>>>>>> 6eaff59acdd126263cefa21c5ba05761cb15d388
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {177EE9A9-5031-484E-A389-0AD3A3BA4770}
 	EndGlobalSection
