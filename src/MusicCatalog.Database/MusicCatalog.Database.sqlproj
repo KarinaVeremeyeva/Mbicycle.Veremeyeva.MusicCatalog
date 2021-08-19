@@ -61,7 +61,7 @@
     <Folder Include="Data" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="ForeignKeys\FK_SongAlbum.sql" />
+    <Build Include="ForeignKeys\FK_AlbumSong.sql" />
     <Build Include="ForeignKeys\FK_GenreSong.sql" />
     <Build Include="ForeignKeys\FK_PerformerSong.sql" />
   </ItemGroup>

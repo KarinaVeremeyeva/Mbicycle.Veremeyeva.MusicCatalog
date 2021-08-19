@@ -7,7 +7,7 @@ using System.Linq;
 namespace MusicCatalog.DataAccess.Repositories
 {
     /// <summary>
-    /// A genre repository
+    /// A repository for genres
     /// </summary>
     public class EFGenreRepository : EFRepository<Genre>
     {
