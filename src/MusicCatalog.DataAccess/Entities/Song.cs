@@ -37,21 +37,13 @@
 
         /// <summary>
         /// Foreign key for album
-<<<<<<< HEAD
         /// </summary>
         public int AlbumId { get; set; }
 
         /// <summary>
         /// Reference navigation property for album
         /// </summary>
-=======
-        /// </summary>
-        public int AlbumId { get; set; }
 
-        /// <summary>
-        /// Reference navigation property for album
-        /// </summary>
->>>>>>> 6eaff59acdd126263cefa21c5ba05761cb15d388
         public Album Album { get; set; }
     }
 }

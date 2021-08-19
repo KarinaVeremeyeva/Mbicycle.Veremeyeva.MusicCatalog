@@ -5,7 +5,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 
-namespace MusicCatalog.Tests
+namespace MusicCatalog.IntegrationTests
 {
     [TestFixture]
     public class SongTests

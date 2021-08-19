@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services;
+using MusicCatalog.Services.Interfaces;
 using MusicCatalog.Web.Controllers;
 using NUnit.Framework;
 using System.Collections.Generic;
