@@ -1,0 +1,42 @@
+﻿@model Song
+@{
+    ViewData["Title"] = "Create";
+}
+<h3>Create song</h3>
+<form asp-action="Create" method="post">
+    <div class="form-horizontal">
+        <hr />
+        <div class="form-group">
+            <label asp-for="Name" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Name" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="GenreId" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="GenreId" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="PerformerId" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="PerformerId" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AlbumId" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="AlbumId" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-4 col-md-8">
+                <input type="submit" value="Create" class="btn btn-outline-primary" />
+            </div>
+        </div>
+    </div>
+</form>
+<div>
+    <a asp-action="Index">Back to list</a>
+</div>
