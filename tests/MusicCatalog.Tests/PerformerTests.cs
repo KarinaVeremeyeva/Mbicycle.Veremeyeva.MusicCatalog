@@ -40,7 +40,7 @@ namespace MusicCatalog.Tests
 
             // Act
             PerformerRepository.Create(performer);
-            var actual = PerformerRepository.GetAll().Single();
+            var actual = PerformerRepository.GetAll().First();
 
             // Assert
             Assert.AreEqual(performer.Name, actual.Name);
@@ -56,12 +56,12 @@ namespace MusicCatalog.Tests
             };
             PerformerRepository.Create(performer);
 
-            var savedPerformer = PerformerRepository.GetAll().Single();
+            var savedPerformer = PerformerRepository.GetAll().First();
             savedPerformer.Name = "ChangedName";
 
             // Act
             PerformerRepository.Update(savedPerformer);
-            var expected = PerformerRepository.GetAll().Single();
+            var expected = PerformerRepository.GetAll().First();
 
             // Assert
             Assert.AreEqual(expected.Name, savedPerformer.Name);

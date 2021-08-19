@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using System.Linq;
 using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.DataAccess.Repositories;
+using MusicCatalog.DataAccess.Repositories.EFRepositories;
+using NUnit.Framework;
 using System;
+using System.Linq;
 
 namespace MusicCatalog.Tests
 {
@@ -79,7 +79,7 @@ namespace MusicCatalog.Tests
             // Arrange
             var genre = Context.Genres.Where(g => g.GenreId == 1).FirstOrDefault();
 
-            // Assert
+            // Act and assert
             Assert.Throws<ArgumentNullException>(
                () => GenreRepository.Update(genre),
                $"Genre doesn't exist");
@@ -114,7 +114,7 @@ namespace MusicCatalog.Tests
             // Arrange
             var id = 1;
 
-            // Assert
+            // Act and assert
             Assert.Throws<ArgumentNullException>(
                () => GenreRepository.Delete(id),
                $"Genre with id={id} doesn't exist");
@@ -146,7 +146,7 @@ namespace MusicCatalog.Tests
             // Arrange
             var id = 1;
 
-            // Assert
+            // Act and assert
             Assert.Throws<ArgumentNullException>(
                () => GenreRepository.GetById(id),
                $"Genre with id={id} doesn't exist");
