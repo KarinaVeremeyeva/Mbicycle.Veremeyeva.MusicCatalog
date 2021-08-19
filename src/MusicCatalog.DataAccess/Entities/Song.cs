@@ -38,8 +38,13 @@ namespace MusicCatalog.DataAccess.Entities
         public Performer Performer { get; set; }
 
         /// <summary>
-        /// Collection navigation property for albums
+        /// Foreign key for album
         /// </summary>
-        public virtual ICollection<Album> Albums { get; set; }
+        public int AlbumId { get; set; }
+
+        /// <summary>
+        /// Reference navigation property for album
+        /// </summary>
+        public Album Album { get; set; }
     }
 }

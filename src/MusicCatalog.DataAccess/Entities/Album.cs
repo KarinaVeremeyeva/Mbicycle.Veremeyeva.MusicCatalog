@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MusicCatalog.DataAccess.Entities
 {
@@ -23,13 +24,8 @@ namespace MusicCatalog.DataAccess.Entities
         public DateTime ReleaseDate { get; set; }
 
         /// <summary>
-        /// Foreign key for song
+        /// Collection navigation property for songs
         /// </summary>
-        public int SongId { get; set; }
-
-        /// <summary>
-        /// Reference navigation property for song
-        /// </summary>
-        public Song Song { get; set; }
+        public virtual ICollection<Song> Songs { get; set; }
     }
 }
