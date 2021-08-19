@@ -1,5 +1,6 @@
 ﻿using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
+using MusicCatalog.Services.Interfaces;
 using System.Collections;
 
 namespace MusicCatalog.Services

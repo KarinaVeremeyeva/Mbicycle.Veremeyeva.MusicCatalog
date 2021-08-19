@@ -1,7 +1,7 @@
 ﻿using MusicCatalog.DataAccess.Entities;
 using System.Collections;
 
-namespace MusicCatalog.Services
+namespace MusicCatalog.Services.Interfaces
 {
     /// <summary>
     /// A performers service

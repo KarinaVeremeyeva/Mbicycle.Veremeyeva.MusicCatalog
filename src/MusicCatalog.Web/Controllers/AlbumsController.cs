@@ -5,33 +5,33 @@ using MusicCatalog.Services.Interfaces;
 namespace MusicCatalog.Web.Controllers
 {
     /// <summary>
-    /// Genres controller
+    /// Albums controller
     /// </summary>
-    public class GenresController : Controller
+    public class AlbumsController : Controller
     {
         /// <summary>
-        /// Genre service
+        /// Albums service
         /// </summary>
-        private readonly IGenresService _genresService;
+        private readonly IAlbumsService _albumsService;
 
-        public GenresController(IGenresService genresService)
+        public AlbumsController(IAlbumsService albumsService)
         {
-            _genresService = genresService;
+            _albumsService = albumsService;
         }
 
         /// <summary>
-        /// Displays a list of genres
+        ///  Displays a list of albums
         /// </summary>
-        /// <returns>View with genres</returns>
+        /// <returns>View with a album list</returns>
         public ActionResult Index()
         {
-            var genres = _genresService.GetGenres();
+            var albums = _albumsService.GetAlbums();
 
-            return View(genres);
+            return View(albums);
         }
 
         /// <summary>
-        /// Get-request for creating genre
+        /// Get-request for creating album
         /// </summary>
         /// <returns>ViewResult</returns>
         public ActionResult Create()
@@ -40,51 +40,51 @@ namespace MusicCatalog.Web.Controllers
         }
 
         /// <summary>
-        /// Post-request for creating genre
+        /// Post-request for creating album
         /// </summary>
-        /// <param name="genre">Genre</param>
+        /// <param name="album">Album</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(Genre genre)
+        public ActionResult Create(Album album)
         {
             if (ModelState.IsValid)
             {
-                _genresService.CreateGenre(genre);
+                _albumsService.CreateAlbum(album);
 
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(genre);
+            return View(album);
         }
 
         /// <summary>
-        /// Get-request for editing genre
+        /// Get-request for editing album
         /// </summary>
-        /// <param name="id">Genre id</param>
+        /// <param name="id">Album id</param>
         /// <returns>ViewResult</returns>
         public ActionResult Edit(int id)
         {
-            var genreToUpdate = _genresService.GetGenreById(id);
+            var albumToUpdate = _albumsService.GetAlbumById(id);
 
-            if (genreToUpdate == null)
+            if (albumToUpdate == null)
             {
                 return NotFound();
             }
 
-            return View(genreToUpdate);
+            return View(albumToUpdate);
         }
 
         /// <summary>
-        /// Post-request for editing genre
+        /// Post-request for editing album
         /// </summary>
-        /// <param name="genre">Genre</param>
+        /// <param name="album">Album</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(Genre genre)
+        public ActionResult Edit(Album album)
         {
             if (ModelState.IsValid)
             {
-                _genresService.UpdateGenre(genre);
+                _albumsService.UpdateAlbum(album);
 
                 return RedirectToAction(nameof(Index));
             }
@@ -93,31 +93,31 @@ namespace MusicCatalog.Web.Controllers
         }
 
         /// <summary>
-        /// Get-request for deleting genre
+        /// Get-request for deleting album
         /// </summary>
-        /// <param name="id">Genre id</param>
+        /// <param name="id">Album id</param>
         /// <returns>ViewResult</returns>
         public ActionResult Delete(int id)
         {
-            var genreToDelete = _genresService.GetGenreById(id);
+            var albumToDelete = _albumsService.GetAlbumById(id);
 
-            if (genreToDelete == null)
+            if (albumToDelete == null)
             {
                 return NotFound();
             }
 
-            return View(genreToDelete);
+            return View(albumToDelete);
         }
 
         /// <summary>
-        /// Post-request for deleting genre
+        /// Post-request for deleting album
         /// </summary>
-        /// <param name="id">Genre id</param>
+        /// <param name="id">Album id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
-            _genresService.DeleteGenre(id);
+            _albumsService.DeleteAlbum(id);
 
             return RedirectToAction(nameof(Index));
         }

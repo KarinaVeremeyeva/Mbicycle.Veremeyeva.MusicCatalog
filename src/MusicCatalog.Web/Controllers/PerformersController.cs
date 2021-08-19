@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services;
+using MusicCatalog.Services.Interfaces;
 
 namespace MusicCatalog.Web.Controllers
 {

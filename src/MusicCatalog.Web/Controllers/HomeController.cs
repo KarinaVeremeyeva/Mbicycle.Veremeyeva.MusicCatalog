@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using MusicCatalog.DataAccess;
-using System.Linq;
+using MusicCatalog.Services.Interfaces;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -10,24 +8,23 @@ namespace MusicCatalog.Web.Controllers
     /// </summary>
     public class HomeController : Controller
     {
-        /// <inheritdoc cref="MusicContext"/>
-        private readonly MusicContext _context;
+        /// <summary>
+        /// Songs service
+        /// </summary>
+        private readonly ISongsService _songsService;
 
-        public HomeController(MusicContext context)
+        public HomeController(ISongsService songsService)
         {
-            _context = context;
+            _songsService = songsService;
         }
 
         /// <summary>
         /// Displays a list of songs
         /// </summary>
         /// <returns>View with a songs list</returns>
-        public IActionResult Index()
+        public ActionResult Index()
         {
-            var songs = _context.Songs
-                .Include(song => song.Performer)
-                .Include(song => song.Genre)
-                .Include(song => song.Album).ToList();
+            var songs = _songsService.GetSongs();
 
             return View(songs);
         }

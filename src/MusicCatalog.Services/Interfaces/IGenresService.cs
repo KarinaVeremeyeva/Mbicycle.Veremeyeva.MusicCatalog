@@ -1,7 +1,7 @@
 ﻿using MusicCatalog.DataAccess.Entities;
 using System.Collections;
 
-namespace MusicCatalog.Services
+namespace MusicCatalog.Services.Interfaces
 {
     /// <summary>
     /// A genres service
@@ -11,7 +11,7 @@ namespace MusicCatalog.Services
         /// <summary>
         /// Creates a genre
         /// </summary>
-        /// <param name="genre">Genre</param>
+        /// <param name="genre">New genre</param>
         void CreateGenre(Genre genre);
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace MusicCatalog.Services
         /// Returns the genre by id
         /// </summary>
         /// <param name="genreId">Genre id</param>
-        /// <returns></returns>
+        /// <returns>Genre</returns>
         Genre GetGenreById(int genreId);
 
         /// <summary>

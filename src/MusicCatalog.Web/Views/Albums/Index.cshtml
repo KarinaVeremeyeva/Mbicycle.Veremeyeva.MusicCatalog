@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Album>
+@{
+    ViewData["Title"] = "Albums list";
+}
+<h3>Albums list</h3>
+<p>
+    @Html.ActionLink("Create album", "Create", "Albums", null, new { @class = "btn btn-outline-primary" })
+</p>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.ReleaseDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var album in Model)
+    {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => album.Name)</td>
+        <td>@Html.DisplayFor(modelItem => album.ReleaseDate)</td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = album.AlbumId })
+            @Html.ActionLink("Delete", "Delete", new { id = album.AlbumId })
+        </td>
+    </tr>
+    }
+</table>
