@@ -1,5 +1,4 @@
 ﻿using MusicCatalog.DataAccess.Entities;
-using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -26,10 +25,13 @@ namespace MusicCatalog.DataAccess.Repositories
             {
                 connection.Open();
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
+
                 SqlParameter nameParam = new SqlParameter("@Name", album.Name);
                 SqlParameter dateParam = new SqlParameter("@ReleaseDate", album.ReleaseDate);
+
                 command.Parameters.Add(nameParam);
                 command.Parameters.Add(dateParam);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -124,13 +126,16 @@ namespace MusicCatalog.DataAccess.Repositories
             using (SqlConnection connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
+
                 SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter idParam = new SqlParameter("@GenreId", album.AlbumId);
+                SqlParameter idParam = new SqlParameter("@AlbumId", album.AlbumId);
                 SqlParameter nameParam = new SqlParameter("@Name", album.Name);
                 SqlParameter dateParam = new SqlParameter("@ReleaseDate", album.ReleaseDate);
+
                 command.Parameters.Add(idParam);
                 command.Parameters.Add(nameParam);
                 command.Parameters.Add(dateParam);
+
                 command.ExecuteNonQuery();
             }
         }
