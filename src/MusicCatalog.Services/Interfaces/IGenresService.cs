@@ -1,5 +1,5 @@
 ﻿using MusicCatalog.DataAccess.Entities;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace MusicCatalog.Services.Interfaces
 {
@@ -37,6 +37,6 @@ namespace MusicCatalog.Services.Interfaces
         /// Returns all genres
         /// </summary>
         /// <returns>Genres</returns>
-        IEnumerable GetGenres();
+        IEnumerable<Genre> GetGenres();
     }
 }

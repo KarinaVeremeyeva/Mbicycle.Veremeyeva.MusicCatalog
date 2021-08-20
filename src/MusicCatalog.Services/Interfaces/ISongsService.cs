@@ -1,5 +1,5 @@
 ﻿using MusicCatalog.DataAccess.Entities;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace MusicCatalog.Services.Interfaces
 {
@@ -36,7 +36,7 @@ namespace MusicCatalog.Services.Interfaces
         /// <summary>
         /// Returns all songs by id
         /// </summary>
-        /// <returns>Song</returns>
-        IEnumerable GetSongs();
+        /// <returns>Songs</returns>
+        IEnumerable<Song> GetSongs();
     }
 }

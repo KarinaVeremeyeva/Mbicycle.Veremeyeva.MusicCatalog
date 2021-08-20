@@ -1,7 +1,7 @@
 ﻿using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.Services.Interfaces;
-using System.Collections;
+using System.Collections.Generic;
 
 namespace MusicCatalog.Services
 {
@@ -37,7 +37,7 @@ namespace MusicCatalog.Services
         }
 
         /// <inheritdoc cref="ISongsService.GetSongs"/>
-        public IEnumerable GetSongs()
+        public IEnumerable<Song> GetSongs()
         {
             return _songRpository.GetAll();
         }
