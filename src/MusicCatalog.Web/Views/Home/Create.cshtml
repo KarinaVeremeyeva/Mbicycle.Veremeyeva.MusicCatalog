@@ -1,42 +1,47 @@
 ﻿@model Song
+@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = "Create";
 }
-<h3>Create song</h3>
+<h3>@Localizer["CreateHeader"]</h3>
 <form asp-action="Create" method="post">
     <div class="form-horizontal">
         <hr />
         <div class="form-group">
-            <label asp-for="Name" class="col-md-4 control-label"></label>
+            <label asp-for="Name" class="col-md-4 control-label">@Localizer["Name"]</label>
             <div class="col-md-8">
                 <input asp-for="Name" class="form-control" />
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="GenreId" class="col-md-4 control-label"></label>
+            <label asp-for="Genre" class="col-md-4 control-label">@Localizer["Genre"]</label>
             <div class="col-md-8">
-                <input asp-for="GenreId" class="form-control" />
+                <select asp-for="GenreId" class="form-control" asp-items="ViewBag.GenreId">
+                    <option value="" class="form-control">-- Select genre --</option>
+                </select>
+            </div>   
+        </div>
+        <div class="form-group">
+            <label asp-for="Performer" class="col-md-4 control-label">@Localizer["Performer"]</label>
+            <div class="col-md-8">
+                <select asp-for="PerformerId" class="form-control" asp-items="ViewBag.PerformerId">
+                    <option value="" class="form-control">-- Select performer --</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="PerformerId" class="col-md-4 control-label"></label>
+            <label asp-for="Album" class="col-md-4 control-label">@Localizer["Album"]</label>
             <div class="col-md-8">
-                <input asp-for="PerformerId" class="form-control" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="AlbumId" class="col-md-4 control-label"></label>
-            <div class="col-md-8">
-                <input asp-for="AlbumId" class="form-control" />
+                <select asp-for="AlbumId" class="form-control" asp-items="ViewBag.AlbumId">
+                    <option value="" class="form-control">-- Select album --</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-offset-4 col-md-8">
-                <input type="submit" value="Create" class="btn btn-outline-primary" />
+                <input type="submit" value="@Localizer["Create"]" class="btn btn-outline-primary">
+                <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Back to list"]</a>
             </div>
         </div>
     </div>
 </form>
-<div>
-    <a asp-action="Index">Back to list</a>
-</div>

@@ -1,32 +1,30 @@
 ﻿@model IEnumerable<Album>
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Albums list";
+    ViewData["Title"] = Localizer["Title"];
 }
-<h3>Albums list</h3>
+<h3>@Localizer["Header"]</h3>
 <p>
-    @Html.ActionLink("Create album", "Create", "Albums", null, new { @class = "btn btn-outline-primary" })
+    @Html.ActionLink(Localizer["Create album"].Value, "Create", "Albums", null, new { @class = "btn btn-outline-primary" })
 </p>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
+            <th scope="col">@Localizer["Name"]</th>
+            <th scope="col">@Localizer["ReleaseDate"]</th>
             <th></th>
         </tr>
     </thead>
     @foreach (var album in Model)
     {
-    <tr>
-        <td>@Html.DisplayFor(modelItem => album.Name)</td>
-        <td>@Html.DisplayFor(modelItem => album.ReleaseDate)</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = album.AlbumId })
-            @Html.ActionLink("Delete", "Delete", new { id = album.AlbumId })
-        </td>
-    </tr>
+        <tr>
+            <td>@Html.DisplayFor(modelItem => album.Name)</td>
+            <td>@Html.DisplayFor(modelItem => album.ReleaseDate)</td>
+            <td>
+                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = album.AlbumId })
+                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = album.AlbumId })
+            </td>
+        </tr>
     }
 </table>

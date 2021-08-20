@@ -1,19 +1,38 @@
 ﻿@model IEnumerable<Song>
+@inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Music catalog";
+    ViewData["Title"] = Localizer["Title"];
 }
-<h3>Songs list</h3>
+<h3>@Localizer["Header"]</h3>
 <p>
-    @Html.ActionLink("Create song", "Create", "Songs", null, new { @class = "btn btn-outline-primary" })
+    @Html.ActionLink(Localizer["Create song"].Value, "Create", "Home", null,
+        new { @class = "btn btn-outline-primary" })
 </p>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            <label class="col-md-4 control-label">@Localizer["FilterName"]</label>
+            <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]"
+                   class="form-control col-6" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@Localizer["Search"]" class="btn btn-outline-primary" />
+                    <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["BackToFullList"]</a>
+                </div>
+            </div>
+        </p>
+    </div>
+</form>
+
 <table class="table table-striped table-bordered table-hover">
     <thead>
         <tr>
             <th scope="col">№</th>
-            <th scope="col">Name</th>
-            <th scope="col">Genre</th>
-            <th scope="col">Performer</th>
-            <th scope="col">Album</th>
+            <th scope="col">@Localizer["Name"]</th>
+            <th scope="col">@Localizer["Genre"]</th>
+            <th scope="col">@Localizer["Performer"]</th>
+            <th scope="col">@Localizer["Album"]</th>
             <th></th>
         </tr>
     </thead>
@@ -26,9 +45,9 @@
             <td>@song.PerformerId</td>
             <td>@song.AlbumId</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = song.SongId })
-                @Html.ActionLink("Delete", "Delete", new { id = song.SongId })
+                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = song.SongId })
+                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = song.SongId })
             </td>
         </tr>
-     }
+    }
 </table>

@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<Genre>
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Genres list";
+    ViewData["Title"] = Localizer["Title"];
 }
-<h3>Genres list</h3>
+<h3>@Localizer["Header"]</h3>
 <p>
-    @Html.ActionLink("Create genre", "Create", "Genres", null, new { @class = "btn btn-outline-primary" })
+    @Html.ActionLink(Localizer["Create genre"].Value, "Create", "Genres", null, new { @class = "btn btn-outline-primary" })
 </p>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+            <th scope="col">@Localizer["Name"]</th>
             <th></th>
         </tr>
     </thead>
@@ -20,8 +20,8 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => genre.Name)</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = genre.GenreId })
-                @Html.ActionLink("Delete", "Delete", new { id = genre.GenreId })
+                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = genre.GenreId })
+                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = genre.GenreId })
             </td>
         </tr>
     }

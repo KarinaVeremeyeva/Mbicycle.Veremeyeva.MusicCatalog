@@ -1,17 +1,17 @@
 ﻿@model IEnumerable<Performer>
+@inject IViewLocalizer Localizer
+
 @{
-    ViewData["Title"] = "Performers list";
+    ViewData["Title"] = Localizer["Title"];
 }
-<h3>Performers list</h3>
+<h3>@Localizer["Header"]</h3>
 <p>
-    @Html.ActionLink("Create performer", "Create", "Performers", null, new { @class = "btn btn-outline-primary" })
+    @Html.ActionLink(Localizer["Create performer"].Value, "Create", "Performers", null, new { @class = "btn btn-outline-primary" })
 </p>
 <table class="table table-bordered table-hover">
     <thead>
         <tr>
-            <th scope="col">
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
+            <th scope="col">@Localizer["Name"]</th>
             <th></th>
         </tr>
     </thead>
@@ -20,8 +20,8 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => performer.Name)</td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = performer.PerformerId })
-                @Html.ActionLink("Delete", "Delete", new { id = performer.PerformerId })
+                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = performer.PerformerId })
+                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = performer.PerformerId })
             </td>
         </tr>
     }
