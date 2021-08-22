@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.Services.Interfaces;
 using System;
-using System.Collections;
 using System.Linq;
 
 namespace MusicCatalog.Web.Controllers
@@ -19,9 +19,17 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly ISongsService _songsService;
 
-        public HomeController(ISongsService songsService)
+        private readonly IGenresService _genresService;
+        private readonly IPerformersService _performersService;
+        private readonly IAlbumsService _albumsService;
+
+        public HomeController(ISongsService songsService, IGenresService genresService,
+                            IPerformersService performersService, IAlbumsService albumsService)
         {
             _songsService = songsService;
+            _genresService = genresService;
+            _performersService = performersService;
+            _albumsService = albumsService;
         }
 
         /// <summary>
@@ -67,6 +75,10 @@ namespace MusicCatalog.Web.Controllers
         /// <returns></returns>
         public IActionResult Create()
         {
+            PopulateGenresDropDownList();
+            PopulatePerformersDropDownList();
+            PopulateAlbumsDropDownList();
+
             return View();
         }
 
@@ -85,6 +97,10 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            PopulateGenresDropDownList(song.GenreId);
+            PopulatePerformersDropDownList(song.PerformerId);
+            PopulateAlbumsDropDownList(song.AlbumId);
+
             return View(song);
         }
 
@@ -101,6 +117,10 @@ namespace MusicCatalog.Web.Controllers
             {
                 return NotFound();
             }
+
+            PopulateGenresDropDownList(songToUpdate.GenreId);
+            PopulatePerformersDropDownList(songToUpdate.PerformerId);
+            PopulateAlbumsDropDownList(songToUpdate.AlbumId);
 
             return View(songToUpdate);
         }
@@ -119,6 +139,9 @@ namespace MusicCatalog.Web.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
+            PopulateGenresDropDownList(song.GenreId);
+            PopulatePerformersDropDownList(song.PerformerId);
+            PopulateAlbumsDropDownList(song.AlbumId);
 
             return View();
         }
@@ -151,6 +174,24 @@ namespace MusicCatalog.Web.Controllers
             _songsService.DeleteSong(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        private void PopulateGenresDropDownList(object selectedGenre = null)
+        {
+            var genres = _genresService.GetGenres();
+            ViewBag.GenreId = new SelectList(genres, "GenreId", "Name", selectedGenre);
+        }
+
+        private void PopulatePerformersDropDownList(object selectedPerformer = null)
+        {
+            var performers = _performersService.GetPerformers();
+            ViewBag.PerformerId = new SelectList(performers, "PerformerId", "Name", selectedPerformer);
+        }
+
+        private void PopulateAlbumsDropDownList(object selectedAlbum = null)
+        {
+            var albums = _albumsService.GetAlbums();
+            ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
         }
     }
 }

@@ -48,7 +48,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         /// <returns>Songs</returns>
         public override IEnumerable<Song> GetAll()
         {
-            return context.Songs.ToList();
+            return context.Songs
+                .Include(s => s.Performer)
+                .Include(s => s.Genre)
+                .Include(s => s.Album).ToList();
         }
 
         /// <summary>
@@ -58,7 +61,11 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         /// <returns>Song with expecting id</returns>
         public override Song GetById(int id)
         {
-            var songToFind = context.Songs.Find(id);
+            var songToFind = context.Songs.Where(q => q.SongId == id)
+                .Include(s => s.Performer)
+                .Include(s => s.Genre)
+                .Include(s => s.Album)
+                .SingleOrDefault();
 
             if (songToFind == null)
             {

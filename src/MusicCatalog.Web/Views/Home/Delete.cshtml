@@ -16,15 +16,15 @@
         </dd>
         <dt>@Localizer["Genre"]</dt>
         <dd>
-            @Html.DisplayFor(model => model.GenreId)
+            @Html.DisplayFor(model => model.Genre.Name)
         </dd>
         <dt>@Localizer["Performer"]</dt>
         <dd>
-            @Html.DisplayFor(model => model.PerformerId)
+            @Html.DisplayFor(model => model.Performer.Name)
         </dd>
         <dt>@Localizer["Album"]</dt>
         <dd>
-            @Html.DisplayFor(model => model.AlbumId)
+            @Html.DisplayFor(model => model.Album.Name)
         </dd>
     </dl>
     <form asp-action="Delete">
