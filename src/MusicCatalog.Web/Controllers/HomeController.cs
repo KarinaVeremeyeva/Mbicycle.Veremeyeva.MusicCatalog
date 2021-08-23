@@ -19,8 +19,19 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly ISongsService _songsService;
 
+        /// <summary>
+        /// Genre service
+        /// </summary>
         private readonly IGenresService _genresService;
+
+        /// <summary>
+        /// Performer service
+        /// </summary>
         private readonly IPerformersService _performersService;
+
+        /// <summary>
+        /// Album service
+        /// </summary>
         private readonly IAlbumsService _albumsService;
 
         public HomeController(ISongsService songsService, IGenresService genresService,
@@ -37,7 +48,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="culture">Culture</param>
         /// <param name="returnUrl">Return url</param>
-        /// <returns></returns>
+        /// <returns>ViewResult</returns>
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
@@ -176,18 +187,30 @@ namespace MusicCatalog.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Populates a genres dropdown list
+        /// </summary>
+        /// <param name="selectedGenre">Selected genre</param>
         private void PopulateGenresDropDownList(object selectedGenre = null)
         {
             var genres = _genresService.GetGenres();
             ViewBag.GenreId = new SelectList(genres, "GenreId", "Name", selectedGenre);
         }
 
+        /// <summary>
+        /// Populates a performers dropdown list
+        /// </summary>
+        /// <param name="selectedPerformer">Selected performer</param>
         private void PopulatePerformersDropDownList(object selectedPerformer = null)
         {
             var performers = _performersService.GetPerformers();
             ViewBag.PerformerId = new SelectList(performers, "PerformerId", "Name", selectedPerformer);
         }
 
+        /// <summary>
+        /// Populates a album dropdown list
+        /// </summary>
+        /// <param name="selectedAlbum">Selected album</param>
         private void PopulateAlbumsDropDownList(object selectedAlbum = null)
         {
             var albums = _albumsService.GetAlbums();
