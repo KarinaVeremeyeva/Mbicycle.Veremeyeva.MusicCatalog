@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.Services;
 using MusicCatalog.Services.Interfaces;
+using MusicCatalog.Web.Models;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -72,7 +74,13 @@ namespace MusicCatalog.Web
 
             services.AddDbContext<MusicContext>(
                 options => options.UseSqlServer(connectionString)
-            );
+                );
+
+            services.AddDbContext<ApplicationContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"))
+                );
+            services.AddIdentity<User, IdentityRole>()
+               .AddEntityFrameworkStores<ApplicationContext>();
         }
 
         /// <summary>
@@ -97,6 +105,8 @@ namespace MusicCatalog.Web
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
