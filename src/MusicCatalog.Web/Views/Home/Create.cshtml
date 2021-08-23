@@ -1,7 +1,7 @@
 ﻿@model Song
 @inject IViewLocalizer Localizer
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = Localizer["Title"];
 }
 <h3>@Localizer["CreateHeader"]</h3>
 <form asp-action="Create" method="post">

@@ -15,9 +15,9 @@
 
 <form id="selectLanguage" asp-controller="Home" asp-action="SetLanguage"
       asp-route-returnUrl="@Context.Request.Path"
-      method="post" class="form-inline">
+      method="post" class="form-inline mr-3">
     <div class="form-group">
-        <label for="language" asp-for="@requestCulture.RequestCulture.UICulture.Name" class="col-form-label">
+        <label for="language" asp-for="@requestCulture.RequestCulture.UICulture.Name" class="col-form-label mr-2">
             @Localizer["Language"]
         </label>
         <select name="culture" class="form-control" id="language" onchange="this.form.submit();"
