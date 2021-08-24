@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
+using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.BusinessLogic.Models;
 using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services.Interfaces;
 using MusicCatalog.Web.Controllers;
+using MusicCatalog.Web.ViewModels;
 using NUnit.Framework;
 using System.Collections.Generic;
 
@@ -11,13 +14,29 @@ namespace MusicCatalog.UnitTests
     [TestFixture]
     public class PerformersControllerTests
     {
+        private static IMapper _mapper;
+
+        [SetUp]
+        public void SetUp()
+        {
+            if (_mapper == null)
+            {
+                var mappingConfig = new MapperConfiguration(mc =>
+                {
+                    mc.AddProfile(new TestProfile());
+                });
+                IMapper mapper = mappingConfig.CreateMapper();
+                _mapper = mapper;
+            }
+        }
+
         [Test]
         public void Index_GetAllPerformers_ReturnsAViewResultWithAListOfPerformers()
         {
             // Arrange
             var mockService = new Mock<IPerformersService>();
             mockService.Setup(service => service.GetPerformers()).Returns(GetTestPerformers());
-            var controller = new PerformersController(mockService.Object);
+            var controller = new PerformersController(mockService.Object, _mapper);
 
             // Act
             var result = controller.Index() as ViewResult;
@@ -30,13 +49,14 @@ namespace MusicCatalog.UnitTests
         public void Create_CreatePerformer_ReturnsARedirectToIndex()
         {
             // Arrange
-            var performer = new Performer { Name = "TestPerformer" };
+            var performer = new PerformerDto { Name = "TestPerformer" };
             var mockService = new Mock<IPerformersService>();
             mockService.Setup(service => service.CreatePerformer(performer)).Verifiable();
-            var controller = new PerformersController(mockService.Object);
+            var controller = new PerformersController(mockService.Object, _mapper);
+            var performerViewModel = _mapper.Map<PerformerViewModel>(performer);
 
             // Act
-            var result = controller.Create(performer);
+            var result = controller.Create(performerViewModel);
 
             // Assert
             Assert.IsNotNull(result);
@@ -47,10 +67,10 @@ namespace MusicCatalog.UnitTests
         public void Create_CreatePerformer_ReturnsAViewResult()
         {
             // Arrange
-            var performer = new Performer { Name = "TestPerformer" };
+            var performer = new PerformerDto { Name = "TestPerformer" };
             var mockService = new Mock<IPerformersService>();
             mockService.Setup(service => service.CreatePerformer(performer)).Verifiable();
-            var controller = new PerformersController(mockService.Object);
+            var controller = new PerformersController(mockService.Object, _mapper);
 
             // Act
             var result = controller.Create() as ViewResult;
@@ -65,12 +85,13 @@ namespace MusicCatalog.UnitTests
         {
             // Arrange
             var mockService = new Mock<IPerformersService>();
-            var controller = new PerformersController(mockService.Object);
+            var controller = new PerformersController(mockService.Object, _mapper);
             controller.ModelState.AddModelError("Name", "Required");
-            var performer = new Performer();
+            var performer = new PerformerDto();
+            var performerViewModel = _mapper.Map<PerformerViewModel>(performer);
 
             // Act
-            var result = controller.Create(performer) as ViewResult;
+            var result = controller.Create(performerViewModel) as ViewResult;
 
             // Assert
             Assert.AreEqual(performer, result?.Model);
@@ -82,8 +103,8 @@ namespace MusicCatalog.UnitTests
             // Arrange
             var performerId = 100;
             var mockService = new Mock<IPerformersService>();
-            mockService.Setup(service => service.GetPerformerById(performerId)).Returns((Performer)null);
-            var controller = new PerformersController(mockService.Object);
+            mockService.Setup(service => service.GetPerformerById(performerId)).Returns((PerformerDto)null);
+            var controller = new PerformersController(mockService.Object, _mapper);
 
             // Act
             var result = controller.Edit(performerId);
@@ -96,13 +117,14 @@ namespace MusicCatalog.UnitTests
         public void Edit_EditPerformer_ReturnsARedirectToIndex()
         {
             // Arrange
-            var performer = new Performer { PerformerId = 1, Name = "TestPerformer" };
+            var performer = new PerformerDto { PerformerId = 1, Name = "TestPerformer" };
             var mockService = new Mock<IPerformersService>();
             mockService.Setup(service => service.UpdatePerformer(performer)).Verifiable();
-            var controller = new PerformersController(mockService.Object);
+            var controller = new PerformersController(mockService.Object, _mapper);
+            var performerViewModel = _mapper.Map<PerformerViewModel>(performer);
 
             // Act
-            var result = controller.Edit(performer);
+            var result = controller.Edit(performerViewModel);
 
             // Assert
             Assert.That(result, Is.InstanceOf<RedirectToActionResult>());
@@ -114,8 +136,8 @@ namespace MusicCatalog.UnitTests
             // Arrange
             var performerId = 100;
             var mockService = new Mock<IPerformersService>();
-            mockService.Setup(service => service.GetPerformerById(performerId)).Returns((Performer)null);
-            var controller = new PerformersController(mockService.Object);
+            mockService.Setup(service => service.GetPerformerById(performerId)).Returns((PerformerDto)null);
+            var controller = new PerformersController(mockService.Object, _mapper);
 
             // Act
             var result = controller.Delete(performerId);
@@ -129,10 +151,10 @@ namespace MusicCatalog.UnitTests
         public void Delete_DeletePerformer_ReturnsAViewResult()
         {
             // Arrange
-            var performer = new Performer { PerformerId = 1, Name = "TestPerformer" };
+            var performer = new PerformerDto { PerformerId = 1, Name = "TestPerformer" };
             var mockService = new Mock<IPerformersService>();
             mockService.Setup(service => service.GetPerformerById(performer.PerformerId)).Returns(performer);
-            var controller = new PerformersController(mockService.Object);
+            var controller = new PerformersController(mockService.Object, _mapper);
 
             // Act
             var result = controller.Delete(performer.PerformerId);
@@ -142,16 +164,16 @@ namespace MusicCatalog.UnitTests
             Assert.That(result, Is.InstanceOf<ViewResult>());
         }
 
-        private List<Performer> GetTestPerformers()
+        private List<PerformerDto> GetTestPerformers()
         {
-            var genres = new List<Performer>
+            var performers = new List<PerformerDto>
             {
-                new Performer { PerformerId = 1, Name = "TestPerformer1" },
-                new Performer { PerformerId = 2, Name = "TestPerformer2" },
-                new Performer { PerformerId = 3, Name = "TestPerformer3" },
+                new PerformerDto { PerformerId = 1, Name = "TestPerformer1" },
+                new PerformerDto { PerformerId = 2, Name = "TestPerformer2" },
+                new PerformerDto { PerformerId = 3, Name = "TestPerformer3" },
             };
 
-            return genres;
+            return performers;
         }
     }
 }
