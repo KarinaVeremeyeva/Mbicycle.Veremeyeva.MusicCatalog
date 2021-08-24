@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services.Interfaces;
+using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace MusicCatalog.Web.Controllers
@@ -34,13 +37,20 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IAlbumsService _albumsService;
 
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
         public HomeController(ISongsService songsService, IGenresService genresService,
-                            IPerformersService performersService, IAlbumsService albumsService)
+                            IPerformersService performersService, IAlbumsService albumsService,
+                            IMapper mapper)
         {
             _songsService = songsService;
             _genresService = genresService;
             _performersService = performersService;
             _albumsService = albumsService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -70,11 +80,12 @@ namespace MusicCatalog.Web.Controllers
         {
             ViewData["CurrentFilter"] = searchString;
 
-            var songs = _songsService.GetSongs();
+            var songModels = _songsService.GetSongs();
+            var songs = _mapper.Map<List<SongViewModel>>(songModels);
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                songs = songs.Where(s => s.Name.Contains(searchString));
+                songModels = songModels.Where(s => s.Name.Contains(searchString));
             }
 
             return View(songs);
@@ -96,11 +107,13 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Post-request for creating song
         /// </summary>
-        /// <param name="song">Song</param>
+        /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public IActionResult Create(Song song)
+        public IActionResult Create(SongViewModel songViewModel)
         {
+            var song = _mapper.Map<SongDto>(songViewModel);
+
             if (ModelState.IsValid)
             {
                 _songsService.CreateSong(song);
@@ -112,7 +125,7 @@ namespace MusicCatalog.Web.Controllers
             PopulatePerformersDropDownList(song.PerformerId);
             PopulateAlbumsDropDownList(song.AlbumId);
 
-            return View(song);
+            return View(songViewModel);
         }
 
         /// <summary>
@@ -123,6 +136,7 @@ namespace MusicCatalog.Web.Controllers
         public IActionResult Edit(int id)
         {
             var songToUpdate = _songsService.GetSongById(id);
+            var song = _mapper.Map<SongViewModel>(songToUpdate);
 
             if (songToUpdate == null)
             {
@@ -133,17 +147,19 @@ namespace MusicCatalog.Web.Controllers
             PopulatePerformersDropDownList(songToUpdate.PerformerId);
             PopulateAlbumsDropDownList(songToUpdate.AlbumId);
 
-            return View(songToUpdate);
+            return View(song);
         }
 
         /// <summary>
         /// Post-request for editing song
         /// </summary>
-        /// <param name="song">Song</param>
+        /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public IActionResult Edit(Song song)
+        public IActionResult Edit(SongViewModel songViewModel)
         {
+            var song = _mapper.Map<SongDto>(songViewModel);
+
             if (ModelState.IsValid)
             {
                 _songsService.UpdateSong(song);
@@ -165,13 +181,14 @@ namespace MusicCatalog.Web.Controllers
         public IActionResult Delete(int id)
         {
             var songToDelete = _songsService.GetSongById(id);
+            var song = _mapper.Map<SongViewModel>(songToDelete);
 
             if (songToDelete == null)
             {
                 return NotFound();
             }
 
-            return View(songToDelete);
+            return View(song);
         }
 
         /// <summary>

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services.Interfaces;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.ViewModels;
+using System.Collections.Generic;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -14,9 +17,15 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IAlbumsService _albumsService;
 
-        public AlbumsController(IAlbumsService albumsService)
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        public AlbumsController(IAlbumsService albumsService, IMapper mapper)
         {
             _albumsService = albumsService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -25,7 +34,8 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>View with a album list</returns>
         public ActionResult Index()
         {
-            var albums = _albumsService.GetAlbums();
+            var albumModels = _albumsService.GetAlbums();
+            var albums = _mapper.Map<List<AlbumViewModel>>(albumModels);
 
             return View(albums);
         }
@@ -42,11 +52,13 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Post-request for creating album
         /// </summary>
-        /// <param name="album">Album</param>
+        /// <param name="albumViewModel">Album</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(Album album)
+        public ActionResult Create(AlbumViewModel albumViewModel)
         {
+            var album = _mapper.Map<AlbumDto>(albumViewModel);
+
             if (ModelState.IsValid)
             {
                 _albumsService.CreateAlbum(album);
@@ -54,7 +66,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(album);
+            return View(albumViewModel);
         }
 
         /// <summary>
@@ -65,23 +77,26 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult Edit(int id)
         {
             var albumToUpdate = _albumsService.GetAlbumById(id);
+            var album = _mapper.Map<AlbumViewModel>(albumToUpdate);
 
             if (albumToUpdate == null)
             {
                 return NotFound();
             }
 
-            return View(albumToUpdate);
+            return View(album);
         }
 
         /// <summary>
         /// Post-request for editing album
         /// </summary>
-        /// <param name="album">Album</param>
+        /// <param name="albumViewModel">Album</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(Album album)
+        public ActionResult Edit(AlbumViewModel albumViewModel)
         {
+            var album = _mapper.Map<AlbumDto>(albumViewModel);
+
             if (ModelState.IsValid)
             {
                 _albumsService.UpdateAlbum(album);
@@ -100,13 +115,14 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult Delete(int id)
         {
             var albumToDelete = _albumsService.GetAlbumById(id);
+            var album = _mapper.Map<AlbumViewModel>(albumToDelete);
 
             if (albumToDelete == null)
             {
                 return NotFound();
             }
 
-            return View(albumToDelete);
+            return View(album);
         }
 
         /// <summary>

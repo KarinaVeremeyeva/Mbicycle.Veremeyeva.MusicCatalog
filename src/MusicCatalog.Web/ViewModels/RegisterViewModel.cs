@@ -8,19 +8,15 @@ namespace MusicCatalog.Web.ViewModels
     public class RegisterViewModel
     {
         /// <summary>
-        /// User name
-        /// </summary>
-        //[Required]
-        //[Display(Name = "Username")]
-        //public string UserName { get; set; }
-
-        /// <summary>
         /// Email
         /// </summary>
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        /// <summary>
+        /// Year of birth
+        /// </summary>
         [Required]
         [Display(Name = "Year of birth")]
         public int YearOfBirth { get; set; }

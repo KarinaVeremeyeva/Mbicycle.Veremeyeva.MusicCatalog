@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services.Interfaces;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.ViewModels;
+using System;
+using System.Collections.Generic;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -14,9 +18,15 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IPerformersService _performersService;
 
-        public PerformersController(IPerformersService performersService)
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        public PerformersController(IPerformersService performersService, IMapper mapper)
         {
             _performersService = performersService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -25,7 +35,8 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>View with performers</returns>
         public ActionResult Index()
         {
-            var performers = _performersService.GetPerformers();
+            var performerModels = _performersService.GetPerformers();
+            var performers = _mapper.Map<List<PerformerViewModel>>(performerModels);
 
             return View(performers);
         }
@@ -42,11 +53,13 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Post-request for creating performer
         /// </summary>
-        /// <param name="performer">Performer</param>
+        /// <param name="performerViewModel">Performer</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(Performer performer)
+        public ActionResult Create(PerformerViewModel performerViewModel)
         {
+            var performer = _mapper.Map<PerformerDto>(performerViewModel);
+
             if (ModelState.IsValid)
             {
                 _performersService.CreatePerformer(performer);
@@ -54,7 +67,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(performer);
+            return View(performerViewModel);
         }
 
         /// <summary>
@@ -65,23 +78,26 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult Edit(int id)
         {
             var performerToUpdate = _performersService.GetPerformerById(id);
+            var performer = _mapper.Map<PerformerViewModel>(performerToUpdate);
 
             if (performerToUpdate == null)
             {
                 return NotFound();
             }
 
-            return View(performerToUpdate);
+            return View(performer);
         }
 
         /// <summary>
         /// Post-request for editing performer
         /// </summary>
-        /// <param name="performer">Performer</param>
+        /// <param name="performerViewModel">Performer</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(Performer performer)
+        public ActionResult Edit(PerformerViewModel performerViewModel)
         {
+            var performer = _mapper.Map<PerformerDto>(performerViewModel);
+
             if (ModelState.IsValid)
             {
                 _performersService.UpdatePerformer(performer);
@@ -100,13 +116,14 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult Delete(int id)
         {
             var performerToDelete = _performersService.GetPerformerById(id);
+            var performer = _mapper.Map<PerformerViewModel>(performerToDelete);
 
             if (performerToDelete == null)
             {
                 return NotFound();
             }
 
-            return View(performerToDelete);
+            return View(performer);
         }
 
         /// <summary>

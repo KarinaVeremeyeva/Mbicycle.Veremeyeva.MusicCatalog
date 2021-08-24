@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Song>
+﻿@model IEnumerable<SongViewModel>
 @inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = Localizer["Title"];
@@ -39,9 +39,9 @@
         <tr>
             <td>@Html.DisplayFor(modelItem => song.SongId)</td>
             <td>@Html.DisplayFor(modelItem => song.Name)</td>
-            <td>@Html.DisplayFor(modelItem => song.Genre.Name)</td>
-            <td>@Html.DisplayFor(modelItem => song.Performer.Name)</td>
-            <td>@Html.DisplayFor(modelItem => song.Album.Name)</td>
+            <td>@Html.DisplayFor(modelItem => song.GenreName)</td>
+            <td>@Html.DisplayFor(modelItem => song.PerformerName)</td>
+            <td>@Html.DisplayFor(modelItem => song.AlbumName)</td>
             <td>
                 @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = song.SongId })
                 @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = song.SongId })

@@ -15,7 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\MusicCatalog.Services\MusicCatalog.Services.csproj" />
     <ProjectReference Include="..\..\src\MusicCatalog.Web\MusicCatalog.Web.csproj" />
   </ItemGroup>
 

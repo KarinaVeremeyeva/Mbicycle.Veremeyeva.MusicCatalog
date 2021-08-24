@@ -1,5 +1,4 @@
-﻿@model Song
-@inject IViewLocalizer Localizer
+﻿@model SongViewModel
 @{
     ViewData["Title"] = Localizer["Title"];
 }
@@ -16,15 +15,15 @@
         </dd>
         <dt>@Localizer["Genre"]</dt>
         <dd>
-            @Html.DisplayFor(model => model.Genre.Name)
+            @Html.DisplayFor(model => model.GenreName)
         </dd>
         <dt>@Localizer["Performer"]</dt>
         <dd>
-            @Html.DisplayFor(model => model.Performer.Name)
+            @Html.DisplayFor(model => model.PerformerName)
         </dd>
         <dt>@Localizer["Album"]</dt>
         <dd>
-            @Html.DisplayFor(model => model.Album.Name)
+            @Html.DisplayFor(model => model.AlbumName)
         </dd>
     </dl>
     <form asp-action="Delete">

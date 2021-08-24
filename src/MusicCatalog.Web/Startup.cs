@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -7,11 +8,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using MusicCatalog.BusinessLogic;
+using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.BusinessLogic.Services;
 using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
-using MusicCatalog.Services;
-using MusicCatalog.Services.Interfaces;
 using MusicCatalog.Web.Models;
 using System.Collections.Generic;
 using System.Globalization;
@@ -37,6 +39,14 @@ namespace MusicCatalog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var mapping = new MapperConfiguration(
+                map =>
+                {
+                    map.AddProfile<BLLProfile>();
+                    map.AddProfile<WebProfile>();
+                });
+
+            services.AddSingleton(mapping.CreateMapper());
 
             services.AddScoped<IRepository<Genre>, EFGenreRepository>();
             services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
@@ -96,11 +106,6 @@ namespace MusicCatalog.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                app.UseHsts();
             }
 
             app.UseStaticFiles();

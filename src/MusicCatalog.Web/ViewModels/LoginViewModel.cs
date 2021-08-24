@@ -12,6 +12,7 @@ namespace MusicCatalog.Web.ViewModels
         /// </summary>
         [Required]
         [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         /// <summary>

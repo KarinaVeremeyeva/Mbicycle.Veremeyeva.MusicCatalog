@@ -7,6 +7,9 @@ namespace MusicCatalog.Web.Models
     /// </summary>
     public class User : IdentityUser
     {
+        /// <summary>
+        /// Year of birth
+        /// </summary>
         public int YearOfBirth { get; set; }
     }
 }

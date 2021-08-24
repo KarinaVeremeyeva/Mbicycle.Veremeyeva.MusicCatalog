@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Web.Models;
 using MusicCatalog.Web.ViewModels;
@@ -21,10 +22,17 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly SignInManager<User> _signInManager;
 
-        public AccountsController(UserManager<User> userManager, SignInManager<User> signInManager)
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        public AccountsController(UserManager<User> userManager, SignInManager<User> signInManager,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -46,8 +54,7 @@ namespace MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Email = model.Email, UserName = model.Email,
-                    YearOfBirth = model.YearOfBirth };
+                var user = _mapper.Map<User>(model);
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)

@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.DataAccess", "
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "MusicCatalog.Database", "src\MusicCatalog.Database\MusicCatalog.Database.sqlproj", "{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.Services", "src\MusicCatalog.Services\MusicCatalog.Services.csproj", "{08FF2E99-97F9-4511-B155-8D4B0DFA9784}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.Web", "src\MusicCatalog.Web\MusicCatalog.Web.csproj", "{228D75DE-734F-4258-99FE-7089BCEF0F5A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}"
@@ -18,6 +16,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.UnitTests", "tests\MusicCatalog.UnitTests\MusicCatalog.UnitTests.csproj", "{9CF5D080-EA48-4646-91CA-194119B48ED8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.IntegrationTests", "tests\MusicCatalog.IntegrationTests\MusicCatalog.IntegrationTests.csproj", "{80CB7906-482D-47B1-BF5F-A8961263F436}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCatalog.BusinessLogic", "src\MusicCatalog.BusinessLogic\MusicCatalog.BusinessLogic.csproj", "{52D16978-5745-45CA-913F-35DCDD3AC00A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,6 @@ Global
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08FF2E99-97F9-4511-B155-8D4B0DFA9784}.Release|Any CPU.Build.0 = Release|Any CPU
 		{228D75DE-734F-4258-99FE-7089BCEF0F5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{228D75DE-734F-4258-99FE-7089BCEF0F5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{228D75DE-734F-4258-99FE-7089BCEF0F5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -51,6 +47,10 @@ Global
 		{80CB7906-482D-47B1-BF5F-A8961263F436}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{80CB7906-482D-47B1-BF5F-A8961263F436}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{80CB7906-482D-47B1-BF5F-A8961263F436}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,10 +58,10 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{DEB4D13A-C868-489A-A3F4-9AB34022566F} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
 		{017D85D7-8F33-4AA0-86E6-FCC33A3348E6} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
-		{08FF2E99-97F9-4511-B155-8D4B0DFA9784} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
 		{228D75DE-734F-4258-99FE-7089BCEF0F5A} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
 		{9CF5D080-EA48-4646-91CA-194119B48ED8} = {A96B76DE-A40D-4119-9C0A-9BEDF3412DCA}
 		{80CB7906-482D-47B1-BF5F-A8961263F436} = {A96B76DE-A40D-4119-9C0A-9BEDF3412DCA}
+		{52D16978-5745-45CA-913F-35DCDD3AC00A} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {177EE9A9-5031-484E-A389-0AD3A3BA4770}

@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.Services.Interfaces;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.ViewModels;
+using System.Collections.Generic;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -14,9 +17,15 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IGenresService _genresService;
 
-        public GenresController(IGenresService genresService)
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
+        public GenresController(IGenresService genresService, IMapper mapper)
         {
             _genresService = genresService;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -25,7 +34,8 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>View with genres</returns>
         public ActionResult Index()
         {
-            var genres = _genresService.GetGenres();
+            var genreModels = _genresService.GetGenres();
+            var genres = _mapper.Map<List<GenreViewModel>>(genreModels);
 
             return View(genres);
         }
@@ -42,11 +52,13 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Post-request for creating genre
         /// </summary>
-        /// <param name="genre">Genre</param>
+        /// <param name="genreViewModel">Genre</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(Genre genre)
+        public ActionResult Create(GenreViewModel genreViewModel)
         {
+            var genre = _mapper.Map<GenreDto>(genreViewModel);
+
             if (ModelState.IsValid)
             {
                 _genresService.CreateGenre(genre);
@@ -54,7 +66,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(genre);
+            return View(genreViewModel);
         }
 
         /// <summary>
@@ -65,23 +77,26 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult Edit(int id)
         {
             var genreToUpdate = _genresService.GetGenreById(id);
+            var genre = _mapper.Map<GenreViewModel>(genreToUpdate);
 
             if (genreToUpdate == null)
             {
                 return NotFound();
             }
 
-            return View(genreToUpdate);
+            return View(genre);
         }
 
         /// <summary>
         /// Post-request for editing genre
         /// </summary>
-        /// <param name="genre">Genre</param>
+        /// <param name="genreViewModel">Genre</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(Genre genre)
+        public ActionResult Edit(GenreViewModel genreViewModel)
         {
+            var genre = _mapper.Map<GenreDto>(genreViewModel);
+
             if (ModelState.IsValid)
             {
                 _genresService.UpdateGenre(genre);
@@ -100,13 +115,14 @@ namespace MusicCatalog.Web.Controllers
         public ActionResult Delete(int id)
         {
             var genreToDelete = _genresService.GetGenreById(id);
+            var genre = _mapper.Map<GenreViewModel>(genreToDelete);
 
             if (genreToDelete == null)
             {
                 return NotFound();
             }
 
-            return View(genreToDelete);
+            return View(genre);
         }
 
         /// <summary>

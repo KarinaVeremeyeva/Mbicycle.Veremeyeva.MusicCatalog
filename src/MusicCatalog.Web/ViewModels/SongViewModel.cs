@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicCatalog.DataAccess.Entities;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MusicCatalog.Web.ViewModels
 {
@@ -11,32 +8,47 @@ namespace MusicCatalog.Web.ViewModels
     public class SongViewModel
     {
         /// <summary>
+        /// Primary key
+        /// </summary>
+        public int SongId { get; set; }
+
+        /// <summary>
         /// Song name
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "Name is not specified")]
         public string Name { get; set; }
 
         /// <summary>
-        /// Select list of albums
+        /// Album id
         /// </summary>
-        [Required]
-        public SelectList Albums { get; set; }
+        [Required(ErrorMessage = "Album is not specified")]
+        public int AlbumId { get; set; }
 
         /// <summary>
-        /// Select list of genres
+        /// Genre id
         /// </summary>
-        [Required]
-        public SelectList Genres { get; set; }
+        [Required(ErrorMessage = "Genre is not specified")]
+        public int GenreId { get; set; }
 
         /// <summary>
-        /// Select list of performers
+        /// Performer id
         /// </summary>
-        [Required]
-        public SelectList Performers { get; set; }
+        [Required(ErrorMessage = "Performer is not specified")]
+        public int PerformerId { get; set; }
 
         /// <summary>
-        /// Songs collection
+        /// Album's name
         /// </summary>
-        public IEnumerable<Song> Songs { get; set; }
+        public string AlbumName { get; set; }
+
+        /// <summary>
+        /// Genres's name
+        /// </summary>
+        public string GenreName { get; set; }
+
+        /// <summary>
+        /// Performer's name
+        /// </summary>
+        public string PerformerName { get; set; }
     }
 }
