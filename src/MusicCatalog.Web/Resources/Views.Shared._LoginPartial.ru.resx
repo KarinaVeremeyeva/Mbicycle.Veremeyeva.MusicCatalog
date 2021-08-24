@@ -121,7 +121,10 @@
     <value>Вход</value>
   </data>
   <data name="Logout" xml:space="preserve">
-    <value>Выход</value>
+    <value>Выйти</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Вы вошли как</value>
   </data>
   <data name="Register" xml:space="preserve">
     <value>Регистрация</value>

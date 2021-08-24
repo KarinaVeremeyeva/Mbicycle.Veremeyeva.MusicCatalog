@@ -10,9 +10,9 @@ namespace MusicCatalog.Web.ViewModels
         /// <summary>
         /// User name
         /// </summary>
-        [Required]
-        [Display(Name = "Username")]
-        public string UserName { get; set; }
+        //[Required]
+        //[Display(Name = "Username")]
+        //public string UserName { get; set; }
 
         /// <summary>
         /// Email
@@ -20,6 +20,10 @@ namespace MusicCatalog.Web.ViewModels
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Year of birth")]
+        public int YearOfBirth { get; set; }
 
         /// <summary>
         /// Password

@@ -46,7 +46,8 @@ namespace MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { Name = model.UserName, Email = model.Email };
+                var user = new User { Email = model.Email, UserName = model.Email,
+                    YearOfBirth = model.YearOfBirth };
                 var result = await _userManager.CreateAsync(user, model.Password);
 
                 if (result.Succeeded)

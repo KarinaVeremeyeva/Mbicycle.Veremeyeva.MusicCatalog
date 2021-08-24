@@ -1,5 +1,4 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject IViewLocalizer Localizer
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 
@@ -7,7 +6,7 @@
     @if (SignInManager.IsSignedIn(User))
     {
         <li class="nav-item mr-2">
-            <a class="nav-link text-dark">Signed in as @User.Identity.Name</a>
+            <a class="nav-link text-dark">@Localizer["Message"] @User.Identity.Name</a>
         </li>
         <li class="nav-item">
             <form method="post" asp-controller="Accounts" asp-action="Logout" class="form-inline">

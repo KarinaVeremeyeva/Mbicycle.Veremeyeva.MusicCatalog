@@ -123,6 +123,9 @@
   <data name="Logout" xml:space="preserve">
     <value>Logout</value>
   </data>
+  <data name="Message" xml:space="preserve">
+    <value>Signed in as</value>
+  </data>
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>

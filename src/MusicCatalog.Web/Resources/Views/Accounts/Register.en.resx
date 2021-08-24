@@ -132,7 +132,7 @@
   <data name="Register" xml:space="preserve">
     <value>Register</value>
   </data>
-  <data name="UserName" xml:space="preserve">
-    <value>Username</value>
+  <data name="YearOfBirth" xml:space="preserve">
+    <value>YearOfBirth</value>
   </data>
 </root>
