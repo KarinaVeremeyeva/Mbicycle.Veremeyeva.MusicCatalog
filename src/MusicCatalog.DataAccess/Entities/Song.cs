@@ -1,7 +1,7 @@
 ﻿namespace MusicCatalog.DataAccess.Entities
 {
     /// <summary>
-    /// Represents a song
+    /// Represents a song entity
     /// </summary>
     public class Song
     {

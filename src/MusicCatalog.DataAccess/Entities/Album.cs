@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 namespace MusicCatalog.DataAccess.Entities
 {
     /// <summary>
-    /// Represents an album
+    /// Represents an album entity
     /// </summary>
     public class Album
     {
@@ -19,7 +18,6 @@ namespace MusicCatalog.DataAccess.Entities
         /// </summary>
         public string Name { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd'/'MM'/'yyyy}")]
         /// <summary>
         /// Release date
         /// </summary>
