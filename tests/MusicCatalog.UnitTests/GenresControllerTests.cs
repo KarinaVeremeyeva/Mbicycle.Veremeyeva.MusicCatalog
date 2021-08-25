@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
-using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.Web.Controllers;
 using MusicCatalog.Web.ViewModels;
 using NUnit.Framework;
@@ -101,7 +100,7 @@ namespace MusicCatalog.UnitTests
             var result = controller.Create(genreViewModel) as ViewResult;
 
             // Assert
-            Assert.AreEqual(genre, result?.Model);
+            Assert.AreEqual(genreViewModel, result?.Model);
         }
 
         [Test]

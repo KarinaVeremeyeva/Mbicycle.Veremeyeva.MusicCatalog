@@ -8,10 +8,10 @@ namespace MusicCatalog.UnitTests
     {
         public TestProfile()
         {
-            this.CreateMap<AlbumDto, AlbumViewModel>();
-            this.CreateMap<GenreDto, GenreViewModel>();
-            this.CreateMap<PerformerDto, PerformerViewModel>();
-            this.CreateMap<SongDto, SongViewModel>()
+            CreateMap<AlbumDto, AlbumViewModel>();
+            CreateMap<GenreDto, GenreViewModel>();
+            CreateMap<PerformerDto, PerformerViewModel>();
+            CreateMap<SongDto, SongViewModel>()
                 .ForMember(
                     dest => dest.AlbumId,
                     opt => opt.MapFrom(src => src.AlbumId))
@@ -19,13 +19,15 @@ namespace MusicCatalog.UnitTests
                     dest => dest.GenreId,
                     opt => opt.MapFrom(src => src.GenreId))
                 .ForMember(
-                     dest => dest.GenreId,
+                    dest => dest.PerformerId,
                     opt => opt.MapFrom(src => src.PerformerId));
 
-            this.CreateMap<AlbumViewModel, AlbumDto>();
-            this.CreateMap<GenreViewModel, GenreDto>();
-            this.CreateMap<PerformerViewModel, PerformerDto>();
-            this.CreateMap<SongViewModel, SongDto>();
+            CreateMap<AlbumViewModel, AlbumDto>()
+                .ForMember(dest => dest.Songs, opt => opt.Ignore());
+            CreateMap<GenreViewModel, GenreDto>()
+                .ForMember(dest => dest.Songs, opt => opt.Ignore());
+            CreateMap<PerformerViewModel, PerformerDto>()
+                .ForMember(dest => dest.Songs, opt => opt.Ignore());
         }
     }
 }

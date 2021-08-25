@@ -23,7 +23,7 @@ namespace MusicCatalog.Web
                     dest => dest.GenreId,
                     opt => opt.MapFrom(src => src.GenreId))
                 .ForMember(
-                     dest => dest.GenreId,
+                     dest => dest.PerformerId,
                     opt => opt.MapFrom(src => src.PerformerId));
             CreateMap<RegisterViewModel, User>()
                 .ForMember(
