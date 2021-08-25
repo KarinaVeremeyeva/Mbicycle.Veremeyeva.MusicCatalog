@@ -43,7 +43,6 @@
         /// <summary>
         /// Reference navigation property for album
         /// </summary>
-
         public AlbumDto Album { get; set; }
     }
 }
