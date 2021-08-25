@@ -117,37 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Album" xml:space="preserve">
-    <value>Album</value>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Почта не указана</value>
   </data>
-  <data name="Back to list" xml:space="preserve">
-    <value>Back to list</value>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>Длина строки должна быть от {2} до {1} символов.</value>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Create</value>
-  </data>
-  <data name="CreateHeader" xml:space="preserve">
-    <value>Create song</value>
-  </data>
-  <data name="Genre" xml:space="preserve">
-    <value>Genre</value>
-  </data>
-  <data name="Name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="Performer" xml:space="preserve">
-    <value>Performer</value>
-  </data>
-  <data name="SelectAlbum" xml:space="preserve">
-    <value>-- Select album --</value>
-  </data>
-  <data name="SelectGenre" xml:space="preserve">
-    <value>-- Select genre --</value>
-  </data>
-  <data name="SelectPerformer" xml:space="preserve">
-    <value>-- Select performer --</value>
-  </data>
-  <data name="Title" xml:space="preserve">
-    <value>Create</value>
+  <data name="PasswordRequired" xml:space="preserve">
+    <value>Пароль не указан</value>
   </data>
 </root>

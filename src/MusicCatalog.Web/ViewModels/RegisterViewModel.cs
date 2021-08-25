@@ -10,30 +10,32 @@ namespace MusicCatalog.Web.ViewModels
         /// <summary>
         /// Email
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "EmailRequired")]
+        [DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         /// <summary>
         /// Year of birth
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "YearOfBirthRequired")]
         [Display(Name = "Year of birth")]
-        public int YearOfBirth { get; set; }
+        [Range(1900, 2021, ErrorMessage ="YearRange")]
+        public int? YearOfBirth { get; set; }
 
         /// <summary>
         /// Password
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "PasswordRequired")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "PasswordLength")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
 
         /// <summary>
         /// Confirm password
         /// </summary>
-        [Required]
-        [Compare("Password", ErrorMessage = "Password mismatch")]
+        [Required(ErrorMessage = "PasswordConfirmRequired")]
+        [Compare("Password", ErrorMessage = "PasswordMismatch")]
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string PasswordConfirm { get; set; }

@@ -42,7 +42,7 @@ namespace MusicCatalog.Web
             var mapping = new MapperConfiguration(
                 map =>
                 {
-                    map.AddProfile<BLLProfile>();
+                    map.AddProfile<BusinessLogicProfile>();
                     map.AddProfile<WebProfile>();
                 });
 

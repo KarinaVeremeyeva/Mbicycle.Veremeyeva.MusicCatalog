@@ -15,26 +15,27 @@ namespace MusicCatalog.Web.ViewModels
         /// <summary>
         /// Song name
         /// </summary>
-        [Required(ErrorMessage = "Name is not specified")]
+        [Required(ErrorMessage = "NameRequired")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "NameLength")]
         public string Name { get; set; }
 
         /// <summary>
         /// Album id
         /// </summary>
-        [Required(ErrorMessage = "Album is not specified")]
-        public int AlbumId { get; set; }
+        [Required(ErrorMessage = "AlbumRequired")]
+        public int? AlbumId { get; set; }
 
         /// <summary>
         /// Genre id
         /// </summary>
-        [Required(ErrorMessage = "Genre is not specified")]
-        public int GenreId { get; set; }
+        [Required(ErrorMessage = "GenreRequired")]
+        public int? GenreId { get; set; }
 
         /// <summary>
         /// Performer id
         /// </summary>
-        [Required(ErrorMessage = "Performer is not specified")]
-        public int PerformerId { get; set; }
+        [Required(ErrorMessage = "PerformerRequired")]
+        public int? PerformerId { get; set; }
 
         /// <summary>
         /// Album's name

@@ -138,6 +138,15 @@
   <data name="Save" xml:space="preserve">
     <value>Сохранить</value>
   </data>
+  <data name="SelectAlbum" xml:space="preserve">
+    <value>-- Выбор альбома --</value>
+  </data>
+  <data name="SelectGenre" xml:space="preserve">
+    <value>-- Выбор жанра --</value>
+  </data>
+  <data name="SelectPerformer" xml:space="preserve">
+    <value>-- Выбор исполнителя --</value>
+  </data>
   <data name="Title" xml:space="preserve">
     <value>Изменить</value>
   </data>

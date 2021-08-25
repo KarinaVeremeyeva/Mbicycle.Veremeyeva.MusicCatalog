@@ -10,17 +10,16 @@ namespace MusicCatalog.Web.ViewModels
         /// <summary>
         /// Email
         /// </summary>
-        [Required]
-        [Display(Name = "Email")]
+        [Required(ErrorMessage = "EmailRequired")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
 
         /// <summary>
         /// Password
         /// </summary>
-        [Required]
+        [Required(ErrorMessage = "PasswordRequired")]
+        [StringLength(30, MinimumLength = 8, ErrorMessage = "PasswordLength")]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
         public string Password { get; set; }
 
         /// <summary>

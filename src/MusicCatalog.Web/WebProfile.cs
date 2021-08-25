@@ -12,10 +12,10 @@ namespace MusicCatalog.Web
     {
         public WebProfile()
         {
-            this.CreateMap<AlbumDto, AlbumViewModel>();
-            this.CreateMap<GenreDto, GenreViewModel>();
-            this.CreateMap<PerformerDto, PerformerViewModel>();
-            this.CreateMap<SongDto, SongViewModel>()
+            CreateMap<AlbumDto, AlbumViewModel>();
+            CreateMap<GenreDto, GenreViewModel>();
+            CreateMap<PerformerDto, PerformerViewModel>();
+            CreateMap<SongDto, SongViewModel>()
                 .ForMember(
                     dest => dest.AlbumId,
                     opt => opt.MapFrom(src => src.AlbumId))
@@ -25,7 +25,7 @@ namespace MusicCatalog.Web
                 .ForMember(
                      dest => dest.GenreId,
                     opt => opt.MapFrom(src => src.PerformerId));
-            this.CreateMap<RegisterViewModel, User>()
+            CreateMap<RegisterViewModel, User>()
                 .ForMember(
                     dest => dest.UserName,
                     opt => opt.MapFrom(src => src.Email))
@@ -33,10 +33,10 @@ namespace MusicCatalog.Web
                   dest => dest.YearOfBirth,
                     opt => opt.MapFrom(src => src.YearOfBirth));
 
-            this.CreateMap<AlbumViewModel, AlbumDto>();
-            this.CreateMap<GenreViewModel, GenreDto>();
-            this.CreateMap<PerformerViewModel, PerformerDto>();
-            this.CreateMap<SongViewModel, SongDto>();
+            CreateMap<AlbumViewModel, AlbumDto>();
+            CreateMap<GenreViewModel, GenreDto>();
+            CreateMap<PerformerViewModel, PerformerDto>();
+            CreateMap<SongViewModel, SongDto>();
         }
     }
 }

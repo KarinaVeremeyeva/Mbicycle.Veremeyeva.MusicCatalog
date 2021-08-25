@@ -81,12 +81,13 @@ namespace MusicCatalog.Web.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             var songModels = _songsService.GetSongs();
-            var songs = _mapper.Map<List<SongViewModel>>(songModels);
 
             if (!string.IsNullOrEmpty(searchString))
             {
                 songModels = songModels.Where(s => s.Name.Contains(searchString));
             }
+
+            var songs = _mapper.Map<List<SongViewModel>>(songModels);
 
             return View(songs);
         }
@@ -225,7 +226,7 @@ namespace MusicCatalog.Web.Controllers
         }
 
         /// <summary>
-        /// Populates a album dropdown list
+        /// Populates an album dropdown list
         /// </summary>
         /// <param name="selectedAlbum">Selected album</param>
         private void PopulateAlbumsDropDownList(object selectedAlbum = null)

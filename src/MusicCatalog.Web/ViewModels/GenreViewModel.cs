@@ -15,9 +15,8 @@ namespace MusicCatalog.Web.ViewModels
         /// <summary>
         /// Genre name
         /// </summary>
-        [Required(ErrorMessage = "Name is not specified")]
-        [StringLength(30, MinimumLength = 3,
-            ErrorMessage = "The string length must be between 3 and 50 characters")]
+        [Required(ErrorMessage = "NameRequired")]
+        [StringLength(30, MinimumLength = 3, ErrorMessage = "NameLength")]
         public string Name { get; set; }
     }
 }
