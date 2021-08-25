@@ -19,24 +19,23 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="song">New song</param>
         public override void Create(Song song)
         {
-            string sqlExpression = string.Format($"INSERT INTO Songs (Name, GenreId, PerformerId, AlbumId)" +
+            var sqlExpression = string.Format($"INSERT INTO Songs (Name, GenreId, PerformerId, AlbumId)" +
                 $" VALUES (@Name, @GenreId, @PerformerId, @AlbumId)");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter nameParam = new SqlParameter("@Name", song.Name);
-                SqlParameter genreIdParam = new SqlParameter("@GenreId", song.GenreId);
-                SqlParameter performerIdParam = new SqlParameter("@PerformerId", song.PerformerId);
-                SqlParameter albumIdParam = new SqlParameter("@AlbumId", song.AlbumId);
+                var command = new SqlCommand(sqlExpression, connection);
+                var nameParam = new SqlParameter("@Name", song.Name);
+                var genreIdParam = new SqlParameter("@GenreId", song.GenreId);
+                var performerIdParam = new SqlParameter("@PerformerId", song.PerformerId);
+                var albumIdParam = new SqlParameter("@AlbumId", song.AlbumId);
 
                 command.Parameters.Add(nameParam);
                 command.Parameters.Add(genreIdParam);
                 command.Parameters.Add(performerIdParam);
                 command.Parameters.Add(albumIdParam);
-
                 command.ExecuteNonQuery();
             }
         }
@@ -47,12 +46,13 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="id">Song with expecting id</param>
         public override void Delete(int id)
         {
-            string sqlExpression = string.Format($"DELETE FROM Songs WHERE SongId='{id}'");
+            var sqlExpression = string.Format($"DELETE FROM Songs WHERE SongId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                var command = new SqlCommand(sqlExpression, connection);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -64,13 +64,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override IEnumerable<Song> GetAll()
         {
             var songs = new List<Song>();
-            string sqlExpression = string.Format($"SELECT * FROM Songs");
+            var sqlExpression = string.Format($"SELECT * FROM Songs");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -100,13 +100,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override Song GetById(int id)
         {
             var song = new Song();
-            string sqlExpression = string.Format($"SELECT * FROM Songs WHERE SongId='{id}'");
+            var sqlExpression = string.Format($"SELECT * FROM Songs WHERE SongId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -130,26 +130,25 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="song">Song to update</param>
         public override void Update(Song song)
         {
-            string sqlExpression = string.Format($"UPDATE Songs SET Name=@Name, GenreId=@GenreId," +
+            var sqlExpression = string.Format($"UPDATE Songs SET Name=@Name, GenreId=@GenreId," +
                 $" PerformerId=@PerformerId, AlbumId=@AlbumId  WHERE SongId=@SongId");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter idParam = new SqlParameter("@SongId", song.SongId);
-                SqlParameter nameParam = new SqlParameter("@Name", song.Name);
-                SqlParameter genreIdParam = new SqlParameter("@GenreId", song.GenreId);
-                SqlParameter performerIdParam = new SqlParameter("@PerformerId", song.PerformerId);
-                SqlParameter albumIdParam = new SqlParameter("@AlbumId", song.AlbumId);
+                var command = new SqlCommand(sqlExpression, connection);
+                var idParam = new SqlParameter("@SongId", song.SongId);
+                var nameParam = new SqlParameter("@Name", song.Name);
+                var genreIdParam = new SqlParameter("@GenreId", song.GenreId);
+                var performerIdParam = new SqlParameter("@PerformerId", song.PerformerId);
+                var albumIdParam = new SqlParameter("@AlbumId", song.AlbumId);
 
                 command.Parameters.Add(idParam);
                 command.Parameters.Add(nameParam);
                 command.Parameters.Add(genreIdParam);
                 command.Parameters.Add(performerIdParam);
                 command.Parameters.Add(albumIdParam);
-
                 command.ExecuteNonQuery();
             }
         }

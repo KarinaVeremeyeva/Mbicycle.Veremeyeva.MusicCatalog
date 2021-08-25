@@ -19,13 +19,15 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="performer">New performer</param>
         public override void Create(Performer performer)
         {
-            string sqlExpression = string.Format($"INSERT INTO Performers (Name) VALUES (@Name)");
+            var sqlExpression = string.Format($"INSERT INTO Performers (Name) VALUES (@Name)");
             
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter nameParam = new SqlParameter("@Name", performer.Name);
+
+                var command = new SqlCommand(sqlExpression, connection);
+                var nameParam = new SqlParameter("@Name", performer.Name);
+
                 command.Parameters.Add(nameParam);
                 command.ExecuteNonQuery();
             }
@@ -37,14 +39,16 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="performer">Performer to update</param>
         public override void Update(Performer performer)
         {
-            string sqlExpression = string.Format($"UPDATE Performers SET Name=@Name WHERE PerformerId=@PerformerId");
+            var sqlExpression = string.Format($"UPDATE Performers SET Name=@Name WHERE PerformerId=@PerformerId");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter idParam = new SqlParameter("@PerformerId", performer.PerformerId);
-                SqlParameter nameParam = new SqlParameter("@Name", performer.Name);
+
+                var command = new SqlCommand(sqlExpression, connection);
+                var idParam = new SqlParameter("@PerformerId", performer.PerformerId);
+                var nameParam = new SqlParameter("@Name", performer.Name);
+
                 command.Parameters.Add(idParam);
                 command.Parameters.Add(nameParam);
                 command.ExecuteNonQuery();
@@ -57,12 +61,13 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="id">Performer id to delete</param>
         public override void Delete(int id)
         {
-            string sqlExpression = string.Format($"DELETE FROM Performers WHERE PerformerId='{id}'");
+            var sqlExpression = string.Format($"DELETE FROM Performers WHERE PerformerId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                var command = new SqlCommand(sqlExpression, connection);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -74,13 +79,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override IEnumerable<Performer> GetAll()
         {
             var performers = new List<Performer>();
-            string sqlExpression = string.Format($"SELECT * FROM Performers");
+            var sqlExpression = string.Format($"SELECT * FROM Performers");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -107,13 +112,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override Performer GetById(int id)
         {
             var performer = new Performer();
-            string sqlExpression = string.Format($"SELECT * FROM Performers WHERE PerformerId='{id}'");
+            var sqlExpression = string.Format($"SELECT * FROM Performers WHERE PerformerId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {

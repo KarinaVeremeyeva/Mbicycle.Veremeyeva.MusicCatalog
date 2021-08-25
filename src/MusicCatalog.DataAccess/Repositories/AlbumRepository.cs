@@ -19,19 +19,18 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="album">New album</param>
         public override void Create(Album album)
         {
-            string sqlExpression = string.Format($"INSERT INTO Albums (Name, ReleaseDate) VALUES (@Name, @ReleaseDate)");
+            var sqlExpression = string.Format($"INSERT INTO Albums (Name, ReleaseDate) VALUES (@Name, @ReleaseDate)");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
 
-                SqlParameter nameParam = new SqlParameter("@Name", album.Name);
-                SqlParameter dateParam = new SqlParameter("@ReleaseDate", album.ReleaseDate);
+                var command = new SqlCommand(sqlExpression, connection);
+                var nameParam = new SqlParameter("@Name", album.Name);
+                var dateParam = new SqlParameter("@ReleaseDate", album.ReleaseDate);
 
                 command.Parameters.Add(nameParam);
                 command.Parameters.Add(dateParam);
-
                 command.ExecuteNonQuery();
             }
         }
@@ -42,12 +41,13 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="id">Album with expecting id</param>
         public override void Delete(int id)
         {
-            string sqlExpression = string.Format($"DELETE FROM Albums WHERE AlbumId='{id}'");
+            var sqlExpression = string.Format($"DELETE FROM Albums WHERE AlbumId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                var command = new SqlCommand(sqlExpression, connection);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -59,13 +59,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override IEnumerable<Album> GetAll()
         {
             var albums = new List<Album>();
-            string sqlExpression = string.Format($"SELECT * FROM Albums");
+            var sqlExpression = string.Format($"SELECT * FROM Albums");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -93,13 +93,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override Album GetById(int id)
         {
             var album = new Album();
-            string sqlExpression = string.Format($"SELECT * FROM Albums WHERE AlbumId='{id}'");
+            var sqlExpression = string.Format($"SELECT * FROM Albums WHERE AlbumId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -121,21 +121,20 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="album">Album to update</param>
         public override void Update(Album album)
         {
-            string sqlExpression = string.Format($"UPDATE Albums SET Name=@Name, ReleaseDate=@ReleaseDate WHERE AlbumId=@AlbumId");
+            var sqlExpression = string.Format($"UPDATE Albums SET Name=@Name, ReleaseDate=@ReleaseDate WHERE AlbumId=@AlbumId");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
 
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter idParam = new SqlParameter("@AlbumId", album.AlbumId);
-                SqlParameter nameParam = new SqlParameter("@Name", album.Name);
-                SqlParameter dateParam = new SqlParameter("@ReleaseDate", album.ReleaseDate);
+                var command = new SqlCommand(sqlExpression, connection);
+                var idParam = new SqlParameter("@AlbumId", album.AlbumId);
+                var nameParam = new SqlParameter("@Name", album.Name);
+                var dateParam = new SqlParameter("@ReleaseDate", album.ReleaseDate);
 
                 command.Parameters.Add(idParam);
                 command.Parameters.Add(nameParam);
                 command.Parameters.Add(dateParam);
-
                 command.ExecuteNonQuery();
             }
         }
