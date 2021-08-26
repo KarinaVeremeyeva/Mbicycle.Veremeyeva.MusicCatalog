@@ -35,7 +35,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 
             if (albumToDelete == null)
             {
-                throw new ArgumentNullException($"Album with id={id} doesn't exist");
+                throw new ArgumentNullException(nameof(albumToDelete), $"Album with id={id} doesn't exist");
             }
 
             context.Albums.Remove(albumToDelete);
@@ -60,11 +60,6 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             var albumToFind = context.Albums.Find(id);
 
-            if (albumToFind == null)
-            {
-                throw new ArgumentNullException($"Album with id={id} doesn't exist");
-            }
-
             return albumToFind;
         }
 
@@ -76,7 +71,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             if (album == null)
             {
-                throw new ArgumentNullException($"Album doesn't exist");
+                throw new ArgumentNullException(nameof(album), $"Album doesn't exist");
             }
 
             context.Entry(album).State = EntityState.Modified;

@@ -35,7 +35,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 
             if (performerToDelete == null)
             {
-                throw new ArgumentNullException($"Performer with id={id} doesn't exist");
+                throw new ArgumentNullException(nameof(performerToDelete), $"Performer with id={id} doesn't exist");
             }
 
             context.Performers.Remove(performerToDelete);
@@ -60,11 +60,6 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             var performerToFind = context.Performers.Find(id);
 
-            if (performerToFind == null)
-            {
-                throw new ArgumentNullException($"Performer with id={id} doesn't exist");
-            }
-
             return performerToFind;
         }
 
@@ -76,7 +71,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             if (performer == null)
             {
-                throw new ArgumentNullException($"Performer doesn't exist");
+                throw new ArgumentNullException(nameof(performer), $"Performer doesn't exist");
             }
 
             context.Entry(performer).State = EntityState.Modified;

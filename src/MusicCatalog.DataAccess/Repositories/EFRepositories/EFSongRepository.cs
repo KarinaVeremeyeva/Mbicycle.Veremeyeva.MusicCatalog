@@ -35,7 +35,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 
             if (songToDelete == null)
             {
-                throw new ArgumentNullException($"Song with id={id} doesn't exist");
+                throw new ArgumentNullException(nameof(songToDelete), $"Song with id={id} doesn't exist");
             }
 
             context.Songs.Remove(songToDelete);
@@ -67,11 +67,6 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
                 .Include(s => s.Album)
                 .SingleOrDefault();
 
-            if (songToFind == null)
-            {
-                throw new ArgumentNullException($"Song with id={id} doesn't exist");
-            }
-
             return songToFind;
         }
 
@@ -83,7 +78,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             if (song == null)
             {
-                throw new ArgumentNullException($"Song doesn't exist");
+                throw new ArgumentNullException(nameof(song), $"Song doesn't exist");
             }
 
             context.Entry(song).State = EntityState.Modified;

@@ -108,6 +108,9 @@ namespace MusicCatalog.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseExceptionHandler("/Error");
+            app.UseStatusCodePages("text/plain", "Error. Status code : {0}");
+            
             app.UseStaticFiles();
             app.UseRouting();
 
