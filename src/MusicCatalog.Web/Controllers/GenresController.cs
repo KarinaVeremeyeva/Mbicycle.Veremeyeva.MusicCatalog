@@ -86,7 +86,7 @@ namespace MusicCatalog.Web.Controllers
 
             if (genreToUpdate == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(genre);
@@ -124,7 +124,7 @@ namespace MusicCatalog.Web.Controllers
 
             if (genreToDelete == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(genre);

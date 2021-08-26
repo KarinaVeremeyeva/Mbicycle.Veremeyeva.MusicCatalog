@@ -87,7 +87,7 @@ namespace MusicCatalog.Web.Controllers
 
             if (performerToUpdate == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(performer);
@@ -125,7 +125,7 @@ namespace MusicCatalog.Web.Controllers
 
             if (performerToDelete == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(performer);

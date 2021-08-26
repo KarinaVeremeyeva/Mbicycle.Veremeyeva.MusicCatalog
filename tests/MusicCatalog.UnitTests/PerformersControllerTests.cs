@@ -97,7 +97,7 @@ namespace MusicCatalog.UnitTests
         }
 
         [Test]
-        public void Edit_EditNotExistingPerformer_ReturnsNotFound()
+        public void Edit_EditNotExistingPerformer_ReturnsRedirectToActionResult()
         {
             // Arrange
             var performerId = 100;
@@ -109,7 +109,7 @@ namespace MusicCatalog.UnitTests
             var result = controller.Edit(performerId);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+            Assert.That(result, Is.InstanceOf<RedirectToActionResult>());
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace MusicCatalog.UnitTests
         }
 
         [Test]
-        public void Delete_DeleteNotExistingPerformer_ReturnsNotFound()
+        public void Delete_DeleteNotExistingPerformer_ReturnsRedirectToActionResult()
         {
             // Arrange
             var performerId = 100;
@@ -143,7 +143,7 @@ namespace MusicCatalog.UnitTests
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+            Assert.That(result, Is.InstanceOf<RedirectToActionResult>());
         }
 
         [Test]

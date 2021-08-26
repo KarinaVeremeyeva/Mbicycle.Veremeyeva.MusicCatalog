@@ -104,7 +104,7 @@ namespace MusicCatalog.UnitTests
         }
 
         [Test]
-        public void Edit_EditNotExistingGenre_ReturnsNotFound()
+        public void Edit_EditNotExistingGenre_ReturnsRedirectToActionResult()
         {
             // Arrange
             var genreId = 100;
@@ -116,7 +116,7 @@ namespace MusicCatalog.UnitTests
             var result = controller.Edit(genreId);
 
             // Assert
-            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+            Assert.That(result, Is.InstanceOf<RedirectToActionResult>());
         }
 
         [Test]
@@ -137,7 +137,7 @@ namespace MusicCatalog.UnitTests
         }
 
         [Test]
-        public void Delete_DeleteNotExistingGenre_ReturnsNotFound()
+        public void Delete_DeleteNotExistingGenre_RedirectToActionResult()
         {
             // Arrange
             var genreId = 100;
@@ -150,7 +150,7 @@ namespace MusicCatalog.UnitTests
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.That(result, Is.InstanceOf<NotFoundResult>());
+            Assert.That(result, Is.InstanceOf<RedirectToActionResult>());
         }
 
         [Test]

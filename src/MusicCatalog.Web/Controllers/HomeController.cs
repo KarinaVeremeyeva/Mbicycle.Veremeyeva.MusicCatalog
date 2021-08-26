@@ -151,7 +151,7 @@ namespace MusicCatalog.Web.Controllers
 
             if (songToUpdate == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             PopulateGenresDropDownList(songToUpdate.GenreId);
@@ -196,7 +196,7 @@ namespace MusicCatalog.Web.Controllers
 
             if (songToDelete == null)
             {
-                return NotFound();
+                return RedirectToAction("Error", "Home");
             }
 
             return View(song);
@@ -245,6 +245,10 @@ namespace MusicCatalog.Web.Controllers
             ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
         }
 
+        /// <summary>
+        /// Error of request
+        /// </summary>
+        /// <returns></returns>
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
