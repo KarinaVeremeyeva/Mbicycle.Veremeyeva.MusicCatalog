@@ -8,6 +8,10 @@ namespace MusicCatalog.DataAccess.Repositories
     /// <typeparam name="T">Entity</typeparam>
     public abstract class Repository<T> : IRepository<T> where T : class
     {
+        /// <summary>
+        /// Abstract generic repository
+        /// </summary>
+        /// <param name="connectionString">Connection string</param>
         public Repository(string connectionString)
         {
             ConnectionString = connectionString;

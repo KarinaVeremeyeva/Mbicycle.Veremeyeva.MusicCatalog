@@ -9,6 +9,10 @@ namespace MusicCatalog.DataAccess.Repositories
     /// </summary>
     public class GenreRepository : Repository<Genre>
     {
+        /// <summary>
+        /// Genres repository
+        /// </summary>
+        /// <param name="connectionStr">Connection string</param>
         public GenreRepository(string connectionStr) : base(connectionStr)
         {
         }

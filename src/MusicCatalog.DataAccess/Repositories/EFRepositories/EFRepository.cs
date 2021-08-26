@@ -20,6 +20,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         /// </summary>
         protected DbSet<T> dbSet;
 
+        /// <summary>
+        /// Generic repository
+        /// </summary>
+        /// <param name="context">Database context</param>
         public EFRepository(MusicContext context)
         {
             this.context = context;

@@ -9,6 +9,10 @@ namespace MusicCatalog.DataAccess.Repositories
     /// </summary>
     public class SongRepository : Repository<Song>
     {
+        /// <summary>
+        /// Songs repository
+        /// </summary>
+        /// <param name="connectionString">Connection string</param>
         public SongRepository(string connectionString) : base(connectionString)
         {
         }

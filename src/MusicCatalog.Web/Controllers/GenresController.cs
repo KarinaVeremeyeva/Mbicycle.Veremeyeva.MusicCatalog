@@ -22,6 +22,11 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Genres controller
+        /// </summary>
+        /// <param name="genresService">Genres service</param>
+        /// <param name="mapper">Mapper</param>
         public GenresController(IGenresService genresService, IMapper mapper)
         {
             _genresService = genresService;

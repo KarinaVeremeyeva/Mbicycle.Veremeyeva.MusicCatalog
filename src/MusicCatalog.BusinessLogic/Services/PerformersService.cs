@@ -20,6 +20,11 @@ namespace MusicCatalog.BusinessLogic.Services
         /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Performers service constructor
+        /// </summary>
+        /// <param name="repository">Performers repository</param>
+        /// <param name="mapper">Mapper</param>
         public PerformersService(IRepository<Performer> repository, IMapper mapper)
         {
             _performerRepository = repository;

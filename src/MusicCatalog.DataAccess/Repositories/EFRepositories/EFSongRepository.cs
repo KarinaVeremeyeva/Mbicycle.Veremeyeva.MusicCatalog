@@ -11,6 +11,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
     /// </summary>
     public class EFSongRepository : EFRepository<Song>
     {
+        /// <summary>
+        /// Songs repository
+        /// </summary>
+        /// <param name="context">Database context</param>
         public EFSongRepository(MusicContext context) : base(context)
         {
         }

@@ -44,6 +44,14 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Home controller
+        /// </summary>
+        /// <param name="songsService">Songs service</param>
+        /// <param name="genresService">Genres service</param>
+        /// <param name="performersService">Performers service</param>
+        /// <param name="albumsService">Albums service</param>
+        /// <param name="mapper">Mapper</param>
         public HomeController(ISongsService songsService, IGenresService genresService,
                             IPerformersService performersService, IAlbumsService albumsService,
                             IMapper mapper)
@@ -235,6 +243,12 @@ namespace MusicCatalog.Web.Controllers
         {
             var albums = _albumsService.GetAlbums();
             ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

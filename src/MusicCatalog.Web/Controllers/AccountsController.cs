@@ -27,6 +27,13 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Accounts controller
+        /// </summary>
+        /// <param name="userManager">User manager</param>
+        /// <param name="signInManager">Sigm in manager</param>
+        /// <param name="signInManager">Sigm in manager</param>
+        /// <param name="mapper">Mapper</param>
         public AccountsController(UserManager<User> userManager, SignInManager<User> signInManager,
             IMapper mapper)
         {

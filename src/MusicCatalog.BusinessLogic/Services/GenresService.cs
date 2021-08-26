@@ -20,6 +20,11 @@ namespace MusicCatalog.BusinessLogic.Services
         /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
+        /// Genres service constructor
+        /// </summary>
+        /// <param name="repository">Albums repository</param>
+        /// <param name="mapper">Mapper</param>
         public GenresService(IRepository<Genre> repository, IMapper mapper)
         {
             _genreRepository = repository;
