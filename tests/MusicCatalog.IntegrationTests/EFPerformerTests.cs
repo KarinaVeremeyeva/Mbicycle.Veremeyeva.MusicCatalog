@@ -141,18 +141,6 @@ namespace MusicCatalog.IntegrationTests
         }
 
         [Test]
-        public void GetById_PerformerNotExists_ThrowsArgumentNullException()
-        {
-            // Arrange
-            var id = 1;
-
-            // Act and sssert
-            Assert.Throws<ArgumentNullException>(
-               () => PerformerRepository.GetById(id),
-               $"Performer with id={id} doesn't exist");
-        }
-
-        [Test]
         public void GetAll_GetPerformers_GetPerformersList()
         {
             // Arrange

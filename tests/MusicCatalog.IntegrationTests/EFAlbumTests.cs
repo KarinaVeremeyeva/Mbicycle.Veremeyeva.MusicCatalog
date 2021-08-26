@@ -145,18 +145,6 @@ namespace MusicCatalog.IntegrationTests
         }
 
         [Test]
-        public void GetById_AlbumNotExists_ThrowsArgumentNullException()
-        {
-            // Arrange
-            var id = 1;
-
-            // Act and sssert
-            Assert.Throws<ArgumentNullException>(
-               () => AlbumRepository.GetById(id),
-               $"Album with id={id} doesn't exist");
-        }
-
-        [Test]
         public void GetAll_GetAlbums_GetAlbumsList()
         {
             // Arrange

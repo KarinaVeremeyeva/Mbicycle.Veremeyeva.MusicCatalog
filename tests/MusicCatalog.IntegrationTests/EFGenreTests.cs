@@ -141,18 +141,6 @@ namespace MusicCatalog.IntegrationTests
         }
 
         [Test]
-        public void GetById_GenreNotExists_ThrowsArgumentNullException()
-        {
-            // Arrange
-            var id = 1;
-
-            // Act and assert
-            Assert.Throws<ArgumentNullException>(
-               () => GenreRepository.GetById(id),
-               $"Genre with id={id} doesn't exist");
-        }
-
-        [Test]
         public void GetAll_GetGenres_GetGenresList()
         {
             // Arrange

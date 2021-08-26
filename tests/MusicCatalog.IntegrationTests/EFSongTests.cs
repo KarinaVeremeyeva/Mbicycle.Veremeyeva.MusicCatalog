@@ -4,6 +4,7 @@ using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using NUnit.Framework;
 using System;
+using System.Configuration;
 using System.Linq;
 
 namespace MusicCatalog.IntegrationTests
@@ -24,6 +25,7 @@ namespace MusicCatalog.IntegrationTests
 
             Context = new MusicContext(options);
             SongRepository = new EFSongRepository(Context);
+            InitTestData();
         }
 
         [Test]
@@ -153,18 +155,6 @@ namespace MusicCatalog.IntegrationTests
         }
 
         [Test]
-        public void GetById_SongNotExists_ThrowsArgumentNullException()
-        {
-            // Arrange
-            var id = 1;
-
-            // Act and sssert
-            Assert.Throws<ArgumentNullException>(
-               () => SongRepository.GetById(id),
-               $"Song with id={id} doesn't exist");
-        }
-
-        [Test]
         public void GetAll_GetSongs_GetSongsList()
         {
             // Arrange
@@ -181,8 +171,8 @@ namespace MusicCatalog.IntegrationTests
                 SongId = 2,
                 Name = "Song2",
                 GenreId = 1,
-                PerformerId = 2,
-                AlbumId = 2
+                PerformerId = 1,
+                AlbumId = 1
             };
             SongRepository.Create(song1);
             SongRepository.Create(song2);
@@ -201,6 +191,17 @@ namespace MusicCatalog.IntegrationTests
         {
             Context.Database.EnsureDeleted();
             Context.Dispose();
+        }
+
+        private void InitTestData()
+        {
+            var genreRepository = new EFGenreRepository(Context);
+            var performerRepository = new EFPerformerRepository(Context);
+            var albumRepository = new EFAlbumRepository(Context);
+
+            genreRepository.Create(new Genre() { GenreId = 1, Name = "Test" });
+            performerRepository.Create(new Performer() { PerformerId = 1, Name = "Test" });
+            albumRepository.Create(new Album() { AlbumId = 1, Name = "Test", ReleaseDate = new DateTime(2020, 1, 1) });
         }
     }
 }
