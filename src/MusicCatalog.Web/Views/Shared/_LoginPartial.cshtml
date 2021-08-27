@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item mr-2">
+            <a class="nav-link text-dark">@Localizer["Message"] @User.Identity.Name</a>
+        </li>
+        <li class="nav-item">
+            <form method="post" asp-controller="Accounts" asp-action="Logout" class="form-inline">
+                <button type="submit" class="nav-link btn btn-link text-dark">@Localizer["Logout"]</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item mr-2">
+            <a asp-controller="Accounts" asp-action="Register" class="btn btn-outline-primary">@Localizer["Register"]</a>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Accounts" asp-action="Login" class="btn btn-primary">@Localizer["Login"]</a>
+        </li>
+    }
+</ul>

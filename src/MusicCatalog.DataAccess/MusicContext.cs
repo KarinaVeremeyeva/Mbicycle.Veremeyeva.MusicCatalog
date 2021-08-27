@@ -8,6 +8,10 @@ namespace MusicCatalog.DataAccess
     /// </summary>
     public class MusicContext : DbContext
     {
+        /// <summary>
+        /// Database context constructor
+        /// </summary>
+        /// <param name="options">Database options</param>
         public MusicContext(DbContextOptions<MusicContext> options)
             : base(options)
         {

@@ -11,6 +11,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
     /// </summary>
     public class EFSongRepository : EFRepository<Song>
     {
+        /// <summary>
+        /// Songs repository
+        /// </summary>
+        /// <param name="context">Database context</param>
         public EFSongRepository(MusicContext context) : base(context)
         {
         }
@@ -35,7 +39,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 
             if (songToDelete == null)
             {
-                throw new ArgumentNullException($"Song with id={id} doesn't exist");
+                throw new ArgumentNullException(nameof(songToDelete), $"Song with id={id} doesn't exist");
             }
 
             context.Songs.Remove(songToDelete);
@@ -48,7 +52,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         /// <returns>Songs</returns>
         public override IEnumerable<Song> GetAll()
         {
-            return context.Songs.ToList();
+            return context.Songs
+                .Include(s => s.Performer)
+                .Include(s => s.Genre)
+                .Include(s => s.Album).ToList();
         }
 
         /// <summary>
@@ -58,12 +65,11 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         /// <returns>Song with expecting id</returns>
         public override Song GetById(int id)
         {
-            var songToFind = context.Songs.Find(id);
-
-            if (songToFind == null)
-            {
-                throw new ArgumentNullException($"Song with id={id} doesn't exist");
-            }
+            var songToFind = context.Songs.Where(q => q.SongId == id)
+                .Include(s => s.Performer)
+                .Include(s => s.Genre)
+                .Include(s => s.Album)
+                .SingleOrDefault();
 
             return songToFind;
         }
@@ -76,7 +82,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             if (song == null)
             {
-                throw new ArgumentNullException($"Song doesn't exist");
+                throw new ArgumentNullException(nameof(song), $"Song doesn't exist");
             }
 
             context.Entry(song).State = EntityState.Modified;

@@ -20,6 +20,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         /// </summary>
         protected DbSet<T> dbSet;
 
+        /// <summary>
+        /// Generic repository
+        /// </summary>
+        /// <param name="context">Database context</param>
         public EFRepository(MusicContext context)
         {
             this.context = context;
@@ -30,18 +34,24 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         public virtual void Create(T entity)
         {
             dbSet.Add(entity);
+            context.SaveChanges();
         }
 
         /// <inheritdoc cref="IRepository{T}.Update(T)"/>
         public virtual void Update(T entity)
         {
             dbSet.Update(entity);
+            context.SaveChanges();
         }
 
         /// <inheritdoc cref="IRepository{T}.Delete(int)"/>
         public virtual void Delete(int id)
         {
-            dbSet.Find(id);
+            var genreToDelete = GetById(id);
+
+            dbSet.Remove(genreToDelete);
+            context.SaveChanges();
+
         }
 
         /// <inheritdoc cref="IRepository{T}.GetAll"/>

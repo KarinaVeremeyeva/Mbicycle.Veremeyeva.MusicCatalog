@@ -1,0 +1,35 @@
+﻿@model SongViewModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+<h2>@Localizer["Header"]</h2>
+<h3>@Localizer["Message"]</h3>
+<div>
+    <h4>@Localizer["Song"]</h4>
+    <hr />
+    <input type="hidden" asp-for="SongId" />
+    <dl class="dl-horizontal">
+        <dt>@Localizer["Name"]</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>@Localizer["Genre"]</dt>
+        <dd>
+            @Html.DisplayFor(model => model.GenreName)
+        </dd>
+        <dt>@Localizer["Performer"]</dt>
+        <dd>
+            @Html.DisplayFor(model => model.PerformerName)
+        </dd>
+        <dt>@Localizer["Album"]</dt>
+        <dd>
+            @Html.DisplayFor(model => model.AlbumName)
+        </dd>
+    </dl>
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="@Localizer["Delete"]" class="btn btn-outline-danger" />
+            <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Back to list"]</a>
+        </div>
+    </form>
+</div>

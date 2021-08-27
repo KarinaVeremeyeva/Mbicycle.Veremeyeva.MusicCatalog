@@ -11,6 +11,10 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
     /// </summary>
     public class EFGenreRepository : EFRepository<Genre>
     {
+        /// <summary>
+        /// Genres repository
+        /// </summary>
+        /// <param name="context">Database context</param>
         public EFGenreRepository(MusicContext context) : base(context)
         {
         }
@@ -22,6 +26,7 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         public override void Create(Genre genre)
         {
             context.Genres.Add(genre);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -34,10 +39,11 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
 
             if (genreToDelete == null)
             {
-                throw new ArgumentNullException($"Genre with id={id} doesn't exist");
+                throw new ArgumentNullException(nameof(genreToDelete), $"Genre with id={id} doesn't exist");
             }
 
             context.Genres.Remove(genreToDelete);
+            context.SaveChanges();
         }
 
         /// <summary>
@@ -57,11 +63,6 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         public override Genre GetById(int id)
         {
             var genreToFind = context.Genres.Find(id);
-
-            if (genreToFind == null)
-            {
-                throw new ArgumentNullException($"Genre with id={id} doesn't exist");
-            }
             
             return genreToFind;
         }
@@ -74,10 +75,11 @@ namespace MusicCatalog.DataAccess.Repositories.EFRepositories
         {
             if (genre == null)
             {
-                throw new ArgumentNullException($"Genre doesn't exist");
+                throw new ArgumentNullException(nameof(genre), $"Genre doesn't exist");
             }
 
             context.Entry(genre).State = EntityState.Modified;
+            context.SaveChanges();
         }
     }
 }

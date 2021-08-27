@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace MusicCatalog.DataAccess.Entities
 {
     /// <summary>
-    /// Represents an album
+    /// Represents an album entity
     /// </summary>
     public class Album
     {

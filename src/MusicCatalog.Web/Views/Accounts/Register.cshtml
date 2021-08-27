@@ -1,0 +1,32 @@
+﻿@model MusicCatalog.Web.ViewModels.RegisterViewModel
+
+<h2>@Localizer["Header"]</h2>
+<form method="post" asp-controller="Accounts" asp-action="Register">
+    <hr />
+    <div asp-validation-summary="ModelOnly"></div>
+    <div class="form-horizontal col-md-4">
+        <div class="form-group">
+            <label asp-for="Email">@Localizer["Email"]</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="YearOfBirth">@Localizer["YearOfBirth"]</label>
+            <input asp-for="YearOfBirth" class="form-control" />
+            <span asp-validation-for="YearOfBirth" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password">@Localizer["Password"]</label>
+            <input asp-for="Password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PasswordConfirm">@Localizer["PasswordConfirm"]</label>
+            <input asp-for="PasswordConfirm" class="form-control" />
+            <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary">@Localizer["Register"]</button>
+        </div>
+    </div>     
+</form>

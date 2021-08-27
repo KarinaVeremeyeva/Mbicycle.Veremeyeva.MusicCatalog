@@ -1,0 +1,24 @@
+﻿@model PerformerViewModel
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+<h2>@Localizer["Header"]</h2>
+<h3>@Localizer["Message"]</h3>
+<div>
+    <h4>@Localizer["Genre"]</h4>
+    <hr />
+    <input type="hidden" asp-for="PerformerId" />
+    <dl class="dl-horizontal">
+        <dt>@Localizer["Name"]</dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+    </dl>
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="@Localizer["Delete"]" class="btn btn-outline-danger" />
+            <a asp-action="Index" class="btn btn-outline-secondary">@Localizer["Back to list"]</a>
+        </div>
+    </form>
+</div>
+

@@ -3,7 +3,7 @@
 namespace MusicCatalog.DataAccess.Entities
 {
     /// <summary>
-    /// Represents a performer
+    /// Represents a performer entity
     /// </summary>
     public class Performer
     {

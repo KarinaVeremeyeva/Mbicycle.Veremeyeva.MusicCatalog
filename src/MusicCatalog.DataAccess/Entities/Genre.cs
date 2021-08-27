@@ -3,7 +3,7 @@
 namespace MusicCatalog.DataAccess.Entities
 {
     /// <summary>
-    /// Represents a genre
+    /// Represents a genre entity
     /// </summary>
     public class Genre
     {

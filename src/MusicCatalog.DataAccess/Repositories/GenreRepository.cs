@@ -9,6 +9,10 @@ namespace MusicCatalog.DataAccess.Repositories
     /// </summary>
     public class GenreRepository : Repository<Genre>
     {
+        /// <summary>
+        /// Genres repository
+        /// </summary>
+        /// <param name="connectionStr">Connection string</param>
         public GenreRepository(string connectionStr) : base(connectionStr)
         {
         }
@@ -19,13 +23,15 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="genre">New genre</param>
         public override void Create(Genre genre)
         {
-            string sqlExpression = string.Format($"INSERT INTO Genres (Name) VALUES (@Name)");
+            var sqlExpression = string.Format($"INSERT INTO Genres (Name) VALUES (@Name)");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter nameParam = new SqlParameter("@Name", genre.Name);
+
+                var command = new SqlCommand(sqlExpression, connection);
+                var nameParam = new SqlParameter("@Name", genre.Name);
+
                 command.Parameters.Add(nameParam);
                 command.ExecuteNonQuery();
             }
@@ -37,14 +43,16 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="genre">Genre to update</param>
         public override void Update(Genre genre)
         {
-            string sqlExpression = string.Format($"UPDATE Genres SET Name=@Name WHERE GenreId=@GenreId");
+            var sqlExpression = string.Format($"UPDATE Genres SET Name=@Name WHERE GenreId=@GenreId");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlParameter idParam = new SqlParameter("@GenreId", genre.GenreId);
-                SqlParameter nameParam = new SqlParameter("@Name", genre.Name);
+
+                var command = new SqlCommand(sqlExpression, connection);
+                var idParam = new SqlParameter("@GenreId", genre.GenreId);
+                var nameParam = new SqlParameter("@Name", genre.Name);
+
                 command.Parameters.Add(idParam);
                 command.Parameters.Add(nameParam);
                 command.ExecuteNonQuery();
@@ -57,12 +65,13 @@ namespace MusicCatalog.DataAccess.Repositories
         /// <param name="id">Genre id to update</param>
         public override void Delete(int id)
         {
-            string sqlExpression = string.Format($"DELETE FROM Genres WHERE GenreId='{id}'");
+            var sqlExpression = string.Format($"DELETE FROM Genres WHERE GenreId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
+                var command = new SqlCommand(sqlExpression, connection);
+
                 command.ExecuteNonQuery();
             }
         }
@@ -74,13 +83,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override IEnumerable<Genre> GetAll()
         {
             var genres = new List<Genre>();
-            string sqlExpression = string.Format($"SELECT * FROM Genres");
+            var sqlExpression = string.Format($"SELECT * FROM Genres");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
@@ -107,13 +116,13 @@ namespace MusicCatalog.DataAccess.Repositories
         public override Genre GetById(int id)
         {
             var genre = new Genre();
-            string sqlExpression = string.Format($"SELECT * FROM Genres WHERE GenreId='{id}'");
+            var sqlExpression = string.Format($"SELECT * FROM Genres WHERE GenreId='{id}'");
 
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            using (var connection = new SqlConnection(ConnectionString))
             {
                 connection.Open();
-                SqlCommand command = new SqlCommand(sqlExpression, connection);
-                SqlDataReader reader = command.ExecuteReader();
+                var command = new SqlCommand(sqlExpression, connection);
+                var reader = command.ExecuteReader();
 
                 if (reader.HasRows)
                 {
