@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.UnitTests", "t
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.IntegrationTests", "tests\MusicCatalog.IntegrationTests\MusicCatalog.IntegrationTests.csproj", "{80CB7906-482D-47B1-BF5F-A8961263F436}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCatalog.BusinessLogic", "src\MusicCatalog.BusinessLogic\MusicCatalog.BusinessLogic.csproj", "{52D16978-5745-45CA-913F-35DCDD3AC00A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.BusinessLogic", "src\MusicCatalog.BusinessLogic\MusicCatalog.BusinessLogic.csproj", "{52D16978-5745-45CA-913F-35DCDD3AC00A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicCatalog.IdentityApi", "src\MusicCatalog.IdentityApi\MusicCatalog.IdentityApi.csproj", "{EDB8BB89-1CB3-42F1-8354-742D79B1E0FF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52D16978-5745-45CA-913F-35DCDD3AC00A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDB8BB89-1CB3-42F1-8354-742D79B1E0FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDB8BB89-1CB3-42F1-8354-742D79B1E0FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDB8BB89-1CB3-42F1-8354-742D79B1E0FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDB8BB89-1CB3-42F1-8354-742D79B1E0FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,6 +68,7 @@ Global
 		{9CF5D080-EA48-4646-91CA-194119B48ED8} = {A96B76DE-A40D-4119-9C0A-9BEDF3412DCA}
 		{80CB7906-482D-47B1-BF5F-A8961263F436} = {A96B76DE-A40D-4119-9C0A-9BEDF3412DCA}
 		{52D16978-5745-45CA-913F-35DCDD3AC00A} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
+		{EDB8BB89-1CB3-42F1-8354-742D79B1E0FF} = {51D87638-7F9C-44EC-8E84-2B46B9DB4C7D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {177EE9A9-5031-484E-A389-0AD3A3BA4770}
