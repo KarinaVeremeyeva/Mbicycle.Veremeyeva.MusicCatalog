@@ -1,14 +1,14 @@
 ﻿namespace MusicCatalog.IdentityApi.Models
 {
     /// <summary>
-    /// User details for authorization
+    /// Register model
     /// </summary>
-    public class RegisterUser
+    public class RegisterModel
     {
         /// <summary>
-        /// User's email
+        /// Login
         /// </summary>
-        public string Email { get; set; }
+        public string Login { get; set; }
 
         /// <summary>
         /// Password

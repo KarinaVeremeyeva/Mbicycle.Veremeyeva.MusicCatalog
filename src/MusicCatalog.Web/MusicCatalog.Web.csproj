@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MusicCatalog.BusinessLogic\MusicCatalog.BusinessLogic.csproj" />
+    <ProjectReference Include="..\MusicCatalog.IdentityApi\MusicCatalog.IdentityApi.csproj" />
   </ItemGroup>
 
 </Project>

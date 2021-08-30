@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.IdentityApi.Services;
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -20,17 +23,22 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <summary>
         /// Users sign in manager
         /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<User> _signInManager;
 
         /// <summary>
         /// Users manager
         /// </summary>
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
 
         /// <summary>
         /// Roles manager
         /// </summary>
         private readonly RoleManager<IdentityRole> _roleManager;
+
+        /// <summary>
+        /// Jwt token service
+        /// </summary>
+        private readonly JwtTokenService _jwtTokenService;
 
         /// <summary>
         /// Accounts controller constructor
@@ -39,13 +47,15 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="userManager">Users manager</param>
         /// <param name="roleManager">Roles manager</param>
         public AccountsController(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager)
+            SignInManager<User> signInManager,
+            UserManager<User> userManager,
+            RoleManager<IdentityRole> roleManager,
+            JwtTokenService jwtTokenService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _jwtTokenService = jwtTokenService;
         }
 
         /// <summary>
@@ -55,53 +65,48 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <returns>IActionResult</returns>
         [HttpPost]
         [Route("Register")]
-        public async Task<IActionResult> Register([FromBody]RegisterUser user)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            if (!ModelState.IsValid || user == null)
+            if (!ModelState.IsValid || model == null)
             {
                 return new BadRequestObjectResult(new { Message = "Registration of user failed" });
             }
 
-            var identityUser = new IdentityUser()
+            var user = new User()
             {
-                Email = user.Email,
+                Login = model.Login,
             };
-            var result = await _userManager.CreateAsync(identityUser, user.Password);
+            var result = await _userManager.CreateAsync(user, user.Password);
 
-            if (!result.Succeeded)
+            if (result.Succeeded)
             {
-                var modelStates = new ModelStateDictionary();
-
-                foreach (IdentityError error in result.Errors)
+                if (user.Login == "Admin")
                 {
-                    modelStates.AddModelError(error.Code, error.Description);
+                    await _userManager.AddToRoleAsync(identityUser, "Admin");
                 }
-
-                return new BadRequestObjectResult(new
-                {
-                    Message = "Registration failed",
-                    Errors = modelStates
-                });
+                var roles = await _userManager.GetRolesAsync(identityUser);
+                return Ok(_jwtTokenService.GenerateToken(identityUser, roles));
             }
 
-            return Ok(new { Message = "Registration was successful"} );
+            return BadRequest(result.Errors);
         }
- 
+
         /// <summary>
         /// User log in
         /// </summary>
         /// <param name="user">RegisterUser</param>
         /// <returns>IActionResult</returns>
+        [AllowAnonymous]
         [HttpPost]
         [Route("Login")]
-        public async Task<IActionResult> Login([FromBody]RegisterUser user)
+        public async Task<IActionResult> Login([FromBody]User user)
         {
             if (!ModelState.IsValid || user == null)
             {
                 return new BadRequestObjectResult(new { Message = "Login failed" });
             }
 
-            var identityUser = await _userManager.FindByNameAsync(user.Email);
+            var identityUser = await _userManager.FindByNameAsync(user.Login);
             var result = _userManager.PasswordHasher.VerifyHashedPassword(
                 identityUser, identityUser.PasswordHash, user.Password);
 
