@@ -7,22 +7,16 @@
     {
         /// <summary>
         /// Token publisher
-        /// </summary>
-        public const string Issuer = "AuthServer";
+        public string JwtIssuer { get; set; }
 
         /// <summary>
         /// Token client
         /// </summary>
-        public const string Audience = "AuthClient";
+        public string JwtAudience { get; set; }
 
         /// <summary>
         /// Encryption key
         /// </summary>
-        public const string Key = "examplekey";
-
-        /// <summary>
-        /// Token lifetime (minutes)
-        /// </summary>
-        public const int Lifetime = 1;
+        public char[] JwtSecretKey { get; set; }
     }
 }

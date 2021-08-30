@@ -82,10 +82,10 @@ namespace MusicCatalog.IdentityApi.Controllers
             {
                 if (user.Login == "Admin")
                 {
-                    await _userManager.AddToRoleAsync(identityUser, "Admin");
+                    await _userManager.AddToRoleAsync(user, "Admin");
                 }
-                var roles = await _userManager.GetRolesAsync(identityUser);
-                return Ok(_jwtTokenService.GenerateToken(identityUser, roles));
+                var roles = await _userManager.GetRolesAsync(user);
+                //return Ok(_jwtTokenService.GenerateToken(user, roles));
             }
 
             return BadRequest(result.Errors);
