@@ -13,6 +13,7 @@ using MusicCatalog.BusinessLogic.Services;
 using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -23,6 +24,11 @@ namespace MusicCatalog.Web
     /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Uri string
+        /// </summary>
+        private const string UriString = "http://localhost:2563";
+
         /// <summary>
         /// Startup constructor
         /// </summary>
@@ -52,6 +58,11 @@ namespace MusicCatalog.Web
                 });
 
             services.AddSingleton(mapping.CreateMapper());
+            services.AddHttpClient();
+            //services.AddHttpClient("Client", c =>
+            //{
+            //    c.BaseAddress = new Uri(UriString);
+            //});
 
             services.AddScoped<IRepository<Genre>, EFGenreRepository>();
             services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
@@ -112,9 +123,6 @@ namespace MusicCatalog.Web
 
             app.UseStaticFiles();
             app.UseRouting();
-
-            app.UseAuthentication();
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

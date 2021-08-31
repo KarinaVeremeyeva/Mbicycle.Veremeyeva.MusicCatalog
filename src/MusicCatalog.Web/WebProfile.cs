@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using MusicCatalog.BusinessLogic.Models;
-using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.Web.ViewModels;
 
 namespace MusicCatalog.Web
@@ -25,10 +24,10 @@ namespace MusicCatalog.Web
                 .ForMember(
                      dest => dest.PerformerId,
                     opt => opt.MapFrom(src => src.PerformerId));
-            CreateMap<RegisterViewModel, User>()
-                .ForMember(
-                    dest => dest.Login,
-                    opt => opt.MapFrom(src => src.Email));
+            //CreateMap<RegisterViewModel, User>()
+            //    .ForMember(
+            //        dest => dest.UserName,
+            //        opt => opt.MapFrom(src => src.Email));
 
             CreateMap<AlbumViewModel, AlbumDto>();
             CreateMap<GenreViewModel, GenreDto>();
