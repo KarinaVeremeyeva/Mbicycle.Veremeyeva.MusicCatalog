@@ -7,7 +7,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
 using MusicCatalog.IdentityApi.Settings;
@@ -45,7 +44,7 @@ namespace MusicCatalog.IdentityApi
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(connectionString));
-            services.AddIdentity<User, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddAuthentication(options =>

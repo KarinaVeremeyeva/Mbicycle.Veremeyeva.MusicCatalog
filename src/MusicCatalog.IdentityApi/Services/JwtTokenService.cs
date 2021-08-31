@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Settings;
+using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -35,21 +36,24 @@ namespace MusicCatalog.IdentityApi.Services
         /// <param name="user">User</param>
         /// <param name="roles">Roles</param>
         /// <returns>Jwt token</returns>
-        public string GenerateJwtToken(User user, IList<string> roles)
+        public string GenerateJwtToken(IdentityUser user, IList<string> roles)
         {
             var userClaims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Login)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
             var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
             userClaims.AddRange(roleClaims);
 
+            var signingCredentials = new SigningCredentials(
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtSecretKey)),
+                    SecurityAlgorithms.HmacSha256);
+
             var jwtToken = new JwtSecurityToken(
                 issuer: _settings.JwtIssuer,
                 audience: _settings.JwtAudience,
-                signingCredentials: new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtSecretKey)),
-                    SecurityAlgorithms.HmacSha256),
+                signingCredentials: signingCredentials,
                 claims: userClaims
                 );
 

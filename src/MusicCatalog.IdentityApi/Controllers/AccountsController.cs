@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
 using System.Collections.Generic;
@@ -21,12 +21,12 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <summary>
         /// Users sign in manager
         /// </summary>
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
         /// <summary>
         /// Users manager
         /// </summary>
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         /// <summary>
         /// Roles manager
@@ -46,8 +46,8 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="roleManager">Roles manager</param>
         /// <param name="jwtTokenService">Jwt token service</param>
         public AccountsController(
-            SignInManager<User> signInManager,
-            UserManager<User> userManager,
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
             JwtTokenService jwtTokenService)
         {
@@ -71,19 +71,15 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return new BadRequestObjectResult(new { Message = "Registration of user failed" });
             }
 
-            var user = new User()
+            var user = new IdentityUser()
             {
-                Login = model.Login,
+                Email = model.Login,
+                UserName = model.Login
             };
-            var result = await _userManager.CreateAsync(user, user.Password);
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (result.Succeeded)
             {
-                if (user.Login == "Admin")
-                {
-                    await CreateAdminRoleIfNotExist();
-                    await _userManager.AddToRoleAsync(user, "Admin");
-                }
                 var roles = await _userManager.GetRolesAsync(user);
                 
                 return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
@@ -107,8 +103,7 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return new BadRequestObjectResult(new { Message = "Login failed" });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Login, model.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
             if (result.Succeeded)
             {
                 var user = await _userManager.FindByNameAsync(model.Login);
@@ -124,10 +119,10 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <returns>IActionResult</returns>
         [HttpPost]
-        [Route("Logout")]
+        [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
 
             return Ok(new { Message = "Logged out" });
         }
@@ -143,18 +138,6 @@ namespace MusicCatalog.IdentityApi.Controllers
             }
 
             return Forbid();
-        }
-
-        /// <summary>
-        /// Creates admin role, if role doesn't exist
-        /// </summary>
-        /// <returns>Tas</returns>
-        private async Task CreateAdminRoleIfNotExist()
-        {
-            if (!await _roleManager.RoleExistsAsync("Admin"))
-            {
-                await _roleManager.CreateAsync(new IdentityRole("Admin"));
-            }
         }
     }
 }
