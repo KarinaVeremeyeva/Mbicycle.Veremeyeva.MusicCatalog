@@ -1,7 +1,7 @@
 ﻿namespace MusicCatalog.IdentityApi.Settings
 {
     /// <summary>
-    /// Stores authorization options
+    /// Stores jwt token settings
     /// </summary>
     public class JwtTokenSettings
     {
@@ -17,6 +17,6 @@
         /// <summary>
         /// Encryption key
         /// </summary>
-        public char[] JwtSecretKey { get; set; }
+        public string JwtSecretKey { get; set; }
     }
 }

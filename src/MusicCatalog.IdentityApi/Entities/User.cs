@@ -1,9 +1,11 @@
-﻿namespace MusicCatalog.IdentityApi.Entities
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace MusicCatalog.IdentityApi.Entities
 {
     /// <summary>
     /// User details for authorization
     /// </summary>
-    public class User
+    public class User : IdentityUser
     {
         /// <summary>
         /// User's login
@@ -14,15 +16,5 @@
         /// Password
         /// </summary>
         public string Password { get; set; }
-
-        /// <summary>
-        /// Role id
-        /// </summary>
-        public int? RoleId { get; set; }
-
-        /// <summary>
-        /// User's role
-        /// </summary>
-        public string Role { get; set; }
     }
 }

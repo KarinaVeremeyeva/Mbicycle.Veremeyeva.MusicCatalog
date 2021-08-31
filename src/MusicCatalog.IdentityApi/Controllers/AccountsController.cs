@@ -3,12 +3,10 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.IdentityApi.Controllers
@@ -46,6 +44,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="signInManager">Users sign in manager</param>
         /// <param name="userManager">Users manager</param>
         /// <param name="roleManager">Roles manager</param>
+        /// <param name="jwtTokenService">Jwt token service</param>
         public AccountsController(
             SignInManager<User> signInManager,
             UserManager<User> userManager,
@@ -61,10 +60,10 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <summary>
         /// Register new user
         /// </summary>
-        /// <param name="user">RegisterUser</param>
+        /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost]
-        [Route("Register")]
+        [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             if (!ModelState.IsValid || model == null)
@@ -82,10 +81,12 @@ namespace MusicCatalog.IdentityApi.Controllers
             {
                 if (user.Login == "Admin")
                 {
+                    await CreateAdminRoleIfNotExist();
                     await _userManager.AddToRoleAsync(user, "Admin");
                 }
                 var roles = await _userManager.GetRolesAsync(user);
-                //return Ok(_jwtTokenService.GenerateToken(user, roles));
+                
+                return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
             }
 
             return BadRequest(result.Errors);
@@ -94,41 +95,28 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <summary>
         /// User log in
         /// </summary>
-        /// <param name="user">RegisterUser</param>
+        /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [AllowAnonymous]
         [HttpPost]
-        [Route("Login")]
-        public async Task<IActionResult> Login([FromBody]User user)
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody]RegisterModel model)
         {
-            if (!ModelState.IsValid || user == null)
+            if (!ModelState.IsValid || model == null)
             {
                 return new BadRequestObjectResult(new { Message = "Login failed" });
             }
 
-            var identityUser = await _userManager.FindByNameAsync(user.Login);
-            var result = _userManager.PasswordHasher.VerifyHashedPassword(
-                identityUser, identityUser.PasswordHash, user.Password);
-
-            if (result == PasswordVerificationResult.Failed)
+            var result = await _signInManager.PasswordSignInAsync(
+                model.Login, model.Password, false, false);
+            if (result.Succeeded)
             {
-                return new BadRequestObjectResult(new { Message = "Login failed" });
+                var user = await _userManager.FindByNameAsync(model.Login);
+
+                return Ok(_jwtTokenService.GenerateJwtToken(user, new List<string>()));
             }
 
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, identityUser.Email),
-                new Claim(ClaimTypes.Name, identityUser.UserName)
-            };
-
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity));
-
-            return Ok(new { Message = "Logged in" });
+            return Forbid();
         }
 
         /// <summary>
@@ -142,6 +130,31 @@ namespace MusicCatalog.IdentityApi.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return Ok(new { Message = "Logged out" });
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet("validate")]
+        public IActionResult Validate(string token)
+        {
+            if (_jwtTokenService.ValidateToken(token))
+            {
+                return Ok();
+            }
+
+            return Forbid();
+        }
+
+        /// <summary>
+        /// Creates admin role, if role doesn't exist
+        /// </summary>
+        /// <returns>Tas</returns>
+        private async Task CreateAdminRoleIfNotExist()
+        {
+            if (!await _roleManager.RoleExistsAsync("Admin"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
         }
     }
 }

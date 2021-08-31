@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,7 +7,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.IdentityApi.Services;
+using MusicCatalog.IdentityApi.Settings;
+using System.Text;
 
 namespace MusicCatalog.IdentityApi
 {
@@ -38,25 +41,37 @@ namespace MusicCatalog.IdentityApi
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("IdentityConnection");
+            var tokenSettings = Configuration.GetSection("JwtTokenSettings");
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(connectionString));
-
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer(options =>
                 {
                     options.RequireHttpsMetadata = false;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = JwtTpkenSettings.Issuer,
+                        ValidIssuer = tokenSettings[nameof(JwtTokenSettings.JwtIssuer)],
                         ValidateAudience = true,
-                        ValidAudience = JwtTpkenSettings.Audience,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = JwtTpkenSettings.GetSymmetricSecurityKey(),
+                        ValidAudience = tokenSettings[nameof(JwtTokenSettings.JwtAudience)],
                         ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(tokenSettings[nameof(JwtTokenSettings.JwtSecretKey)])),
+                        ValidateLifetime = false,
                     };
                 });
+
+            services.Configure<JwtTokenSettings>(tokenSettings);
+            services.AddScoped<JwtTokenService>();
 
             services.AddControllers();
         }

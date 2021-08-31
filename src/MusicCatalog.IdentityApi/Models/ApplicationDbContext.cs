@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using MusicCatalog.IdentityApi.Entities;
 
 namespace MusicCatalog.IdentityApi.Models
 {

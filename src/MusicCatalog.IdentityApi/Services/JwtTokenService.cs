@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MusicCatalog.IdentityApi.Entities;
 using MusicCatalog.IdentityApi.Settings;
@@ -36,7 +35,7 @@ namespace MusicCatalog.IdentityApi.Services
         /// <param name="user">User</param>
         /// <param name="roles">Roles</param>
         /// <returns>Jwt token</returns>
-        public static string GenerateToken(User user, IList<string> roles)
+        public string GenerateJwtToken(User user, IList<string> roles)
         {
             var userClaims = new List<Claim>
             {
@@ -46,16 +45,15 @@ namespace MusicCatalog.IdentityApi.Services
             userClaims.AddRange(roleClaims);
 
             var jwtToken = new JwtSecurityToken(
-                issuer: JwtTokenSettings.Issuer,
-                audience: JwtTokenSettings.Audience,
+                issuer: _settings.JwtIssuer,
+                audience: _settings.JwtAudience,
                 signingCredentials: new SigningCredentials(
-                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtTokenSettings.Key)),
+                    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtSecretKey)),
                     SecurityAlgorithms.HmacSha256),
                 claims: userClaims
                 );
 
-            var encodedJwtToken = new JwtSecurityTokenHandler()
-                .WriteToken(jwtToken);
+            var encodedJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
             return encodedJwtToken;
         }
@@ -64,7 +62,7 @@ namespace MusicCatalog.IdentityApi.Services
         /// Validates jwt token
         /// </summary>
         /// <param name="token">Jwt token</param>
-        /// <returns></returns>
+        /// <returns>Is token valid</returns>
         public bool ValidateToken(string token)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
