@@ -6,9 +6,9 @@
     public class RegisterModel
     {
         /// <summary>
-        /// Login
+        /// Email
         /// </summary>
-        public string Login { get; set; }
+        public string Email { get; set; }
 
         /// <summary>
         /// Password

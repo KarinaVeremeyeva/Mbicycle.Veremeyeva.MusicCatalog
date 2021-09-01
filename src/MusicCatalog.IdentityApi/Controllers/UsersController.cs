@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.IdentityApi.Controllers
@@ -16,7 +12,7 @@ namespace MusicCatalog.IdentityApi.Controllers
     /// </summary>
     [Route("/[controller]")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class UsersController : ControllerBase
     {
         /// <summary>
         /// Users sign in manager
@@ -45,7 +41,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="userManager">Users manager</param>
         /// <param name="roleManager">Roles manager</param>
         /// <param name="jwtTokenService">Jwt token service</param>
-        public AccountsController(
+        public UsersController(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
             RoleManager<IdentityRole> roleManager,
@@ -73,8 +69,8 @@ namespace MusicCatalog.IdentityApi.Controllers
 
             var user = new IdentityUser()
             {
-                Email = model.Login,
-                UserName = model.Login
+                Email = model.Email,
+                UserName = model.Email
             };
             var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -103,12 +99,14 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return new BadRequestObjectResult(new { Message = "Login failed" });
             }
 
-            var result = await _signInManager.PasswordSignInAsync(model.Login, model.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(model.Login);
+                var user = await _userManager.FindByNameAsync(model.Email);
+                var roles = await _userManager.GetRolesAsync(user);
 
-                return Ok(_jwtTokenService.GenerateJwtToken(user, new List<string>()));
+
+                return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
             }
 
             return Forbid();
@@ -122,12 +120,16 @@ namespace MusicCatalog.IdentityApi.Controllers
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+            await _signInManager.SignOutAsync();
 
             return Ok(new { Message = "Logged out" });
         }
 
-
+        /// <summary>
+        /// Validates the token
+        /// </summary>
+        /// <param name="token">Jwt token</param>
+        /// <returns>IActionResult</returns>
         [AllowAnonymous]
         [HttpGet("validate")]
         public IActionResult Validate(string token)

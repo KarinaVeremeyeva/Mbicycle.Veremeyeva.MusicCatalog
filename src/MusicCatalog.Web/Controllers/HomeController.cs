@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
@@ -104,7 +105,8 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Get-request for creating song
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IActionResult</returns>
+        [Authorize]
         public IActionResult Create()
         {
             PopulateGenresDropDownList();
@@ -120,6 +122,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
+        [Authorize]
         public IActionResult Create(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
@@ -143,6 +146,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
+        [Authorize]
         public IActionResult Edit(int id)
         {
             var songToUpdate = _songsService.GetSongById(id);
@@ -166,6 +170,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
+        [Authorize]
         public IActionResult Edit(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
@@ -188,6 +193,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
+        [Authorize]
         public IActionResult Delete(int id)
         {
             var songToDelete = _songsService.GetSongById(id);
@@ -207,6 +213,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         public IActionResult DeleteConfirmed(int id)
         {
             _songsService.DeleteSong(id);

@@ -1,4 +1,6 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
@@ -13,7 +15,6 @@ using MusicCatalog.BusinessLogic.Services;
 using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -59,10 +60,14 @@ namespace MusicCatalog.Web
 
             services.AddSingleton(mapping.CreateMapper());
             services.AddHttpClient();
-            //services.AddHttpClient("Client", c =>
-            //{
-            //    c.BaseAddress = new Uri(UriString);
-            //});
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme,
+                options => Configuration.Bind("CookieSettings", options));
 
             services.AddScoped<IRepository<Genre>, EFGenreRepository>();
             services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
@@ -123,6 +128,9 @@ namespace MusicCatalog.Web
 
             app.UseStaticFiles();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
