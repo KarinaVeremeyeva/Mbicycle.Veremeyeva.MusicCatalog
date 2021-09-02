@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
 using MusicCatalog.Web.ViewModels;
-using System;
 using System.Collections.Generic;
 
 namespace MusicCatalog.Web.Controllers

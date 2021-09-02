@@ -24,10 +24,6 @@ namespace MusicCatalog.Web
                 .ForMember(
                      dest => dest.PerformerId,
                     opt => opt.MapFrom(src => src.PerformerId));
-            //CreateMap<RegisterViewModel, User>()
-            //    .ForMember(
-            //        dest => dest.UserName,
-            //        opt => opt.MapFrom(src => src.Email));
 
             CreateMap<AlbumViewModel, AlbumDto>();
             CreateMap<GenreViewModel, GenreDto>();

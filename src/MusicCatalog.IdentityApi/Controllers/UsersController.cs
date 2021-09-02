@@ -60,7 +60,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromForm] UserModel model)
+        public async Task<IActionResult> Register([FromBody] UserModel model)
         {
             if (!ModelState.IsValid || model == null)
             {
@@ -79,8 +79,9 @@ namespace MusicCatalog.IdentityApi.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
 
                 await _signInManager.SignInAsync(user, isPersistent: false);
-
-                return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
+                Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+                
+                return Ok();
             }
 
             return BadRequest(result.Errors);
@@ -92,7 +93,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromForm] UserModel model)
+        public async Task<IActionResult> Login([FromBody] UserModel model)
         {
             if (!ModelState.IsValid || model == null)
             {
@@ -106,7 +107,9 @@ namespace MusicCatalog.IdentityApi.Controllers
                 var roles = await _userManager.GetRolesAsync(user);
                 //var claims = _userManager.GetClaimsAsync(user);
 
-                return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
+                // add token to header of response
+                Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+                return Ok();
             }
 
             return Forbid();
@@ -116,8 +119,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// Log out of the user
         /// </summary>
         /// <returns>IActionResult</returns>
-        [HttpPost]
-        [Route("logout")]
+        [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
