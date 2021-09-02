@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.IdentityApi.Controllers
 {
     /// <summary>
-    /// Accounts controller
+    /// Users controller of the identity api
     /// </summary>
-    [Route("/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -35,7 +36,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         private readonly JwtTokenService _jwtTokenService;
 
         /// <summary>
-        /// Accounts controller constructor
+        /// Users controller constructor
         /// </summary>
         /// <param name="signInManager">Users sign in manager</param>
         /// <param name="userManager">Users manager</param>
@@ -54,13 +55,12 @@ namespace MusicCatalog.IdentityApi.Controllers
         }
 
         /// <summary>
-        /// Register new user
+        /// Registers new user and returns the jwt token
         /// </summary>
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
-        [HttpPost]
-        [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromForm] UserModel model)
         {
             if (!ModelState.IsValid || model == null)
             {
@@ -77,7 +77,9 @@ namespace MusicCatalog.IdentityApi.Controllers
             if (result.Succeeded)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                
+
+                await _signInManager.SignInAsync(user, isPersistent: false);
+
                 return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
             }
 
@@ -89,10 +91,8 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login([FromBody]RegisterModel model)
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromForm] UserModel model)
         {
             if (!ModelState.IsValid || model == null)
             {
@@ -102,9 +102,9 @@ namespace MusicCatalog.IdentityApi.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
             if (result.Succeeded)
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
+                var user = await _userManager.FindByEmailAsync(model.Email);
                 var roles = await _userManager.GetRolesAsync(user);
-
+                //var claims = _userManager.GetClaimsAsync(user);
 
                 return Ok(_jwtTokenService.GenerateJwtToken(user, roles));
             }
@@ -130,7 +130,6 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <param name="token">Jwt token</param>
         /// <returns>IActionResult</returns>
-        [AllowAnonymous]
         [HttpGet("validate")]
         public IActionResult Validate(string token)
         {
@@ -140,6 +139,24 @@ namespace MusicCatalog.IdentityApi.Controllers
             }
 
             return Forbid();
+        }
+
+        /// <summary>
+        /// Gets all role names
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getAllRoles")]
+        public ActionResult<IEnumerable<string>> GetAllRoles()
+        {
+            var roles = _roleManager.Roles.ToList();
+            var roleNames = new List<string>();
+            
+            foreach (var role in roles)
+            {
+                roleNames.Add(role.Name);
+            }
+
+            return roleNames;
         }
     }
 }

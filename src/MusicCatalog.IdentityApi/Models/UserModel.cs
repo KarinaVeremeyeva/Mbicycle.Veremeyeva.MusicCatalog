@@ -1,9 +1,9 @@
 ﻿namespace MusicCatalog.IdentityApi.Models
 {
     /// <summary>
-    /// Register model
+    /// User model
     /// </summary>
-    public class RegisterModel
+    public class UserModel
     {
         /// <summary>
         /// Email
