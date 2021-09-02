@@ -2,11 +2,11 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCatalog.Web.ViewModels;
-using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -17,7 +17,6 @@ namespace MusicCatalog.Web.Controllers
     /// <summary>
     /// Accounts controller for UI
     /// </summary>
-    [Route("[controller]")]
     public class AccountsController : Controller
     {
         /// <summary>
@@ -38,7 +37,7 @@ namespace MusicCatalog.Web.Controllers
         /// Get-request to register new user
         /// </summary>
         /// <returns></returns>
-        [HttpGet("register")]
+        [HttpGet]
         public IActionResult Register()
         {
             return View();
@@ -47,16 +46,12 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Post-request to register new user
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPost("register")]
+        /// <param name="model">RegisterViewModel</param>
+        /// <returns>IActionResult</returns>
+        [HttpPost]
         public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
-            var client = _clientFactory.CreateClient();   
-            client.BaseAddress = new Uri("http://localhost:2563");
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-           
+            var client = _clientFactory.CreateClient("client");           
             var result = client.PostAsJsonAsync("Users/register", model).Result;
 
             if (result.IsSuccessStatusCode)
@@ -77,8 +72,8 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Get-request for log in of user
         /// </summary>
-        /// <returns></returns>
-        [HttpGet("login")]
+        /// <returns>IActionResult</returns>
+        [HttpGet]
         public IActionResult Login()
         {
             return View();
@@ -87,15 +82,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Post-request for log in of user
         /// </summary>
-        /// <returns></returns>
-        [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        /// <returns>IActionResult</returns>
+        [HttpPost]
+        public async Task<IActionResult> Login([FromForm] LoginViewModel model)
         {
-            var client = _clientFactory.CreateClient();
-            client.BaseAddress = new Uri("http://localhost:2563");
-            client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-
+            var client = _clientFactory.CreateClient("client");
             var result = client.PostAsJsonAsync("Users/login", model).Result;
 
             if (result.IsSuccessStatusCode)
@@ -107,7 +98,7 @@ namespace MusicCatalog.Web.Controllers
                     SameSite = SameSiteMode.Strict
                 });
 
-                return Ok();
+                return RedirectToAction("Index", "Home");
             }
 
             return Forbid();
@@ -146,6 +137,24 @@ namespace MusicCatalog.Web.Controllers
             HttpContext.User = new GenericPrincipal(claimsIdentity, rolesArray);
 
             await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, HttpContext.User);
+        }
+
+        /// <summary>
+        /// Gets all roles
+        /// </summary>
+        /// <returns></returns>
+        private async Task<IEnumerable<SelectListItem>> GetAllRoles()
+        {
+            var client = _clientFactory.CreateClient("client");
+            var roles = await client.GetFromJsonAsync<List<string>>("Users/login/getAllRoles");
+            var items = new List<SelectListItem>();
+
+            foreach (var role in roles)
+            {
+                items.Add(new SelectListItem { Text = role, Value = role });
+            }
+
+            return items;
         }
     }
 }

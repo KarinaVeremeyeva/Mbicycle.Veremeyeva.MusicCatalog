@@ -20,6 +20,12 @@
             <input asp-for="PasswordConfirm" class="form-control" />
             <span asp-validation-for="PasswordConfirm" class="text-danger"></span>
         </div>
+        @*<div class="form-group">
+            <label asp-for="Role">@Localizer["Role"]</label>
+            <div class="col">
+                @Html.DropDownListFor(model => model.Role, Model.ExistingRoles)
+            </div>
+        </div>*@
         <div>
             <button type="submit" class="btn btn-primary">@Localizer["Register"]</button>
         </div>

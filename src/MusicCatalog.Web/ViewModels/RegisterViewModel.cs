@@ -1,4 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MusicCatalog.Web.ViewModels
 {
@@ -31,5 +34,18 @@ namespace MusicCatalog.Web.ViewModels
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         public string PasswordConfirm { get; set; }
+
+        /// <summary>
+        /// User's role
+        /// </summary>
+        //[NotMapped]
+        //public string Role { get; set; }
+
+        /// <summary>
+        /// Existing roles list
+        /// </summary>
+        //[NotMapped]
+        //[Display(Name = "Choose role")]
+        //public IEnumerable<SelectListItem> ExistingRoles { get; set; }
     }
 }
