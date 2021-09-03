@@ -60,7 +60,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var user = new IdentityUser()
             {
@@ -73,10 +73,15 @@ namespace MusicCatalog.IdentityApi.Controllers
             {
                 if (result.Succeeded)
                 {
+                    if (!string.IsNullOrEmpty(model.Role))
+                    {
+                        await _userManager.AddToRoleAsync(user, model.Role);
+                    }
                     var roles = await _userManager.GetRolesAsync(user);
 
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+                    Response.Headers.Add("AuthorizationRoles", roles.ToArray());
 
                     return Ok();
                 }
@@ -91,10 +96,11 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] UserModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password,
+                model.RememberMe, lockoutOnFailure: false);
 
             if (user != null)
             {
@@ -104,6 +110,8 @@ namespace MusicCatalog.IdentityApi.Controllers
 
                     // add token to header of response
                     Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+                    Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+
                     return Ok();
                 }
             }

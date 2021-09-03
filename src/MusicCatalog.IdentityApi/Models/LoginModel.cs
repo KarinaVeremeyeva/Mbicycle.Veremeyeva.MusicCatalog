@@ -1,9 +1,9 @@
 ﻿namespace MusicCatalog.IdentityApi.Models
 {
     /// <summary>
-    /// User model
+    /// Login model for a user
     /// </summary>
-    public class UserModel
+    public class LoginModel
     {
         /// <summary>
         /// Email
@@ -14,5 +14,10 @@
         /// Password
         /// </summary>
         public string Password { get; set; }
+
+        /// <summary>
+        /// Remember user
+        /// </summary>
+        public bool RememberMe { get; set; }
     }
 }
