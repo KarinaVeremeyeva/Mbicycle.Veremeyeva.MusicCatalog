@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
@@ -10,6 +11,7 @@ namespace MusicCatalog.Web.Controllers
     /// <summary>
     /// Performers controller
     /// </summary>
+    [Authorize(Roles = "admin, user")]
     public class PerformersController : Controller
     {
         /// <summary>

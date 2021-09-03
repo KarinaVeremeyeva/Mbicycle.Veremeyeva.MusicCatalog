@@ -38,14 +38,13 @@ namespace MusicCatalog.Web.ViewModels
         /// <summary>
         /// User's role
         /// </summary>
-        //[NotMapped]
-        //public string Role { get; set; }
+        [NotMapped]
+        public string Role { get; set; }
 
         /// <summary>
         /// Existing roles list
         /// </summary>
-        //[NotMapped]
-        //[Display(Name = "Choose role")]
-        //public IEnumerable<SelectListItem> ExistingRoles { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> ExistingRoles { get; set; }
     }
 }

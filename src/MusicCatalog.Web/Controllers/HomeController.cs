@@ -106,7 +106,7 @@ namespace MusicCatalog.Web.Controllers
         /// Get-request for creating song
         /// </summary>
         /// <returns>IActionResult</returns>
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult Create()
         {
             PopulateGenresDropDownList();
@@ -122,7 +122,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult Create(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
@@ -146,7 +146,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult Edit(int id)
         {
             var songToUpdate = _songsService.GetSongById(id);
@@ -170,7 +170,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult Edit(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
@@ -193,7 +193,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult Delete(int id)
         {
             var songToDelete = _songsService.GetSongById(id);
@@ -213,7 +213,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
-        [Authorize]
+        [Authorize(Roles = "admin, user")]
         public IActionResult DeleteConfirmed(int id)
         {
             _songsService.DeleteSong(id);

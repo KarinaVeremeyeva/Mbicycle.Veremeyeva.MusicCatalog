@@ -39,9 +39,9 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult>  Register()
         {
-            return View();
+            return View(new RegisterViewModel { ExistingRoles = await GetAllRoles() });
         }
 
         /// <summary>
@@ -55,11 +55,15 @@ namespace MusicCatalog.Web.Controllers
             var client = _clientFactory.CreateClient("client");           
             var response = await client.PostAsJsonAsync("api/Users/register", model);
 
-            if (response.IsSuccessStatusCode && response.Headers.Contains("Authorization"))
+            if (response.IsSuccessStatusCode
+                && response.Headers.Contains("Authorization")
+                && response.Headers.Contains("AuthorizationRoles"))
             {
                 // get token from a header
                 var token = response.Headers.GetValues("Authorization").ToArray()[0];
-                AuthorizeHandle(token);
+                var roles = response.Headers.GetValues("AuthorizationRoles").ToArray()[0];
+
+                AuthorizeHandle(token, roles);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -87,11 +91,15 @@ namespace MusicCatalog.Web.Controllers
             var client = _clientFactory.CreateClient("client");
             var response = await client.PostAsJsonAsync("api/Users/login", model);
 
-            if (response.IsSuccessStatusCode && response.Headers.Contains("Authorization"))
+            if (response.IsSuccessStatusCode
+                && response.Headers.Contains("Authorization")
+                && response.Headers.Contains("AuthorizationRoles"))
             {
                 // get token from header
                 var token = response.Headers.GetValues("Authorization").ToArray()[0];
-                AuthorizeHandle(token);
+                var roles = response.Headers.GetValues("AuthorizationRoles").ToArray()[0];
+
+                AuthorizeHandle(token, roles);
 
                 return RedirectToAction("Index", "Home");
             }
@@ -124,7 +132,8 @@ namespace MusicCatalog.Web.Controllers
         /// Authorizes user by token and role
         /// </summary>
         /// <param name="token">Jwt token</param>
-        private async void AuthorizeHandle(string token)
+        /// <param name="roles">Roles</param>
+        private async void AuthorizeHandle(string token, string roles)
         {
             HttpContext.Response.Cookies.Append("secret_jwt_key", token, new CookieOptions
             {
@@ -133,21 +142,21 @@ namespace MusicCatalog.Web.Controllers
             });
 
             var decodedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-            
+            var roleNames = roles.Split(',');
+
             // take claims of user from token, write it to the http context
             var claimsIdentity = new ClaimsIdentity(decodedToken.Claims, "UserInfo",
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             
-            // null - roles
-            HttpContext.User = new GenericPrincipal(claimsIdentity, null);
+            HttpContext.User = new GenericPrincipal(claimsIdentity, roleNames);
 
             await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, HttpContext.User);
         }
 
         /// <summary>
-        /// Gets all roles
+        /// Gets all roles from the identity api
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Roles</returns>
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
             var client = _clientFactory.CreateClient("client");

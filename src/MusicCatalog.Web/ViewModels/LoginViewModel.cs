@@ -23,7 +23,7 @@ namespace MusicCatalog.Web.ViewModels
         public string Password { get; set; }
 
         /// <summary>
-        /// Remember data
+        /// Remember me
         /// </summary>
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
