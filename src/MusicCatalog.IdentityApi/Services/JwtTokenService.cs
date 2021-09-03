@@ -2,10 +2,8 @@
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MusicCatalog.IdentityApi.Settings;
-using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -41,10 +39,10 @@ namespace MusicCatalog.IdentityApi.Services
             var userClaims = new List<Claim>
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
             };
-            var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
-            userClaims.AddRange(roleClaims);
+            //var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
+            //userClaims.AddRange(roleClaims);
 
             var signingCredentials = new SigningCredentials(
                     new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_settings.JwtSecretKey)),

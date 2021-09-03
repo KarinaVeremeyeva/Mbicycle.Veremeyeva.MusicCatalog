@@ -112,9 +112,11 @@ namespace MusicCatalog.Web.Controllers
             if (response.IsSuccessStatusCode)
             {
                 await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+
+                return RedirectToAction("Index", "Home");
             }
 
-            return RedirectToAction("Index", "Home");
+            return Forbid();
         }
 
 
@@ -132,7 +134,7 @@ namespace MusicCatalog.Web.Controllers
 
             var decodedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
             
-            // take claims for user from token, write it to the http context
+            // take claims of user from token, write it to the http context
             var claimsIdentity = new ClaimsIdentity(decodedToken.Claims, "UserInfo",
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             
@@ -149,7 +151,7 @@ namespace MusicCatalog.Web.Controllers
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
             var client = _clientFactory.CreateClient("client");
-            var roles = await client.GetFromJsonAsync<List<string>>("api/Users/login/getAllRoles");
+            var roles = await client.GetFromJsonAsync<List<string>>("api/Users/getAllRoles");
             var items = new List<SelectListItem>();
 
             foreach (var role in roles)

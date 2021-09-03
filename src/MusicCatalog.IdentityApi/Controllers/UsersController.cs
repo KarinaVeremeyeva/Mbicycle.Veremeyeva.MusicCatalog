@@ -62,11 +62,6 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] UserModel model)
         {
-            if (!ModelState.IsValid || model == null)
-            {
-                return new BadRequestObjectResult(new { Message = "Registration of user failed" });
-            }
-
             var user = new IdentityUser()
             {
                 Email = model.Email,
@@ -74,14 +69,17 @@ namespace MusicCatalog.IdentityApi.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (result.Succeeded)
+            if (user != null)
             {
-                var roles = await _userManager.GetRolesAsync(user);
+                if (result.Succeeded)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
 
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-                
-                return Ok();
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+
+                    return Ok();
+                }
             }
 
             return BadRequest(result.Errors);
@@ -95,24 +93,22 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserModel model)
         {
-            if (!ModelState.IsValid || model == null)
-            {
-                return new BadRequestObjectResult(new { Message = "Login failed" });
-            }
-
+            var user = await _userManager.FindByEmailAsync(model.Email);
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
-            if (result.Succeeded)
-            {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                var roles = await _userManager.GetRolesAsync(user);
-                //var claims = _userManager.GetClaimsAsync(user);
 
-                // add token to header of response
-                Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-                return Ok();
+            if (user != null)
+            {
+                if (result.Succeeded)
+                {
+                    var roles = await _userManager.GetRolesAsync(user);
+
+                    // add token to header of response
+                    Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+                    return Ok();
+                }
             }
 
-            return Forbid();
+            return BadRequest(new { errorMessage = "Invalid email or password"} );
         }
 
         /// <summary>
