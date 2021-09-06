@@ -28,7 +28,7 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Accounts controller constructor
         /// </summary>
-        /// <param name="clientFactory"></param>
+        /// <param name="clientFactory">Http client factory</param>
         public AccountsController(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;

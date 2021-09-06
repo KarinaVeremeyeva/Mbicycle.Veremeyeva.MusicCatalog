@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicCatalog.IdentityApi.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.IdentityApi.Controllers
@@ -31,11 +33,17 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <returns>Users</returns>
         [HttpGet]
-        public IEnumerable<IdentityUser> Get()
+        public ActionResult<IEnumerable<string>> GetUsers()
         {
-            var users = _userManager.Users;
+            var users = _userManager.Users.ToList();
+            var usersList = new List<string>();
 
-            return users;
+            foreach (var userEmail in users)
+            {
+                usersList.Add(userEmail.Email);
+            }
+
+            return Ok(usersList); ;
         }
 
         /// <summary>

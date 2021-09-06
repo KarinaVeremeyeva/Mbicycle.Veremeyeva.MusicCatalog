@@ -162,7 +162,7 @@ namespace MusicCatalog.IdentityApi.Controllers
                 roleNames.Add(role.Name);
             }
 
-            return roleNames;
+            return Ok(roleNames);
         }
     }
 }
