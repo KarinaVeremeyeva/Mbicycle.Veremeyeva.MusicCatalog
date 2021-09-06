@@ -4,7 +4,8 @@
 }
 <h3>@Localizer["Header"]</h3>
 <p>
-    @Html.ActionLink(Localizer["Create genre"].Value, "Create", "Genres", null, new { @class = "btn btn-outline-primary" })
+    @Html.ActionLink(Localizer["Create genre"].Value, "Create", "Genres", null,
+        new { @class = "btn btn-primary" })
 </p>
 <table class="table table-bordered table-hover">
     <thead>
@@ -17,9 +18,11 @@
     {
         <tr>
             <td>@Html.DisplayFor(modelItem => genre.Name)</td>
-            <td>
-                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = genre.GenreId })
-                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = genre.GenreId })
+            <td class="text-center">
+                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = genre.GenreId },
+                    new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = genre.GenreId },
+                    new { @class = "btn btn-outline-danger" })
             </td>
         </tr>
     }

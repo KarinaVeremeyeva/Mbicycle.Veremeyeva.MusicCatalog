@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
 using MusicCatalog.IdentityApi.Settings;
@@ -74,6 +75,15 @@ namespace MusicCatalog.IdentityApi
             services.AddScoped<JwtTokenService>();
 
             services.AddControllers();
+
+            services.AddSwaggerGen(swagger =>
+            {
+                swagger.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "MusicCatalog.IdentityApi",
+                    Version = "v1"
+                });
+            });
         }
 
         /// <summary>
@@ -86,6 +96,11 @@ namespace MusicCatalog.IdentityApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "MusicCatalog.IdentityApi v1");
+                });
             }
 
             app.UseRouting();
