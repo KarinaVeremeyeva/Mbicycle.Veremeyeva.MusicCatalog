@@ -132,7 +132,4 @@
   <data name="PasswordRequired" xml:space="preserve">
     <value>Пароль не указан</value>
   </data>
-  <data name="Role" xml:space="preserve">
-    <value>Роль</value>
-  </data>
 </root>

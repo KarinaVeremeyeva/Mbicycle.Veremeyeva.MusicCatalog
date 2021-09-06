@@ -132,7 +132,7 @@
   <data name="Register" xml:space="preserve">
     <value>Регистрация</value>
   </data>
-  <data name="YearOfBirth" xml:space="preserve">
-    <value>Год рождения</value>
+  <data name="Role" xml:space="preserve">
+    <value>Роль</value>
   </data>
 </root>
