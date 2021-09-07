@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
@@ -36,18 +37,85 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _clientFactory.CreateClient("client");
-            var userEmails = await client.GetFromJsonAsync<List<string>>("api/Admin");
+            var response = await client.GetFromJsonAsync<List<IdentityUser>>("api/Admin");
+            
+            var users = new List<UserViewModel>();
+            foreach (var identityUser in response)
+            {
+                users.Add(new UserViewModel { Id = identityUser.Id, Email = identityUser.Email });
+            }
 
-            return View(userEmails);
+            return View(users);
         }
 
         /// <summary>
-        /// Update user
+        /// Updates user bu id
         /// </summary>
-        /// <param name="model">User model</param>
+        /// <param name="id">User id</param>
+        /// <returns>IActionResult</returns>
+        [HttpGet]
+        public async Task<IActionResult> Update(string id)
+        { 
+            var client = _clientFactory.CreateClient("client");
+            var userToUpdate = await client.GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
+
+            if (userToUpdate == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            var user = new UserViewModel { Id = userToUpdate.Id, Email = userToUpdate.Email };
+
+            return View(user);
+        }
+
+        /// <summary>
+        /// Updates user
+        /// </summary>
+        /// <param name="model">UserViewModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost]
         public async Task<IActionResult> Update([FromForm] UserViewModel model)
+        {
+            var client = _clientFactory.CreateClient("client");
+            var response = await client.PostAsJsonAsync($"api/Admin/{model.Id}", model);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// Deletes a user by id
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>IActionResult</returns>
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var client = _clientFactory.CreateClient("client");
+            var userToDelete = await client.GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
+
+            if (userToDelete == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+            var user = new UserViewModel { Id = userToDelete.Id, Email = userToDelete.Email };
+
+            return View(user);
+        }
+
+        /// <summary>
+        ///  Deletes a user
+        /// </summary>
+        /// <param name="model">UserViewModel</param>
+        /// <returns>IActionResult</returns>
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteConfirmed([FromForm] UserViewModel model)
         {
             var client = _clientFactory.CreateClient("client");
             var response = await client.PostAsJsonAsync($"api/Admin/{model.Id}", model);

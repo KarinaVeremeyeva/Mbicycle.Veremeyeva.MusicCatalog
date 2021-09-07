@@ -1,0 +1,25 @@
+﻿@model IEnumerable<UserViewModel>
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
+<h3>@Localizer["Header"]</h3>
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th scope="col">@Localizer["Email"]</th>
+            <th></th>
+        </tr>
+    </thead>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => user.Email)</td>
+            <td class="text-center">
+                @Html.ActionLink(Localizer["Edit"].Value, "Update", new { id = user.Id },
+                    new { @class = "btn btn-outline-primary" })
+                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = user.Id },
+                    new { @class = "btn btn-outline-danger" })
+            </td>
+        </tr>
+    }
+</table>

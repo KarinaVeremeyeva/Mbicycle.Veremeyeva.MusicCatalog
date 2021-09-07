@@ -67,8 +67,9 @@ namespace MusicCatalog.Web.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+            ModelState.AddModelError(string.Empty, "Wrong user details");
 
-            return Forbid();
+            return View(model);
         }
 
         /// <summary>
@@ -104,7 +105,9 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            return Forbid();
+            ModelState.AddModelError(string.Empty, "Wrong user details");
+
+            return View(model);
         }
 
         /// <summary>
