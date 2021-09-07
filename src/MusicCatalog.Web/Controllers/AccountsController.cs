@@ -68,6 +68,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError(string.Empty, "Wrong user details");
+            model.ExistingRoles = await GetAllRoles();
 
             return View(model);
         }

@@ -45,7 +45,15 @@ namespace MusicCatalog.IdentityApi
 
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(connectionString));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<IdentityUser, IdentityRole>(options => 
+                options.Password = new PasswordOptions
+                {
+                    RequireDigit = true,
+                    RequiredLength = 8,
+                    RequireNonAlphanumeric = false,
+                    RequireLowercase = false,
+                    RequireUppercase = false
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
