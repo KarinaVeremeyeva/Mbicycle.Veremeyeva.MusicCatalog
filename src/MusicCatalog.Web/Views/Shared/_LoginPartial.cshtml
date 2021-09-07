@@ -1,7 +1,13 @@
 ﻿<ul class="navbar-nav">
     @if (User.Identity.IsAuthenticated)
     {
-        <li class="nav-item mr-2">
+        if (User.IsInRole("admin"))
+        {
+            <li class="nav-item">
+                <a asp-controller="ManageAccounts" asp-action="Index" class="nav-link text-dark">@Localizer["Accounts"]</a>
+            </li>
+        }
+        <li class="nav-item">
             <a class="nav-link text-dark">@Localizer["Message"] @User.Identity.Name</a>
         </li>
         <li class="nav-item">

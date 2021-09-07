@@ -78,7 +78,7 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Update([FromForm] UserViewModel model)
         {
             var client = _clientFactory.CreateClient("client");
-            var response = await client.PostAsJsonAsync($"api/Admin/{model.Id}", model);
+            var response = await client.PutAsJsonAsync($"api/Admin/{model.Id}", model);
 
             if (response.IsSuccessStatusCode)
             {
@@ -118,7 +118,7 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> DeleteConfirmed([FromForm] UserViewModel model)
         {
             var client = _clientFactory.CreateClient("client");
-            var response = await client.PostAsJsonAsync($"api/Admin/{model.Id}", model);
+            var response = await client.DeleteAsync($"api/Admin/{model.Id}");
 
             if (response.IsSuccessStatusCode)
             {
