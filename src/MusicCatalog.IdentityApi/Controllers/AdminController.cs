@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicCatalog.IdentityApi.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -53,21 +54,19 @@ namespace MusicCatalog.IdentityApi.Controllers
         }
 
         /// <summary>
-        /// Updates user
+        /// Updates a user
         /// </summary>
-        /// <param name="id">id</param>
+        /// <param name="model">User model</param>
         /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(string id)
+        public async Task<IActionResult> Update([FromBody] UserModel model)
         {
-            if (string.IsNullOrEmpty(id))
-            {
-                return NotFound();
-            }
-
-            var user = await _userManager.FindByIdAsync(id);    
+            var user = await _userManager.FindByIdAsync(model.Id);    
             if (user != null)
             {
+                user.Email = model.Email;
+                user.UserName = model.Email;
+
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -90,7 +89,6 @@ namespace MusicCatalog.IdentityApi.Controllers
             {
                 return NotFound();
             }
-
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {

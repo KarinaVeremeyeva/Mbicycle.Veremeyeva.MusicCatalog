@@ -37,9 +37,9 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _clientFactory.CreateClient("client");
-            var response = await client.GetFromJsonAsync<List<IdentityUser>>("api/Admin");
-            
+            var response = await client.GetFromJsonAsync<List<IdentityUser>>("api/Admin");       
             var users = new List<UserViewModel>();
+
             foreach (var identityUser in response)
             {
                 users.Add(new UserViewModel { Id = identityUser.Id, Email = identityUser.Email });
@@ -76,16 +76,22 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>IActionResult</returns>
         [HttpPost]
         public async Task<IActionResult> Update([FromForm] UserViewModel model)
-        {
-            var client = _clientFactory.CreateClient("client");
-            var response = await client.PutAsJsonAsync($"api/Admin/{model.Id}", model);
-
-            if (response.IsSuccessStatusCode)
+        {  
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
-            }
+                var user = new IdentityUser { Id = model.Id, Email = model.Email };
+                var client = _clientFactory.CreateClient("client");
+                var response = await client.PutAsJsonAsync($"api/Admin/{user.Id}", user);
 
-            return View();
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+
+                ModelState.AddModelError(string.Empty, "Wrong user detailes");
+            }
+               
+            return View(model);
         }
 
         /// <summary>
@@ -112,13 +118,18 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         ///  Deletes a user
         /// </summary>
-        /// <param name="model">UserViewModel</param>
+        /// <param name="id">User id</param>
         /// <returns>IActionResult</returns>
         [HttpPost, ActionName("Delete")]
-        public async Task<IActionResult> DeleteConfirmed([FromForm] UserViewModel model)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            if (string.IsNullOrEmpty(id))
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
             var client = _clientFactory.CreateClient("client");
-            var response = await client.DeleteAsync($"api/Admin/{model.Id}");
+            var response = await client.DeleteAsync($"api/Admin/{id}");
 
             if (response.IsSuccessStatusCode)
             {
