@@ -130,7 +130,6 @@ namespace MusicCatalog.Web.Controllers
             return Forbid();
         }
 
-
         /// <summary>
         /// Authorizes user by token and role
         /// </summary>

@@ -26,6 +26,7 @@
                 @Html.DropDownListFor(model => model.Role, Model.ExistingRoles, null,
                     new { @class = "form-control" })
             </div>
+            <span asp-validation-for="Role" class="text-danger"></span>
         </div>
         <div>
             <button type="submit" class="btn btn-primary">@Localizer["Register"]</button>

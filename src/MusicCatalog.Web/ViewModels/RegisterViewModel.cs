@@ -39,6 +39,7 @@ namespace MusicCatalog.Web.ViewModels
         /// User's role
         /// </summary>
         [NotMapped]
+        [Required(ErrorMessage = "RoleRequired")]
         public string Role { get; set; }
 
         /// <summary>

@@ -88,7 +88,7 @@ namespace MusicCatalog.Web.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                ModelState.AddModelError(string.Empty, "Wrong user detailes");
+                ModelState.AddModelError(string.Empty, "Wrong user details");
             }
                
             return View(model);

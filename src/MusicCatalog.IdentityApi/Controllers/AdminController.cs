@@ -37,7 +37,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         {
             var users = _userManager.Users.ToList();
 
-            return Ok(users); ;
+            return Ok(users);
         }
 
         /// <summary>
@@ -61,20 +61,23 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UserModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);    
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                user.Email = model.Email;
-                user.UserName = model.Email;
-
-                var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
+                var user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
                 {
-                    return Ok(result);
+                    user.Email = model.Email;
+                    user.UserName = model.Email;
+
+                    var result = await _userManager.UpdateAsync(user);
+                    if (result.Succeeded)
+                    {
+                        return Ok(result);
+                    }
                 }
             }
-
-            return BadRequest();
+           
+            return BadRequest(ModelState);
         }
 
         /// <summary>
