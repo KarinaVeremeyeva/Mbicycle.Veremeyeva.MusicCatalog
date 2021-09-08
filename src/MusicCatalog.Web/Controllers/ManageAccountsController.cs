@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Web.ViewModels;
@@ -21,12 +22,18 @@ namespace MusicCatalog.Web.Controllers
         private readonly IHttpClientFactory _clientFactory;
 
         /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
+
         /// Manage accounts controller constructor
         /// </summary>
         /// <param name="clientFactory">Http client factory</param>
-        public ManageAccountsController(IHttpClientFactory clientFactory)
+        /// <param name="mapper">Mapper</param>
+        public ManageAccountsController(IHttpClientFactory clientFactory, IMapper mapper)
         {
             _clientFactory = clientFactory;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -37,13 +44,8 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _clientFactory.CreateClient("client");
-            var response = await client.GetFromJsonAsync<List<IdentityUser>>("api/Admin");       
-            var users = new List<UserViewModel>();
-
-            foreach (var identityUser in response)
-            {
-                users.Add(new UserViewModel { Id = identityUser.Id, Email = identityUser.Email });
-            }
+            var response = await client.GetFromJsonAsync<List<IdentityUser>>("api/Admin");
+            var users = _mapper.Map<List<UserViewModel>>(response);
 
             return View(users);
         }
@@ -64,7 +66,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var user = new UserViewModel { Id = userToUpdate.Id, Email = userToUpdate.Email };
+            var user = _mapper.Map<UserViewModel>(userToUpdate);
 
             return View(user);
         }
@@ -79,7 +81,7 @@ namespace MusicCatalog.Web.Controllers
         {  
             if (ModelState.IsValid)
             {
-                var user = new IdentityUser { Id = model.Id, Email = model.Email };
+                var user = _mapper.Map<IdentityUser>(model);
                 var client = _clientFactory.CreateClient("client");
                 var response = await client.PutAsJsonAsync($"api/Admin/{user.Id}", user);
 
@@ -110,7 +112,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var user = new UserViewModel { Id = userToDelete.Id, Email = userToDelete.Email };
+            var user = _mapper.Map<UserViewModel>(userToDelete);
 
             return View(user);
         }

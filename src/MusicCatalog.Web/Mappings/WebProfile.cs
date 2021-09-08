@@ -2,13 +2,16 @@
 using MusicCatalog.BusinessLogic.Models;
 using MusicCatalog.Web.ViewModels;
 
-namespace MusicCatalog.Web
+namespace MusicCatalog.Web.Mappings
 {
     /// <summary>
     /// Configures mapping for types
     /// </summary>
     public class WebProfile : Profile
     {
+        /// <summary>
+        /// WebProfile constructor
+        /// </summary>
         public WebProfile()
         {
             CreateMap<AlbumDto, AlbumViewModel>();

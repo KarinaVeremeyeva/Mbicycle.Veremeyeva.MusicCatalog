@@ -1,5 +1,4 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -15,6 +14,7 @@ using MusicCatalog.BusinessLogic.Services;
 using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
+using MusicCatalog.Web.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -57,6 +57,7 @@ namespace MusicCatalog.Web
                 {
                     map.AddProfile<BusinessLogicProfile>();
                     map.AddProfile<WebProfile>();
+                    map.AddProfile<AccountProfile>();
                 });
 
             services.AddSingleton(mapping.CreateMapper());
