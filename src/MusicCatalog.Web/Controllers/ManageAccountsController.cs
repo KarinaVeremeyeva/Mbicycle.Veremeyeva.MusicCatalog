@@ -26,6 +26,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly IMapper _mapper;
 
+        /// <summary>
         /// Manage accounts controller constructor
         /// </summary>
         /// <param name="clientFactory">Http client factory</param>

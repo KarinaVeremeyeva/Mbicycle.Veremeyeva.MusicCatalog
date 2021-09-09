@@ -1,5 +1,7 @@
 ﻿@model RegisterViewModel
-
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
 <h2>@Localizer["Header"]</h2>
 <form method="post" asp-controller="Accounts" asp-action="Register">
     <hr />
@@ -31,5 +33,5 @@
         <div>
             <button type="submit" class="btn btn-primary">@Localizer["Register"]</button>
         </div>
-    </div>     
+    </div>
 </form>

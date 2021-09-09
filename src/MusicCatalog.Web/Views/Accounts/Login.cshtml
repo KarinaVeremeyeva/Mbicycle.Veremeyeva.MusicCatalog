@@ -1,5 +1,7 @@
 ﻿@model LoginViewModel
-
+@{
+    ViewData["Title"] = Localizer["Title"];
+}
 <h2>@Localizer["Header"]</h2>
 <form method="post" asp-controller="Accounts" asp-action="Login">
     <hr />
