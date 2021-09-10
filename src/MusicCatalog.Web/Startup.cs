@@ -62,10 +62,10 @@ namespace MusicCatalog.Web
                 });
 
             services.AddSingleton(mapping.CreateMapper());
-            services.AddHttpClient<AccountApiClient>(c =>
+            services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
             {
-                c.BaseAddress = new Uri(UriString);
-                c.DefaultRequestHeaders.Add("Accept", "application/json");
+                client.BaseAddress = new Uri(UriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
             services.AddAuthentication(options =>
             {
@@ -75,8 +75,8 @@ namespace MusicCatalog.Web
             }).AddCookie(JwtBearerDefaults.AuthenticationScheme,
                 options => 
                 {
-                    options.LoginPath = "/Accounts/login";
-                    options.AccessDeniedPath = "/Accounts/login";
+                    options.LoginPath = "/Accounts/Login";
+                    options.AccessDeniedPath = "/Accounts/Login";
                 });
 
             services.AddScoped<IRepository<Genre>, EFGenreRepository>();

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
@@ -19,7 +18,7 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Account api client
         /// </summary>
-        private readonly AccountApiClient _accountApiClient;
+        private readonly IAccountApiService _accountApiClient;
 
         /// <summary>
         /// Mapper
@@ -31,7 +30,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="accountApiClient">Account api client</param>
         /// <param name="mapper">Mapper</param>
-        public ManageAccountsController(AccountApiClient accountApiClient, IMapper mapper)
+        public ManageAccountsController(IAccountApiService accountApiClient, IMapper mapper)
         {
             _accountApiClient = accountApiClient;
             _mapper = mapper;
@@ -44,9 +43,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var response = await _accountApiClient.Client
-                .GetFromJsonAsync<List<IdentityUser>>("api/Admin");
-
+            var response = await _accountApiClient.GetUsers();
             var users = _mapper.Map<List<UserViewModel>>(response);
 
             return View(users);
@@ -60,8 +57,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            var userToUpdate = await _accountApiClient.Client
-                .GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
+            var userToUpdate = await _accountApiClient.GetUser(id);
 
             if (userToUpdate == null)
             {
@@ -84,8 +80,7 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = _mapper.Map<IdentityUser>(model);
-                var response = await _accountApiClient.Client
-                    .PutAsJsonAsync($"api/Admin/{user.Id}", user);
+                var response = await _accountApiClient.PutUser(user);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -106,8 +101,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var userToDelete = await _accountApiClient.Client
-                .GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
+            var userToDelete = await _accountApiClient.GetUser(id);
 
             if (userToDelete == null)
             {
@@ -132,7 +126,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var response = await _accountApiClient.Client.DeleteAsync($"api/Admin/{id}");
+            var response = await _accountApiClient.DeleteUser(id);
 
             if (response.IsSuccessStatusCode)
             {

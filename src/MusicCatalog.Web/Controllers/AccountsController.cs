@@ -1,14 +1,15 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Security.Principal;
 using System.Threading.Tasks;
@@ -23,15 +24,22 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Account api client
         /// </summary>
-        private readonly AccountApiClient _accountApiClient;
+        private readonly IAccountApiService _accountApiClient;
+
+        /// <summary>
+        /// Mapper
+        /// </summary>
+        private readonly IMapper _mapper;
 
         /// <summary>
         /// Accounts controller constructor
         /// </summary>
         /// <param name="accountApiClient">Account api client</param>
-        public AccountsController(AccountApiClient accountApiClient)
+        /// <param name="mapper">Mapper</param>
+        public AccountsController(IAccountApiService accountApiClient, IMapper mapper)
         {
             _accountApiClient = accountApiClient;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -52,7 +60,8 @@ namespace MusicCatalog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
-            var response = await _accountApiClient.Client.PostAsJsonAsync("api/Users/register", model);
+            var user = _mapper.Map<RegisterModel>(model);
+            var response = await _accountApiClient.RegisterUser(user);
 
             if (response.IsSuccessStatusCode
                 && response.Headers.Contains("Authorization")
@@ -89,7 +98,8 @@ namespace MusicCatalog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LoginViewModel model)
         {
-            var response = await _accountApiClient.Client.PostAsJsonAsync("api/Users/login", model);
+            var user = _mapper.Map<LoginModel>(model);
+            var response = await _accountApiClient.LoginUser(user);
 
             if (response.IsSuccessStatusCode
                 && response.Headers.Contains("Authorization")
@@ -116,7 +126,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            var response = await _accountApiClient.Client.GetAsync("api/Users/logout");
+            var response = await _accountApiClient.LogoutUser();
 
             if (response.IsSuccessStatusCode)
             {
@@ -159,8 +169,7 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>Roles</returns>
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
-            var roles = await _accountApiClient.Client
-                .GetFromJsonAsync<List<string>>("api/Users/getAllRoles");
+            var roles = await _accountApiClient.GetRoles();
             var items = new List<SelectListItem>();
 
             foreach (var role in roles)
