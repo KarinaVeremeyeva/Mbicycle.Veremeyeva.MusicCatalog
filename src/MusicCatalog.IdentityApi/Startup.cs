@@ -48,7 +48,7 @@ namespace MusicCatalog.IdentityApi
             services.AddIdentity<IdentityUser, IdentityRole>(options => 
                 options.Password = new PasswordOptions
                 {
-                    RequireDigit = true,
+                    RequireDigit = false,
                     RequiredLength = 8,
                     RequireNonAlphanumeric = false,
                     RequireLowercase = false,

@@ -34,7 +34,7 @@ namespace MusicCatalog.BusinessLogic.Interfaces
         SongDto GetSongById(int songId);
 
         /// <summary>
-        /// Returns all songs by id
+        /// Returns all songs
         /// </summary>
         /// <returns>Songs</returns>
         IEnumerable<SongDto> GetSongs();

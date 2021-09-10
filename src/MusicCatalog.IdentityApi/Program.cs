@@ -16,9 +16,10 @@ namespace MusicCatalog.IdentityApi
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-                var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-                await RoleInitializer.InitializeWithRoles(rolesManager);
+                var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+                var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
+                
+                await IdentityDataInitializer.SeedData(userManager, roleManager);
             }
 
             host.Run();
