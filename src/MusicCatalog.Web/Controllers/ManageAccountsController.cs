@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -17,9 +17,9 @@ namespace MusicCatalog.Web.Controllers
     public class ManageAccountsController : Controller
     {
         /// <summary>
-        /// Http client factory for creating http client instances
+        /// Account api client
         /// </summary>
-        private readonly IHttpClientFactory _clientFactory;
+        private readonly AccountApiClient _accountApiClient;
 
         /// <summary>
         /// Mapper
@@ -29,11 +29,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Manage accounts controller constructor
         /// </summary>
-        /// <param name="clientFactory">Http client factory</param>
+        /// <param name="accountApiClient">Account api client</param>
         /// <param name="mapper">Mapper</param>
-        public ManageAccountsController(IHttpClientFactory clientFactory, IMapper mapper)
+        public ManageAccountsController(AccountApiClient accountApiClient, IMapper mapper)
         {
-            _clientFactory = clientFactory;
+            _accountApiClient = accountApiClient;
             _mapper = mapper;
         }
 
@@ -44,8 +44,9 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var client = _clientFactory.CreateClient("client");
-            var response = await client.GetFromJsonAsync<List<IdentityUser>>("api/Admin");
+            var response = await _accountApiClient.Client
+                .GetFromJsonAsync<List<IdentityUser>>("api/Admin");
+
             var users = _mapper.Map<List<UserViewModel>>(response);
 
             return View(users);
@@ -58,9 +59,9 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>IActionResult</returns>
         [HttpGet]
         public async Task<IActionResult> Update(string id)
-        { 
-            var client = _clientFactory.CreateClient("client");
-            var userToUpdate = await client.GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
+        {
+            var userToUpdate = await _accountApiClient.Client
+                .GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
 
             if (userToUpdate == null)
             {
@@ -83,8 +84,8 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = _mapper.Map<IdentityUser>(model);
-                var client = _clientFactory.CreateClient("client");
-                var response = await client.PutAsJsonAsync($"api/Admin/{user.Id}", user);
+                var response = await _accountApiClient.Client
+                    .PutAsJsonAsync($"api/Admin/{user.Id}", user);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -105,8 +106,8 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var client = _clientFactory.CreateClient("client");
-            var userToDelete = await client.GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
+            var userToDelete = await _accountApiClient.Client
+                .GetFromJsonAsync<IdentityUser>($"api/Admin/{id}");
 
             if (userToDelete == null)
             {
@@ -131,8 +132,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var client = _clientFactory.CreateClient("client");
-            var response = await client.DeleteAsync($"api/Admin/{id}");
+            var response = await _accountApiClient.Client.DeleteAsync($"api/Admin/{id}");
 
             if (response.IsSuccessStatusCode)
             {

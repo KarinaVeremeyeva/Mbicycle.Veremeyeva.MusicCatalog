@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Json;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -21,17 +21,17 @@ namespace MusicCatalog.Web.Controllers
     public class AccountsController : Controller
     {
         /// <summary>
-        /// Http client factory for creating http client instances
+        /// Account api client
         /// </summary>
-        private readonly IHttpClientFactory _clientFactory;
+        private readonly AccountApiClient _accountApiClient;
 
         /// <summary>
         /// Accounts controller constructor
         /// </summary>
-        /// <param name="clientFactory">Http client factory</param>
-        public AccountsController(IHttpClientFactory clientFactory)
+        /// <param name="accountApiClient">Account api client</param>
+        public AccountsController(AccountApiClient accountApiClient)
         {
-            _clientFactory = clientFactory;
+            _accountApiClient = accountApiClient;
         }
 
         /// <summary>
@@ -52,8 +52,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
-            var client = _clientFactory.CreateClient("client");           
-            var response = await client.PostAsJsonAsync("api/Users/register", model);
+            var response = await _accountApiClient.Client.PostAsJsonAsync("api/Users/register", model);
 
             if (response.IsSuccessStatusCode
                 && response.Headers.Contains("Authorization")
@@ -90,8 +89,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login([FromForm] LoginViewModel model)
         {
-            var client = _clientFactory.CreateClient("client");
-            var response = await client.PostAsJsonAsync("api/Users/login", model);
+            var response = await _accountApiClient.Client.PostAsJsonAsync("api/Users/login", model);
 
             if (response.IsSuccessStatusCode
                 && response.Headers.Contains("Authorization")
@@ -118,8 +116,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            var client = _clientFactory.CreateClient("client");
-            var response = await client.GetAsync("api/Users/logout");
+            var response = await _accountApiClient.Client.GetAsync("api/Users/logout");
 
             if (response.IsSuccessStatusCode)
             {
@@ -162,8 +159,8 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>Roles</returns>
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
-            var client = _clientFactory.CreateClient("client");
-            var roles = await client.GetFromJsonAsync<List<string>>("api/Users/getAllRoles");
+            var roles = await _accountApiClient.Client
+                .GetFromJsonAsync<List<string>>("api/Users/getAllRoles");
             var items = new List<SelectListItem>();
 
             foreach (var role in roles)
