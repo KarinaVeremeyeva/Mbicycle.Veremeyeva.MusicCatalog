@@ -69,25 +69,22 @@ namespace MusicCatalog.IdentityApi.Controllers
             };
             var result = await _userManager.CreateAsync(user, model.Password);
 
-            if (user != null)
+            if (result == null || !result.Succeeded)
             {
-                if (result.Succeeded)
-                {
-                    if (!string.IsNullOrEmpty(model.Role))
-                    {
-                        await _userManager.AddToRoleAsync(user, model.Role);
-                    }
-                    var roles = await _userManager.GetRolesAsync(user);
-
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-                    Response.Headers.Add("AuthorizationRoles", roles.ToArray());
-
-                    return Ok();
-                }
+                return BadRequest(result.Errors);
             }
 
-            return BadRequest(result.Errors);
+            if (!string.IsNullOrEmpty(model.Role))
+            {
+                await _userManager.AddToRoleAsync(user, model.Role);
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+            Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+
+            return Ok();
         }
 
         /// <summary>
@@ -102,21 +99,18 @@ namespace MusicCatalog.IdentityApi.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password,
                 model.RememberMe, lockoutOnFailure: false);
 
-            if (user != null)
+            if (user == null || !result.Succeeded)
             {
-                if (result.Succeeded)
-                {
-                    var roles = await _userManager.GetRolesAsync(user);
-
-                    // add token to header of response
-                    Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-                    Response.Headers.Add("AuthorizationRoles", roles.ToArray());
-
-                    return Ok();
-                }
+                return BadRequest(new { errorMessage = "Invalid email or password"} );
             }
 
-            return BadRequest(new { errorMessage = "Invalid email or password"} );
+            var roles = await _userManager.GetRolesAsync(user);
+
+            // add token to header of response
+            Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
+            Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+
+            return Ok();
         }
 
         /// <summary>
@@ -150,17 +144,12 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <summary>
         /// Gets all role names
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Role names</returns>
         [HttpGet("getAllRoles")]
         public ActionResult<IEnumerable<string>> GetAllRoles()
         {
             var roles = _roleManager.Roles.ToList();
-            var roleNames = new List<string>();
-            
-            foreach (var role in roles)
-            {
-                roleNames.Add(role.Name);
-            }
+            var roleNames = roles.Select(role => role.Name);
 
             return Ok(roleNames);
         }

@@ -32,6 +32,16 @@ namespace MusicCatalog.Web.Controllers
         private readonly IMapper _mapper;
 
         /// <summary>
+        /// Authentication type
+        /// </summary>
+        private const string AuthenticationType = "UserInfo";
+
+        /// <summary>
+        /// Jwt token key
+        /// </summary>
+        private const string JwtTokenKey = "secret_jwt_key";
+
+        /// <summary>
         /// Accounts controller constructor
         /// </summary>
         /// <param name="accountApiClient">Account api client</param>
@@ -45,7 +55,7 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Get-request to register new user
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IActionResult</returns>
         [HttpGet]
         public async Task<IActionResult>  Register()
         {
@@ -145,7 +155,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="roles">Roles</param>
         private async void AuthorizeHandle(string token, string roles)
         {
-            HttpContext.Response.Cookies.Append("secret_jwt_key", token, new CookieOptions
+            HttpContext.Response.Cookies.Append(JwtTokenKey, token, new CookieOptions
             {
                 HttpOnly = true,
                 SameSite = SameSiteMode.Strict
@@ -155,7 +165,7 @@ namespace MusicCatalog.Web.Controllers
             var roleNames = roles.Split(',');
 
             // take claims of user from token, write it to the http context
-            var claimsIdentity = new ClaimsIdentity(decodedToken.Claims, "UserInfo",
+            var claimsIdentity = new ClaimsIdentity(decodedToken.Claims, AuthenticationType,
                 ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             
             HttpContext.User = new GenericPrincipal(claimsIdentity, roleNames);
@@ -170,12 +180,9 @@ namespace MusicCatalog.Web.Controllers
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
             var roles = await _accountApiClient.GetRoles();
-            var items = new List<SelectListItem>();
-
-            foreach (var role in roles)
-            {
-                items.Add(new SelectListItem { Text = role, Value = role });
-            }
+            var items = roles
+                .Select(role => new SelectListItem { Text = role, Value = role })
+                .ToList();
 
             return items;
         }

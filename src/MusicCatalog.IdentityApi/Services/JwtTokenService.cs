@@ -53,8 +53,7 @@ namespace MusicCatalog.IdentityApi.Services
                 issuer: _settings.JwtIssuer,
                 audience: _settings.JwtAudience,
                 signingCredentials: signingCredentials,
-                claims: userClaims
-                );
+                claims: userClaims);
 
             var encodedJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 

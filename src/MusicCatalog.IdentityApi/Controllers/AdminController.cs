@@ -93,6 +93,7 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return NotFound();
             }
             var user = await _userManager.FindByIdAsync(id);
+
             if (user != null)
             {
                 var result = await _userManager.DeleteAsync(user);

@@ -43,10 +43,10 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var response = await _accountApiClient.GetUsers();
-            var users = _mapper.Map<List<UserViewModel>>(response);
+            var users = await _accountApiClient.GetUsers();
+            var userViewModels = _mapper.Map<List<UserViewModel>>(users);
 
-            return View(users);
+            return View(userViewModels);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>IActionResult</returns>
         [HttpPost]
         public async Task<IActionResult> Update([FromForm] UserViewModel model)
-        {  
+        {
             if (ModelState.IsValid)
             {
                 var user = _mapper.Map<IdentityUser>(model);
@@ -114,11 +114,12 @@ namespace MusicCatalog.Web.Controllers
         }
 
         /// <summary>
-        ///  Deletes a user
+        /// Deletes a user
         /// </summary>
         /// <param name="id">User id</param>
         /// <returns>IActionResult</returns>
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
+        [ActionName("Delete")]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
             if (string.IsNullOrEmpty(id))

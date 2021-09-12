@@ -35,7 +35,7 @@ namespace MusicCatalog.IdentityApi.Models
                 return;
             }
 
-            var roleNames = new string[] { "admin", "user", "quest" };
+            var roleNames = new string[] { "admin", "user", "manager" };
             foreach (var roleName in roleNames)
             {
                 var roleExist = await roleManager.RoleExistsAsync(roleName);
@@ -55,26 +55,23 @@ namespace MusicCatalog.IdentityApi.Models
         {
             if (!userManager.Users.Any())
             {
-                var users = new List<IdentityUser>()
+                var users = new List<(string Role, IdentityUser User)>()
                 {
-                    new IdentityUser { UserName = "User1", Email = "user1@mail" },
-                    new IdentityUser { UserName = "User2", Email = "user2@mail" },
-                    new IdentityUser { UserName = "Admin", Email = "admin@email" }
+                    ("user", new IdentityUser { UserName = "User1", Email = "user1@mail" }),
+                    ("user", new IdentityUser { UserName = "User2", Email = "user2@mail" }),
+                    ("admin", new IdentityUser { UserName = "Admin", Email = "admin@email" })
                 };
 
-                foreach (var user in users)
+                foreach (var (Role, User) in users)
                 {
-                    var result = await userManager.CreateAsync(user, "123456qw");
+                    var result = await userManager.CreateAsync(User, "123456qw");
 
                     if (result.Succeeded)
                     {
-                        await userManager.AddToRoleAsync(users[0], "user");
-                        await userManager.AddToRoleAsync(users[1], "user");
-                        await userManager.AddToRoleAsync(users[2], "admin");
+                        await userManager.AddToRoleAsync(User, Role);
                     }
                 }
-            }
-          
+            }   
         }
     }
 }
