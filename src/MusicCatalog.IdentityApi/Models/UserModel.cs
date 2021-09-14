@@ -17,5 +17,11 @@ namespace MusicCatalog.IdentityApi.Models
         /// </summary>
         [Required]
         public string Email { get; set; }
+
+        /// <summary>
+        /// User role
+        /// </summary>
+        [Required]
+        public string Role { get; set; }
     }
 }

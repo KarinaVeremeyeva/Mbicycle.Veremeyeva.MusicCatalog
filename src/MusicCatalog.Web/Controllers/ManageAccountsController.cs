@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
@@ -89,7 +91,7 @@ namespace MusicCatalog.Web.Controllers
 
                 ModelState.AddModelError(string.Empty, "Wrong user details");
             }
-               
+
             return View(model);
         }
 
@@ -135,6 +137,72 @@ namespace MusicCatalog.Web.Controllers
             }
 
             return View();
+        }
+
+        /// <summary>
+        /// Changes role by user id
+        /// </summary>
+        /// <param name="id">User is</param>
+        /// <returns>IActionResult</returns>
+        [HttpGet]
+        public async Task<IActionResult> ChangeRole(string id)
+        {
+            var userToUpdate = await _accountApiClient.GetUser(id);
+            var role = await _accountApiClient.GetUserRole(userToUpdate.Id);
+
+            if (userToUpdate == null)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+            var user = new UserViewModel
+            {
+                Id = userToUpdate.Id,
+                Email = userToUpdate.Email,
+                Role = role,
+                ExistingRoles = await GetAllRoles()
+            };
+            //var user = _mapper.Map<UserViewModel>(userToUpdate);
+
+            return View(user);
+        }
+
+        /// <summary>
+        /// Changes user's role
+        /// </summary>
+        /// <param name="model">User model</param>
+        /// <param name="role">Role</param>
+        /// <returns>IActionResult</returns>
+        [HttpPost]
+        public async Task<IActionResult> ChangeRole([FromForm] UserViewModel model, string role)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _mapper.Map<IdentityUser>(model);
+                var response = await _accountApiClient.ChangeRole(user, role);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            ModelState.AddModelError(string.Empty, "Wrong user details");
+            model.ExistingRoles = await GetAllRoles();
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Gets all roles from the identity api
+        /// </summary>
+        /// <returns>Roles</returns>
+        private async Task<IEnumerable<SelectListItem>> GetAllRoles()
+        {
+            var roles = await _accountApiClient.GetRoles();
+            var items = roles
+                .Select(role => new SelectListItem { Text = role, Value = role })
+                .ToList();
+
+            return items;
         }
     }
 }

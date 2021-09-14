@@ -32,7 +32,7 @@ namespace MusicCatalog.Web.Services
         Task<HttpResponseMessage> LogoutUser();
 
         /// <summary>
-        /// Get all roless
+        /// Get all roles
         /// </summary>
         /// <returns>HttpResponseMessage</returns>
         Task<List<string>> GetRoles();
@@ -63,5 +63,20 @@ namespace MusicCatalog.Web.Services
         /// <param name="id">User id</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> DeleteUser(string id);
+
+        /// <summary>
+        /// Change user role
+        /// </summary>
+        /// <param name="user">IdentityUser</param>
+        /// <param name="role">Role</param>
+        /// <returns>HttpResponseMessage</returns>
+        Task<HttpResponseMessage> ChangeRole(IdentityUser user, string role);
+
+        /// <summary>
+        /// Get user role
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>Role name</returns>
+        Task<string> GetUserRole(string id);
     }
 }

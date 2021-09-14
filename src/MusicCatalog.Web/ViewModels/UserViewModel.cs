@@ -1,4 +1,8 @@
-﻿namespace MusicCatalog.Web.ViewModels
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace MusicCatalog.Web.ViewModels
 {
     /// <summary>
     /// User view model
@@ -14,5 +18,15 @@
         /// User email
         /// </summary>
         public string Email { get; set; }
+
+        /// <summary>
+        /// User's role
+        /// </summary>
+        public string Role { get; set; }
+
+        /// <summary>
+        /// Existing roles list
+        /// </summary>
+        public IEnumerable<SelectListItem> ExistingRoles { get; set; }
     }
 }

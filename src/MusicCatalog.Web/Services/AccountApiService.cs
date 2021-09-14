@@ -83,5 +83,17 @@ namespace MusicCatalog.Web.Services
         {
             return await _httpClient.DeleteAsync($"{AdminPath}/{id}");
         }
+
+        /// <inheritdoc cref="IAccountApiService.ChangeRole(IdentityUser, string)"/>
+        public async Task<HttpResponseMessage> ChangeRole(IdentityUser user, string role)
+        {
+            return await _httpClient.PutAsJsonAsync($"{AdminPath}/change-role/{role}", user);
+        }
+
+        /// <inheritdoc cref="IAccountApiService.GetUserRole(string)"/>
+        public async Task<string> GetUserRole(string id)
+        {
+            return await _httpClient.GetFromJsonAsync<string>($"{AdminPath}/role/{id}");
+        }
     }
 }

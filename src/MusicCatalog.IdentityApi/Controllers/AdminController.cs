@@ -105,5 +105,37 @@ namespace MusicCatalog.IdentityApi.Controllers
 
             return BadRequest();
         }
+
+        [HttpPut("change-role/{role}")]
+        public async Task<IActionResult> ChangeRole([FromBody] UserModel model, string role)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.Id);
+                if (user != null)
+                {
+                    var userRoles = await _userManager.GetRolesAsync(user);
+                    var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
+                    await _userManager.AddToRoleAsync(user, role);
+
+                    if (result.Succeeded)
+                    {
+                        return Ok(result);
+                    }
+                }
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [HttpGet("role/{id}")]
+        public async Task<string> GetUserRole(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            var roles = await _userManager.GetRolesAsync(user);
+            var role = roles.ToList().FirstOrDefault();
+
+            return role;
+        }
     }
 }
