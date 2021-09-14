@@ -42,6 +42,16 @@ namespace MusicCatalog.Web.Controllers
         private const string JwtTokenKey = "secret_jwt_key";
 
         /// <summary>
+        /// Authorization header name
+        /// </summary>
+        private const string Authorization = "Authorization";
+
+        /// <summary>
+        /// Authorization roles header name
+        /// </summary>
+        private const string AuthorizationRoles = "AuthorizationRoles";
+
+        /// <summary>
         /// Accounts controller constructor
         /// </summary>
         /// <param name="accountApiClient">Account api client</param>
@@ -74,12 +84,12 @@ namespace MusicCatalog.Web.Controllers
             var response = await _accountApiClient.RegisterUser(user);
 
             if (response.IsSuccessStatusCode
-                && response.Headers.Contains("Authorization")
-                && response.Headers.Contains("AuthorizationRoles"))
+                && response.Headers.Contains(Authorization)
+                && response.Headers.Contains(AuthorizationRoles))
             {
                 // get token from a header
-                var token = response.Headers.GetValues("Authorization").ToArray()[0];
-                var roles = response.Headers.GetValues("AuthorizationRoles").ToArray()[0];
+                var token = response.Headers.GetValues(Authorization).ToArray()[0];
+                var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
 
                 AuthorizeHandle(token, roles);
 
@@ -112,12 +122,12 @@ namespace MusicCatalog.Web.Controllers
             var response = await _accountApiClient.LoginUser(user);
 
             if (response.IsSuccessStatusCode
-                && response.Headers.Contains("Authorization")
-                && response.Headers.Contains("AuthorizationRoles"))
+                && response.Headers.Contains(Authorization)
+                && response.Headers.Contains(AuthorizationRoles))
             {
                 // get token from header
-                var token = response.Headers.GetValues("Authorization").ToArray()[0];
-                var roles = response.Headers.GetValues("AuthorizationRoles").ToArray()[0];
+                var token = response.Headers.GetValues(Authorization).ToArray()[0];
+                var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
 
                 AuthorizeHandle(token, roles);
 

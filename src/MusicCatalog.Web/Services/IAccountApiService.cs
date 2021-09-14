@@ -14,19 +14,19 @@ namespace MusicCatalog.Web.Services
         /// <summary>
         /// Register user
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">RegisterModel</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> RegisterUser(RegisterModel model);
 
         /// <summary>
         /// Login user
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">LoginModel</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> LoginUser(LoginModel model);
 
         /// <summary>
-        /// Logou user
+        /// Logout user
         /// </summary>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> LogoutUser();
