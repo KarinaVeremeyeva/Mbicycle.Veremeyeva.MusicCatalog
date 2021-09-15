@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
@@ -60,14 +60,20 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Update(string id)
         {
             var userToUpdate = await _accountApiClient.GetUser(id);
+            var currentUserRole = await _accountApiClient.GetUserRole(userToUpdate.Id);
 
             if (userToUpdate == null)
             {
                 return RedirectToAction("Error", "Home");
             }
 
-            var user = _mapper.Map<UserViewModel>(userToUpdate);
-
+            var user = new UserViewModel
+            {
+                Id = userToUpdate.Id,
+                Email = userToUpdate.Email,
+                Role = currentUserRole,
+                ExistingRoles = await GetAllRoles()
+            };
             return View(user);
         }
 
@@ -81,10 +87,12 @@ namespace MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<IdentityUser>(model);
-                var response = await _accountApiClient.PutUser(user);
+                var user = _mapper.Map<UserModel>(model);
+                var updateUserResponse = await _accountApiClient.PutUser(user);
+                var updateRoleResponse = await _accountApiClient.UpdateRole(user.Id, user.Role);
 
-                if (response.IsSuccessStatusCode)
+                if (updateUserResponse.IsSuccessStatusCode
+                    && updateRoleResponse.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -137,70 +145,6 @@ namespace MusicCatalog.Web.Controllers
             }
 
             return View();
-        }
-
-        /// <summary>
-        /// Changes role by user id
-        /// </summary>
-        /// <param name="id">User is</param>
-        /// <returns>IActionResult</returns>
-        [HttpGet]
-        public async Task<IActionResult> ChangeRole(string id)
-        {
-            var userToUpdate = await _accountApiClient.GetUser(id);
-            var currentUserRole = await _accountApiClient.GetUserRole(userToUpdate.Id);
-
-            if (userToUpdate == null)
-            {
-                return RedirectToAction("Error", "Home");
-            }
-            var user = new UserViewModel
-            {
-                Id = userToUpdate.Id,
-                Email = userToUpdate.Email,
-                Role = currentUserRole,
-                ExistingRoles = await GetAllRoles()
-            };
-            //var user = _mapper.Map<UserViewModel>(userToUpdate);
-
-            return View(user);
-        }
-
-        /// <summary>
-        /// Changes user's role
-        /// </summary>
-        /// <param name="model">User model</param>
-        /// <param name="role">Role</param>
-        /// <returns>IActionResult</returns>
-        [HttpPost]
-        public async Task<IActionResult> ChangeRole(string id, [FromForm] string role)
-        {
-            var user = await _accountApiClient.GetUser(id);
-            var currentUserRole = await _accountApiClient.GetUserRole(id);
-
-            var model = new UserViewModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Role = currentUserRole,
-                ExistingRoles = await GetAllRoles()
-            };
-
-            if (ModelState.IsValid)
-            {
-                //var user = _mapper.Map<IdentityUser>(model);
-                //var response = await _accountApiClient.ChangeRole(user, role);
-                var response = await _accountApiClient.ChangeRole(user.Id, role);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-            }
-
-            ModelState.AddModelError(string.Empty, "Wrong user details");
-            //model.ExistingRoles = await GetAllRoles();
-            return View(model);
         }
 
         /// <summary>

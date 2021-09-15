@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using MusicCatalog.IdentityApi.Models;
+﻿using MusicCatalog.IdentityApi.Models;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -53,9 +52,9 @@ namespace MusicCatalog.Web.Services
         /// <summary>
         /// Update user
         /// </summary>
-        /// <param name="user">IdentityUser</param>
+        /// <param name="user">User</param>
         /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> PutUser(IdentityUser user);
+        Task<HttpResponseMessage> PutUser(UserModel user);
 
         /// <summary>
         /// Delete user by id
@@ -70,7 +69,7 @@ namespace MusicCatalog.Web.Services
         /// <param name="id">User id</param>
         /// <param name="role">User role</param>
         /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> ChangeRole(string id, string role);
+        Task<HttpResponseMessage> UpdateRole(string id, string role);
 
         /// <summary>
         /// Get user role

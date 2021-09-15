@@ -33,7 +33,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <returns>Users</returns>
         [HttpGet]
-        public async Task<ActionResult<Task<IEnumerable<UserModel>>>> GetUsersAsync()
+        public async Task<ActionResult<IEnumerable<UserModel>>> GetUsersAsync()
         {
             var users = _userManager.Users.ToList();
             var usersWithRole = new List<UserModel>();
@@ -128,8 +128,8 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="id">User id</param>
         /// <param name="role">Role</param>
         /// <returns>IActionResult</returns>
-        [HttpPut("change-role/{id}")]
-        public async Task<IActionResult> ChangeRole(string id, [FromBody] string role)
+        [HttpPut("update-role/{id}")]
+        public async Task<IActionResult> UpdateRole(string id, [FromBody] string role)
         {
             if (ModelState.IsValid)
             {

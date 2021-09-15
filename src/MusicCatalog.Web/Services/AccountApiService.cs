@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using MusicCatalog.IdentityApi.Models;
+﻿using MusicCatalog.IdentityApi.Models;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -72,8 +71,8 @@ namespace MusicCatalog.Web.Services
             return await _httpClient.GetFromJsonAsync<UserModel>($"{AdminPath}/{id}");
         }
 
-        /// <inheritdoc cref="IAccountApiService.PutUser(IdentityUser)"/>
-        public async Task<HttpResponseMessage> PutUser(IdentityUser user)
+        /// <inheritdoc cref="IAccountApiService.PutUser(UserModel)"/>
+        public async Task<HttpResponseMessage> PutUser(UserModel user)
         {
             return await _httpClient.PutAsJsonAsync($"{AdminPath}/{user.Id}", user);
         }
@@ -84,10 +83,10 @@ namespace MusicCatalog.Web.Services
             return await _httpClient.DeleteAsync($"{AdminPath}/{id}");
         }
 
-        /// <inheritdoc cref="IAccountApiService.ChangeRole(string, string)"/>
-        public async Task<HttpResponseMessage> ChangeRole(string id, string role)
+        /// <inheritdoc cref="IAccountApiService.UpdateRole(string, string)"/>
+        public async Task<HttpResponseMessage> UpdateRole(string id, string role)
         {
-            return await _httpClient.PutAsJsonAsync($"{AdminPath}/change-role/{id}", role);
+            return await _httpClient.PutAsJsonAsync($"{AdminPath}/update-role/{id}", role);
         }
 
         /// <inheritdoc cref="IAccountApiService.GetUserRole(string)"/>
