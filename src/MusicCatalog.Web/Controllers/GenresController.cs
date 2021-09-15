@@ -11,7 +11,7 @@ namespace MusicCatalog.Web.Controllers
     /// <summary>
     /// Genres controller
     /// </summary>
-    [Authorize(Roles = "admin, user")]
+    [Authorize(Roles = "admin, user, manager")]
     public class GenresController : Controller
     {
         /// <summary>
