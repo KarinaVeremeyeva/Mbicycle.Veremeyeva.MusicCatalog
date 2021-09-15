@@ -33,11 +33,21 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <returns>Users</returns>
         [HttpGet]
-        public ActionResult<IEnumerable<IdentityUser>> GetUsers()
+        public async Task<ActionResult<Task<IEnumerable<UserModel>>>> GetUsersAsync()
         {
             var users = _userManager.Users.ToList();
+            var usersWithRole = new List<UserModel>();
+            foreach (var user in users)
+            {
+                usersWithRole.Add(new UserModel
+                {
+                    Id = user.Id,
+                    Email = user.Email,
+                    Role = await GetUserRole(user.Id)
+                });
+            }
 
-            return Ok(users);
+            return Ok(usersWithRole);
         }
 
         /// <summary>
@@ -46,11 +56,17 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="id">Id</param>
         /// <returns>User</returns>
         [HttpGet("{id}")]
-        public async Task<IdentityUser> Get(string id)
+        public async Task<UserModel> Get(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
+            var userWithRole = new UserModel
+            {
+                Id = user.Id,
+                Email = user.Email,
+                Role = await GetUserRole(user.Id)
+            };
 
-            return user;
+            return userWithRole;
         }
 
         /// <summary>
@@ -106,12 +122,18 @@ namespace MusicCatalog.IdentityApi.Controllers
             return BadRequest();
         }
 
-        [HttpPut("change-role/{role}")]
-        public async Task<IActionResult> ChangeRole([FromBody] UserModel model, string role)
+        /// <summary>
+        /// Change user's role
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <param name="role">Role</param>
+        /// <returns>IActionResult</returns>
+        [HttpPut("change-role/{id}")]
+        public async Task<IActionResult> ChangeRole(string id, [FromBody] string role)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(model.Id);
+                var user = await _userManager.FindByIdAsync(id);
                 if (user != null)
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
@@ -128,6 +150,11 @@ namespace MusicCatalog.IdentityApi.Controllers
             return BadRequest(ModelState);
         }
 
+        /// <summary>
+        /// Get current user role
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>Role name</returns>
         [HttpGet("role/{id}")]
         public async Task<string> GetUserRole(string id)
         {

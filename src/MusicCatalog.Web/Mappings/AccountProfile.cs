@@ -15,8 +15,11 @@ namespace MusicCatalog.Web.Mappings
         /// </summary>
         public AccountProfile()
         {
-            CreateMap<IdentityUser, UserViewModel>();
-            CreateMap<UserViewModel, IdentityUser>();
+            //CreateMap<IdentityUser, UserViewModel>();
+            //CreateMap<UserViewModel, IdentityUser>();
+
+            CreateMap<UserModel, UserViewModel>();
+            CreateMap<UserViewModel, UserModel>();
 
             CreateMap<LoginViewModel, LoginModel>();
             CreateMap<RegisterViewModel, RegisterModel>();

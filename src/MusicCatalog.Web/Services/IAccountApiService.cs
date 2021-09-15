@@ -40,15 +40,15 @@ namespace MusicCatalog.Web.Services
         /// <summary>
         /// Get all users
         /// </summary>
-        /// <returns>Identity users</returns>
-        Task<List<IdentityUser>> GetUsers();
+        /// <returns>Users</returns>
+        Task<List<UserModel>> GetUsers();
 
         /// <summary>
         /// Get a user by id
         /// </summary>
         /// <param name="id">User id</param>
-        /// <returns>IdentityUser</returns>
-        Task<IdentityUser> GetUser(string id);
+        /// <returns>User</returns>
+        Task<UserModel> GetUser(string id);
 
         /// <summary>
         /// Update user
@@ -67,10 +67,10 @@ namespace MusicCatalog.Web.Services
         /// <summary>
         /// Change user role
         /// </summary>
-        /// <param name="user">IdentityUser</param>
-        /// <param name="role">Role</param>
+        /// <param name="id">User id</param>
+        /// <param name="role">User role</param>
         /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> ChangeRole(IdentityUser user, string role);
+        Task<HttpResponseMessage> ChangeRole(string id, string role);
 
         /// <summary>
         /// Get user role
