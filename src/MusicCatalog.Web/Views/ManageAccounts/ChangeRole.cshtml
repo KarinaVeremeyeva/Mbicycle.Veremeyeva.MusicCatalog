@@ -10,9 +10,8 @@
         <div class="form-group">
             <label asp-for="Role" class="col-md-2 control-label">@Localizer["Role"]</label>
             <div class="col-md-6">
-                <select asp-for="Role" class="form-control" asp-items="ViewBag.Role">
-                    <option value="" class="form-control">@Localizer["SelectRole"]</option>
-                </select>
+                @Html.DropDownListFor(model => model.Role, Model.ExistingRoles, null,
+                    new { @class = "form-control" })
                 <span asp-validation-for="Role" class="text-danger"></span>
             </div>
         </div>
