@@ -28,11 +28,6 @@ namespace MusicCatalog.Web
     public class Startup
     {
         /// <summary>
-        /// Uri string
-        /// </summary>
-        private const string UriString = "http://localhost:2563";
-
-        /// <summary>
         /// Startup constructor
         /// </summary>
         /// <param name="configuration">Configuration</param>
@@ -53,6 +48,8 @@ namespace MusicCatalog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var uriString = Configuration.GetSection("UriSettings:UriString").Value;
+
             var mapping = new MapperConfiguration(
                 map =>
                 {
@@ -64,7 +61,7 @@ namespace MusicCatalog.Web
             services.AddSingleton(mapping.CreateMapper());
             services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
             {
-                client.BaseAddress = new Uri(UriString);
+                client.BaseAddress = new Uri(uriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
             services.AddAuthentication(options =>

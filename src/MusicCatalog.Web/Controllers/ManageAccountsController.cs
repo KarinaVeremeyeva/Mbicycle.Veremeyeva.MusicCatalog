@@ -52,7 +52,7 @@ namespace MusicCatalog.Web.Controllers
         }
 
         /// <summary>
-        /// Updates user bu id
+        /// Updates user by id
         /// </summary>
         /// <param name="id">User id</param>
         /// <returns>IActionResult</returns>
@@ -91,8 +91,6 @@ namespace MusicCatalog.Web.Controllers
                 {
                     return RedirectToAction(nameof(Index));
                 }
-
-                ModelState.AddModelError(string.Empty, "Wrong user details");
             }
 
             return View(model);

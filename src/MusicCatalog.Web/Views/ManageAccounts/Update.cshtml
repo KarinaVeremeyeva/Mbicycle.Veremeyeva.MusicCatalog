@@ -4,8 +4,9 @@
 }
 <h3>@Localizer["Header"]</h3>
 <form asp-action="Update">
+    <hr />
     <div class="form-horizontal">
-        <hr />
+        <div asp-validation-summary="All"></div>
         <input type="hidden" asp-for="Id" />
         <div class="form-group">
             <label asp-for="Email" class="col-md-2 control-label">@Localizer["Email"]</label>

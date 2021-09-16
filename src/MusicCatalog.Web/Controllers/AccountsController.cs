@@ -83,19 +83,21 @@ namespace MusicCatalog.Web.Controllers
             var user = _mapper.Map<RegisterModel>(model);
             var response = await _accountApiClient.RegisterUser(user);
 
-            if (response.IsSuccessStatusCode
+            if (ModelState.IsValid)
+            {
+                if (response.IsSuccessStatusCode
                 && response.Headers.Contains(Authorization)
                 && response.Headers.Contains(AuthorizationRoles))
-            {
-                // get token from a header
-                var token = response.Headers.GetValues(Authorization).ToArray()[0];
-                var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
+                {
+                    // get token from a header
+                    var token = response.Headers.GetValues(Authorization).ToArray()[0];
+                    var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
 
-                AuthorizeHandle(token, roles);
+                    AuthorizeHandle(token, roles);
 
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
+                }
             }
-            ModelState.AddModelError(string.Empty, "Wrong user details");
             model.ExistingRoles = await GetAllRoles();
 
             return View(model);
@@ -121,20 +123,21 @@ namespace MusicCatalog.Web.Controllers
             var user = _mapper.Map<LoginModel>(model);
             var response = await _accountApiClient.LoginUser(user);
 
-            if (response.IsSuccessStatusCode
-                && response.Headers.Contains(Authorization)
-                && response.Headers.Contains(AuthorizationRoles))
+            if (ModelState.IsValid)
             {
-                // get token from header
-                var token = response.Headers.GetValues(Authorization).ToArray()[0];
-                var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
+                if (response.IsSuccessStatusCode
+                    && response.Headers.Contains(Authorization)
+                    && response.Headers.Contains(AuthorizationRoles))
+                {
+                    // get token from header
+                    var token = response.Headers.GetValues(Authorization).ToArray()[0];
+                    var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
 
-                AuthorizeHandle(token, roles);
+                    AuthorizeHandle(token, roles);
 
-                return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Home");
+                }
             }
-
-            ModelState.AddModelError(string.Empty, "Wrong user details");
 
             return View(model);
         }
