@@ -1,12 +1,11 @@
 ﻿@model IEnumerable<SongViewModel>
-@inject IViewLocalizer Localizer
 @{
     ViewData["Title"] = Localizer["Title"];
 }
 <h3>@Localizer["Header"]</h3>
 <p>
     @Html.ActionLink(Localizer["Create song"].Value, "Create", "Home", null,
-        new { @class = "btn btn-outline-primary" })
+        new { @class = "btn btn-primary" })
 </p>
 
 <form asp-action="Index" method="get">
@@ -42,10 +41,20 @@
             <td>@Html.DisplayFor(modelItem => song.GenreName)</td>
             <td>@Html.DisplayFor(modelItem => song.PerformerName)</td>
             <td>@Html.DisplayFor(modelItem => song.AlbumName)</td>
-            <td>
-                @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = song.SongId })
-                @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = song.SongId })
-            </td>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td class="text-center">
+                    @Html.ActionLink(Localizer["Edit"].Value, "Edit", new { id = song.SongId },
+                        new { @class = "btn btn-outline-primary" })
+                    @Html.ActionLink(Localizer["Delete"].Value, "Delete", new { id = song.SongId },
+                        new { @class = "btn btn-outline-danger" })
+                </td>
+            }
+            else 
+            {
+                <td></td>
+            }
         </tr>
     }
 </table>

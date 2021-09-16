@@ -34,7 +34,7 @@ namespace MusicCatalog.BusinessLogic.Interfaces
         AlbumDto GetAlbumById(int albumId);
 
         /// <summary>
-        /// Returns all albums by id
+        /// Returns all albums
         /// </summary>
         /// <returns>Albums</returns>
         IEnumerable<AlbumDto> GetAlbums();

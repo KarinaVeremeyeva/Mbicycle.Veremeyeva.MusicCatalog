@@ -132,10 +132,4 @@
   <data name="PasswordRequired" xml:space="preserve">
     <value>Password is not specified</value>
   </data>
-  <data name="YearOfBirthRequired" xml:space="preserve">
-    <value>Year of birth is not specified</value>
-  </data>
-  <data name="YearRange" xml:space="preserve">
-    <value>The year of birth must be in the range {1} to {2}</value>
-  </data>
 </root>

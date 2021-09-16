@@ -1,26 +1,30 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.Web.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
 {
     /// <summary>
-    /// Accounts controller
+    /// Accounts controller for UI
     /// </summary>
     public class AccountsController : Controller
     {
         /// <summary>
-        /// User manager
+        /// Account api client
         /// </summary>
-        private readonly UserManager<User> _userManager;
-
-        /// <summary>
-        /// User sign in manager
-        /// </summary>
-        private readonly SignInManager<User> _signInManager;
+        private readonly IAccountApiService _accountApiClient;
 
         /// <summary>
         /// Mapper
@@ -28,99 +32,110 @@ namespace MusicCatalog.Web.Controllers
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Accounts controller
+        /// Authentication type
         /// </summary>
-        /// <param name="userManager">User manager</param>
-        /// <param name="signInManager">Sigm in manager</param>
-        /// <param name="signInManager">Sigm in manager</param>
+        private const string AuthenticationType = "UserInfo";
+
+        /// <summary>
+        /// Jwt token key
+        /// </summary>
+        private const string JwtTokenKey = "secret_jwt_key";
+
+        /// <summary>
+        /// Authorization header name
+        /// </summary>
+        private const string Authorization = "Authorization";
+
+        /// <summary>
+        /// Authorization roles header name
+        /// </summary>
+        private const string AuthorizationRoles = "AuthorizationRoles";
+
+        /// <summary>
+        /// Accounts controller constructor
+        /// </summary>
+        /// <param name="accountApiClient">Account api client</param>
         /// <param name="mapper">Mapper</param>
-        public AccountsController(UserManager<User> userManager, SignInManager<User> signInManager,
-            IMapper mapper)
+        public AccountsController(IAccountApiService accountApiClient, IMapper mapper)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
+            _accountApiClient = accountApiClient;
             _mapper = mapper;
         }
 
         /// <summary>
-        /// Get-request for registration of user
+        /// Get-request to register new user
         /// </summary>
-        /// <returns></returns>
-        public IActionResult Register()
+        /// <returns>IActionResult</returns>
+        [HttpGet]
+        public async Task<IActionResult>  Register()
         {
-            return View();
+            return View(new RegisterViewModel { ExistingRoles = await GetAllRoles() });
         }
 
         /// <summary>
-        /// Post-request for registration of user
+        /// Post-request to register new user
         /// </summary>
         /// <param name="model">RegisterViewModel</param>
-        /// <returns>ViewResult</returns>
+        /// <returns>IActionResult</returns>
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
+            var user = _mapper.Map<RegisterModel>(model);
+            var response = await _accountApiClient.RegisterUser(user);
+
             if (ModelState.IsValid)
             {
-                var user = _mapper.Map<User>(model);
-                var result = await _userManager.CreateAsync(user, model.Password);
-
-                if (result.Succeeded)
+                if (response.IsSuccessStatusCode
+                && response.Headers.Contains(Authorization)
+                && response.Headers.Contains(AuthorizationRoles))
                 {
-                    await _signInManager.SignInAsync(user, false);
+                    // get token from a header
+                    var token = response.Headers.GetValues(Authorization).ToArray()[0];
+                    var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
+
+                    AuthorizeHandle(token, roles);
 
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty, error.Description);
-                    }
-                }
             }
+            model.ExistingRoles = await GetAllRoles();
 
-            return View(model);  
+            return View(model);
         }
 
         /// <summary>
-        /// Get the address to return as the returnUrl parameter
-        /// and pass it to the LoginViewModel model
+        /// Get-request for log in of user
         /// </summary>
-        /// <param name="returnUrl">ReturnUrl</param>
-        /// <returns>ViewResult</returns>
-        public IActionResult Login(string returnUrl = null)
+        /// <returns>IActionResult</returns>
+        [HttpGet]
+        public IActionResult Login()
         {
-            return View(new LoginViewModel { ReturnUrl = returnUrl });
-        }
+            return View();
+        } 
 
         /// <summary>
-        /// Get data from the view of the LoginViewModel
+        /// Post-request for log in of user
         /// </summary>
-        /// <param name="model">LoginViewModel</param>
-        /// <returns>ViewResult</returns>
+        /// <returns>IActionResult</returns>
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login([FromForm] LoginViewModel model)
         {
+            var user = _mapper.Map<LoginModel>(model);
+            var response = await _accountApiClient.LoginUser(user);
+
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(
-                    model.Email, model.Password, model.RememberMe, false);
+                if (response.IsSuccessStatusCode
+                    && response.Headers.Contains(Authorization)
+                    && response.Headers.Contains(AuthorizationRoles))
+                {
+                    // get token from header
+                    var token = response.Headers.GetValues(Authorization).ToArray()[0];
+                    var roles = response.Headers.GetValues(AuthorizationRoles).ToArray()[0];
 
-                if (result.Succeeded)
-                {
-                    if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Wrong login and (or) password");
+                    AuthorizeHandle(token, roles);
+
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
@@ -128,16 +143,61 @@ namespace MusicCatalog.Web.Controllers
         }
 
         /// <summary>
-        /// Logout of the user from the application
+        /// Log out of the user
         /// </summary>
-        /// <returns>ViewResult</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        /// <returns>IActionResult</returns>
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            var response = await _accountApiClient.LogoutUser();
 
-            return RedirectToAction("Index", "Home");
+            if (response.IsSuccessStatusCode)
+            {
+                await HttpContext.SignOutAsync(JwtBearerDefaults.AuthenticationScheme);
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            return Forbid();
+        }
+
+        /// <summary>
+        /// Authorizes user by token and role
+        /// </summary>
+        /// <param name="token">Jwt token</param>
+        /// <param name="roles">Roles</param>
+        private async void AuthorizeHandle(string token, string roles)
+        {
+            HttpContext.Response.Cookies.Append(JwtTokenKey, token, new CookieOptions
+            {
+                HttpOnly = true,
+                SameSite = SameSiteMode.Strict
+            });
+
+            var decodedToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
+            var roleNames = roles.Split(',');
+
+            // take claims of user from token, write it to the http context
+            var claimsIdentity = new ClaimsIdentity(decodedToken.Claims, AuthenticationType,
+                ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            
+            HttpContext.User = new GenericPrincipal(claimsIdentity, roleNames);
+
+            await HttpContext.SignInAsync(JwtBearerDefaults.AuthenticationScheme, HttpContext.User);
+        }
+
+        /// <summary>
+        /// Gets all roles from the identity api
+        /// </summary>
+        /// <returns>Roles</returns>
+        private async Task<IEnumerable<SelectListItem>> GetAllRoles()
+        {
+            var roles = await _accountApiClient.GetRoles();
+            var items = roles
+                .Select(role => new SelectListItem { Text = role, Value = role })
+                .ToList();
+
+            return items;
         }
     }
 }

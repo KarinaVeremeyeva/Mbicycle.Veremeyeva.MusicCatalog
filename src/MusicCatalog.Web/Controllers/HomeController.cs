@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
-using MusicCatalog.Web.Models;
 using MusicCatalog.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -105,7 +105,8 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Get-request for creating song
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IActionResult</returns>
+        [Authorize(Roles = "admin, manager")]
         public IActionResult Create()
         {
             PopulateGenresDropDownList();
@@ -121,6 +122,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
+        [Authorize(Roles = "admin, manager")]
         public IActionResult Create(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
@@ -144,6 +146,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
+        [Authorize(Roles = "admin, manager")]
         public IActionResult Edit(int id)
         {
             var songToUpdate = _songsService.GetSongById(id);
@@ -167,6 +170,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="songViewModel">Song</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
+        [Authorize(Roles = "admin, manager")]
         public IActionResult Edit(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
@@ -189,6 +193,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
+        [Authorize(Roles = "admin, manager")]
         public IActionResult Delete(int id)
         {
             var songToDelete = _songsService.GetSongById(id);
@@ -208,6 +213,7 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
+        [Authorize(Roles = "admin, manager")]
         public IActionResult DeleteConfirmed(int id)
         {
             _songsService.DeleteSong(id);

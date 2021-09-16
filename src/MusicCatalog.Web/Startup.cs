@@ -1,7 +1,7 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +14,9 @@ using MusicCatalog.BusinessLogic.Services;
 using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
-using MusicCatalog.Web.Models;
+using MusicCatalog.Web.Mappings;
+using MusicCatalog.Web.Services;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 
@@ -25,28 +27,54 @@ namespace MusicCatalog.Web
     /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// Startup constructor
+        /// </summary>
+        /// <param name="configuration">Configuration</param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Configuration of the app
+        /// </summary>
         public IConfiguration Configuration { get; }
 
         /// <summary>
         /// Registers services for the app
         /// </summary>
-        /// <param name="services"></param>
+        /// <param name="services">Services collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var uriString = Configuration.GetSection("UriSettings:UriString").Value;
+
             var mapping = new MapperConfiguration(
                 map =>
                 {
                     map.AddProfile<BusinessLogicProfile>();
                     map.AddProfile<WebProfile>();
+                    map.AddProfile<AccountProfile>();
                 });
 
             services.AddSingleton(mapping.CreateMapper());
+            services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
+            {
+                client.BaseAddress = new Uri(uriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddCookie(JwtBearerDefaults.AuthenticationScheme,
+                options => 
+                {
+                    options.LoginPath = "/Accounts/Login";
+                    options.AccessDeniedPath = "/Accounts/Login";
+                });
 
             services.AddScoped<IRepository<Genre>, EFGenreRepository>();
             services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
@@ -83,21 +111,14 @@ namespace MusicCatalog.Web
             });
 
             services.AddDbContext<MusicContext>(
-                options => options.UseSqlServer(connectionString)
-                );
-
-            services.AddDbContext<ApplicationContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection"))
-                );
-            services.AddIdentity<User, IdentityRole>()
-               .AddEntityFrameworkStores<ApplicationContext>();
+                options => options.UseSqlServer(connectionString));
         }
 
         /// <summary>
         /// Specifies how the app responds to HTTP requests
         /// </summary>
-        /// <param name="app"></param>
-        /// <param name="env"></param>
+        /// <param name="app">Application</param>
+        /// <param name="env">Hosting environment</param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             var locOptions = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();

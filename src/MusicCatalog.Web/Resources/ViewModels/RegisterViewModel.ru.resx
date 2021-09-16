@@ -132,10 +132,4 @@
   <data name="PasswordRequired" xml:space="preserve">
     <value>Пароль не указан</value>
   </data>
-  <data name="YearOfBirthRequired" xml:space="preserve">
-    <value>Год рождения не указан</value>
-  </data>
-  <data name="YearRange" xml:space="preserve">
-    <value>Год рождения должен входить в диапазон от {1} до {2}</value>
-  </data>
 </root>
