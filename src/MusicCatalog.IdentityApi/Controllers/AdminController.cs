@@ -108,8 +108,8 @@ namespace MusicCatalog.IdentityApi.Controllers
             {
                 return NotFound();
             }
-            var user = await _userManager.FindByIdAsync(id);
 
+            var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 var result = await _userManager.DeleteAsync(user);
@@ -123,7 +123,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         }
 
         /// <summary>
-        /// Change user's role
+        /// Changes user's role
         /// </summary>
         /// <param name="id">User id</param>
         /// <param name="role">Role</param>
@@ -131,27 +131,29 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpPut("update-role/{id}")]
         public async Task<IActionResult> UpdateRole(string id, [FromBody] string role)
         {
-            if (ModelState.IsValid)
+            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(role))
             {
-                var user = await _userManager.FindByIdAsync(id);
-                if (user != null)
-                {
-                    var userRoles = await _userManager.GetRolesAsync(user);
-                    var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
-                    await _userManager.AddToRoleAsync(user, role);
+                return NotFound();
+            }
 
-                    if (result.Succeeded)
-                    {
-                        return Ok(result);
-                    }
+            var user = await _userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
+                await _userManager.AddToRoleAsync(user, role);
+
+                if (result.Succeeded)
+                {
+                    return Ok(result);
                 }
             }
 
-            return BadRequest(ModelState);
+            return BadRequest();
         }
 
         /// <summary>
-        /// Get current user role
+        /// Gets current user's role
         /// </summary>
         /// <param name="id">User id</param>
         /// <returns>Role name</returns>

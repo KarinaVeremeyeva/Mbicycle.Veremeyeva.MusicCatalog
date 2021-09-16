@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.Web.ViewModels;
 
@@ -15,9 +14,6 @@ namespace MusicCatalog.Web.Mappings
         /// </summary>
         public AccountProfile()
         {
-            //CreateMap<IdentityUser, UserViewModel>();
-            //CreateMap<UserViewModel, IdentityUser>();
-
             CreateMap<UserModel, UserViewModel>();
             CreateMap<UserViewModel, UserModel>();
 

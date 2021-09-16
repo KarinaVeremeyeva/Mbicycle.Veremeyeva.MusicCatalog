@@ -60,20 +60,15 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Update(string id)
         {
             var userToUpdate = await _accountApiClient.GetUser(id);
-            var currentUserRole = await _accountApiClient.GetUserRole(userToUpdate.Id);
 
             if (userToUpdate == null)
             {
                 return RedirectToAction("Error", "Home");
             }
 
-            var user = new UserViewModel
-            {
-                Id = userToUpdate.Id,
-                Email = userToUpdate.Email,
-                Role = currentUserRole,
-                ExistingRoles = await GetAllRoles()
-            };
+            var user = _mapper.Map<UserViewModel>(userToUpdate);
+            user.ExistingRoles = await GetAllRoles();
+
             return View(user);
         }
 
