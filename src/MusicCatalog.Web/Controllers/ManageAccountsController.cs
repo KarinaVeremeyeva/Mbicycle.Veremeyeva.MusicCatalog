@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.IdentityApi.Models;
-using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.Linq;

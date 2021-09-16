@@ -15,7 +15,6 @@ using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.Web.Mappings;
-using MusicCatalog.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

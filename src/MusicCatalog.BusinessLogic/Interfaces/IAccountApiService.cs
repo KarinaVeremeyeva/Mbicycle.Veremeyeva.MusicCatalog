@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MusicCatalog.Web.Services
+namespace MusicCatalog.BusinessLogic.Interfaces
 {
     /// <summary>
     /// Typed client for the account api

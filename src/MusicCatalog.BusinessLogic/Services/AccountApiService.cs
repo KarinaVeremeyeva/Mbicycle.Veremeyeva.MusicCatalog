@@ -1,10 +1,11 @@
-﻿using MusicCatalog.IdentityApi.Models;
+﻿using MusicCatalog.BusinessLogic.Interfaces;
+using MusicCatalog.IdentityApi.Models;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace MusicCatalog.Web.Services
+namespace MusicCatalog.BusinessLogic.Services
 {
     /// <summary>
     /// Implementation of typed client service
