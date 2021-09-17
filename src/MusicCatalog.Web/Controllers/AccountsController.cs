@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -22,9 +22,9 @@ namespace MusicCatalog.Web.Controllers
     public class AccountsController : Controller
     {
         /// <summary>
-        /// Account api client
+        /// Web api service
         /// </summary>
-        private readonly IAccountApiService _accountApiClient;
+        private readonly IWebApiService _webApiService;
 
         /// <summary>
         /// Mapper
@@ -54,11 +54,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Accounts controller constructor
         /// </summary>
-        /// <param name="accountApiClient">Account api client</param>
+        /// <param name="webApiService">Web api service</param>
         /// <param name="mapper">Mapper</param>
-        public AccountsController(IAccountApiService accountApiClient, IMapper mapper)
+        public AccountsController(IWebApiService webApiService, IMapper mapper)
         {
-            _accountApiClient = accountApiClient;
+            _webApiService = webApiService;
             _mapper = mapper;
         }
 
@@ -81,7 +81,7 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
             var user = _mapper.Map<RegisterModel>(model);
-            var response = await _accountApiClient.RegisterUser(user);
+            var response = await _webApiService.RegisterUser(user);
 
             if (ModelState.IsValid)
             {
@@ -121,7 +121,7 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Login([FromForm] LoginViewModel model)
         {
             var user = _mapper.Map<LoginModel>(model);
-            var response = await _accountApiClient.LoginUser(user);
+            var response = await _webApiService.LoginUser(user);
 
             if (ModelState.IsValid)
             {
@@ -149,7 +149,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            var response = await _accountApiClient.LogoutUser();
+            var response = await _webApiService.LogoutUser();
 
             if (response.IsSuccessStatusCode)
             {
@@ -192,7 +192,7 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>Roles</returns>
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
-            var roles = await _accountApiClient.GetRoles();
+            var roles = await _webApiService.GetRoles();
             var items = roles
                 .Select(role => new SelectListItem { Text = role, Value = role })
                 .ToList();

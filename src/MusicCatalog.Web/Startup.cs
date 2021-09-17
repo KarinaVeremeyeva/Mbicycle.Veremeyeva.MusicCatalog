@@ -15,6 +15,7 @@ using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.Web.Mappings;
+using MusicCatalog.Web.Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -47,7 +48,7 @@ namespace MusicCatalog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            var uriString = Configuration.GetSection("UriSettings:UriString").Value;
+            var uriString = Configuration.GetSection("UriSettings:WebApiUri").Value;
 
             var mapping = new MapperConfiguration(
                 map =>
@@ -58,7 +59,7 @@ namespace MusicCatalog.Web
                 });
 
             services.AddSingleton(mapping.CreateMapper());
-            services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
+            services.AddHttpClient<IWebApiService, WebApiService>(client =>
             {
                 client.BaseAddress = new Uri(uriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");

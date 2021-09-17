@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.Web.Services;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +18,9 @@ namespace MusicCatalog.Web.Controllers
     public class ManageAccountsController : Controller
     {
         /// <summary>
-        /// Account api client
+        /// Web api client
         /// </summary>
-        private readonly IAccountApiService _accountApiClient;
+        private readonly IWebApiService _webApiService;
 
         /// <summary>
         /// Mapper
@@ -30,11 +30,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Manage accounts controller constructor
         /// </summary>
-        /// <param name="accountApiClient">Account api client</param>
+        /// <param name="webApiService">Web api service</param>
         /// <param name="mapper">Mapper</param>
-        public ManageAccountsController(IAccountApiService accountApiClient, IMapper mapper)
+        public ManageAccountsController(IWebApiService webApiService, IMapper mapper)
         {
-            _accountApiClient = accountApiClient;
+            _webApiService = webApiService;
             _mapper = mapper;
         }
 
@@ -45,7 +45,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var users = await _accountApiClient.GetUsers();
+            var users = await _webApiService.GetUsers();
             var userViewModels = _mapper.Map<List<UserViewModel>>(users);
 
             return View(userViewModels);
@@ -59,7 +59,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Update(string id)
         {
-            var userToUpdate = await _accountApiClient.GetUser(id);
+            var userToUpdate = await _webApiService.GetUser(id);
 
             if (userToUpdate == null)
             {
@@ -83,11 +83,9 @@ namespace MusicCatalog.Web.Controllers
             if (ModelState.IsValid)
             {
                 var user = _mapper.Map<UserModel>(model);
-                var updateUserResponse = await _accountApiClient.PutUser(user);
-                var updateRoleResponse = await _accountApiClient.UpdateRole(user.Id, user.Role);
+                var updateUserResponse = await _webApiService.UpdateUser(user);
 
-                if (updateUserResponse.IsSuccessStatusCode
-                    && updateRoleResponse.IsSuccessStatusCode)
+                if (updateUserResponse.IsSuccessStatusCode)
                 {
                     return RedirectToAction(nameof(Index));
                 }
@@ -104,7 +102,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
-            var userToDelete = await _accountApiClient.GetUser(id);
+            var userToDelete = await _webApiService.GetUser(id);
 
             if (userToDelete == null)
             {
@@ -130,7 +128,7 @@ namespace MusicCatalog.Web.Controllers
                 return RedirectToAction("Error", "Home");
             }
 
-            var response = await _accountApiClient.DeleteUser(id);
+            var response = await _webApiService.DeleteUser(id);
 
             if (response.IsSuccessStatusCode)
             {
@@ -146,7 +144,7 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>Roles</returns>
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
-            var roles = await _accountApiClient.GetRoles();
+            var roles = await _webApiService.GetRoles();
             var items = roles
                 .Select(role => new SelectListItem { Text = role, Value = role })
                 .ToList();

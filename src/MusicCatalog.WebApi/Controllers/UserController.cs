@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.WebApi.Services;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +12,7 @@ namespace MusicCatalog.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         /// <summary>
         /// Account api client
@@ -33,7 +33,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// Users controller constructor
         /// </summary>
         /// <param name="accountApiService">Account api service</param>
-        public UsersController(IAccountApiService accountApiService)
+        public UserController(IAccountApiService accountApiService)
         {
             _accountApiService = accountApiService;
         }
@@ -171,10 +171,10 @@ namespace MusicCatalog.WebApi.Controllers
             {
                 Id = model.Id,
                 Email = model.Email,
-                Role = await _accountApiService.GetUserRole(model.Id)
+                Role = model.Role
             };
 
-            var updateUserResponse = await _accountApiService.PutUser(user);
+            var updateUserResponse = await _accountApiService.UpdateUser(user);
             var updateRoleResponse = await _accountApiService.UpdateRole(user.Id, user.Role);
 
             if (updateUserResponse.IsSuccessStatusCode
@@ -210,6 +210,18 @@ namespace MusicCatalog.WebApi.Controllers
             }
 
             return BadRequest();
+        }
+
+        /// <summary>
+        /// Gets all roles from the identity api
+        /// </summary>
+        /// <returns>Roles</returns>
+        [HttpGet("getAllRoles")]
+        public async Task<ActionResult<IEnumerable<string>>> GetAllRoles()
+        {
+            var roles = await _accountApiService.GetRoles();
+
+            return Ok(roles);
         }
     }
 }

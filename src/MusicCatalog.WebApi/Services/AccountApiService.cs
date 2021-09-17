@@ -1,14 +1,13 @@
-﻿using MusicCatalog.BusinessLogic.Interfaces;
-using MusicCatalog.IdentityApi.Models;
+﻿using MusicCatalog.IdentityApi.Models;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
-namespace MusicCatalog.BusinessLogic.Services
+namespace MusicCatalog.WebApi.Services
 {
     /// <summary>
-    /// Implementation of typed client service
+    /// Implementation of typed client service for calling identity api
     /// </summary>
     public class AccountApiService : IAccountApiService
     {
@@ -28,7 +27,7 @@ namespace MusicCatalog.BusinessLogic.Services
         private const string AdminPath = "api/Admin";
 
         /// <summary>
-        /// AccountApiClient constructor
+        /// AccountApiService constructor
         /// </summary>
         /// <param name="client">Http client</param>
         public AccountApiService(HttpClient client)
@@ -72,8 +71,8 @@ namespace MusicCatalog.BusinessLogic.Services
             return await _httpClient.GetFromJsonAsync<UserModel>($"{AdminPath}/{id}");
         }
 
-        /// <inheritdoc cref="IAccountApiService.PutUser(UserModel)"/>
-        public async Task<HttpResponseMessage> PutUser(UserModel user)
+        /// <inheritdoc cref="IAccountApiService.UpdateUser(UserModel)"/>
+        public async Task<HttpResponseMessage> UpdateUser(UserModel user)
         {
             return await _httpClient.PutAsJsonAsync($"{AdminPath}/{user.Id}", user);
         }

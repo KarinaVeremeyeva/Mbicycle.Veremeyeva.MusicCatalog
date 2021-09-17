@@ -5,9 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MusicCatalog.BusinessLogic.Interfaces;
-using MusicCatalog.BusinessLogic.Services;
 using MusicCatalog.WebApi.JwtTokenAuth;
+using MusicCatalog.WebApi.Services;
 using System;
 
 namespace MusicCatalog.WebApi
@@ -37,7 +36,7 @@ namespace MusicCatalog.WebApi
         /// <param name="services">Services collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var uriString = Configuration.GetSection("UriSettings:UriString").Value;
+            var uriString = Configuration.GetSection("UriSettings:IdentityApiUri").Value;
 
             services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
             {
@@ -75,7 +74,10 @@ namespace MusicCatalog.WebApi
                 swagger.AddSecurityDefinition("Bearer", jwtSecurityScheme);
                 swagger.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
-                    { jwtSecurityScheme, Array.Empty<string>() }
+                    {
+                        jwtSecurityScheme,
+                        Array.Empty<string>()
+                    }
                 });
             });
         }
