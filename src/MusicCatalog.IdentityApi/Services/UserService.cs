@@ -63,8 +63,10 @@ namespace MusicCatalog.IdentityApi.Services
 
             if (!string.IsNullOrEmpty(model.Role))
             {
+                user = await _userManager.FindByEmailAsync(model.Email);
                 await _userManager.AddToRoleAsync(user, model.Role);
             }
+
             await _signInManager.SignInAsync(user, isPersistent: false);
 
             return result;
@@ -174,7 +176,8 @@ namespace MusicCatalog.IdentityApi.Services
         /// <inheritdoc cref="IUserService.GetUserRoles(IdentityUser)"/>
         public async Task<IList<string>> GetUserRoles(IdentityUser user)
         {
-            var roles = await _userManager.GetRolesAsync(user);
+            var userInManager = await _userManager.FindByEmailAsync(user.Email);
+            var roles = await _userManager.GetRolesAsync(userInManager);
 
             return roles;
         }

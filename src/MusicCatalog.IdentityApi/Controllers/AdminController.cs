@@ -32,11 +32,11 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <returns>Users</returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserModel>>> GetUsersAsync()
+        public async Task<IEnumerable<UserModel>> GetUsersAsync()
         {
             var users = await _userService.GetUsersAsync();
 
-            return Ok(users);
+            return users;
         }
 
         /// <summary>
