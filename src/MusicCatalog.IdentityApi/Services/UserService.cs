@@ -26,6 +26,12 @@ namespace MusicCatalog.IdentityApi.Services
         /// </summary>
         private readonly RoleManager<IdentityRole> _roleManager;
 
+        /// <summary>
+        /// User service constructor
+        /// </summary>
+        /// <param name="signInManager">Sign in manager</param>
+        /// <param name="userManager">User manager</param>
+        /// <param name="roleManager">Role manager</param>
         public UserService(
             SignInManager<IdentityUser> signInManager,
             UserManager<IdentityUser> userManager,
@@ -36,44 +42,45 @@ namespace MusicCatalog.IdentityApi.Services
             _roleManager = roleManager;
         }
 
-        /// <inheritdoc cref="IUserService.AuthenticateAsync(string, string)"/>
-        public async Task<SignInResult> AuthenticateAsync(string email, string password)
+        /// <inheritdoc cref="IUserService.AuthenticateAsync(LoginModel)"/>
+        public async Task<SignInResult> AuthenticateAsync(LoginModel model)
         {
-            var user = await _userManager.FindByEmailAsync(email);
             var result = await _signInManager.PasswordSignInAsync(
-                user.Email, password, isPersistent: false, lockoutOnFailure: false);
+                model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
             return result;
         }
 
-        /// <inheritdoc cref="IUserService.CreateAsync(RegisterModel, string)"/>
-        public async Task<IdentityResult> CreateAsync(RegisterModel model, string password)
+        /// <inheritdoc cref="IUserService.CreateAsync(RegisterModel)"/>
+        public async Task<IdentityResult> CreateAsync(RegisterModel model)
         {
             var user = new IdentityUser()
             {
                 Email = model.Email,
                 UserName = model.Email
             };
+            var result = await _userManager.CreateAsync(user, model.Password);
 
             if (!string.IsNullOrEmpty(model.Role))
             {
                 await _userManager.AddToRoleAsync(user, model.Role);
             }
-
-            var result = await _userManager.CreateAsync(user, password);
             await _signInManager.SignInAsync(user, isPersistent: false);
 
             return result;
         }
 
         /// <inheritdoc cref="IUserService.DeleteUser(string)"/>
-        public async Task DeleteUser(string id)
+        public async Task<IdentityResult> DeleteUser(string id)
         {
+            var result = new IdentityResult();
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                await _userManager.DeleteAsync(user);
+                result = await _userManager.DeleteAsync(user);
             }
+
+            return result;
         }
 
         /// <inheritdoc cref="IUserService.LogoutAsync"/>
@@ -83,29 +90,34 @@ namespace MusicCatalog.IdentityApi.Services
         }
 
         /// <inheritdoc cref="IUserService.UpdateUser(UserModel)"/>
-        public async Task UpdateUser(UserModel model)
+        public async Task<IdentityResult> UpdateUser(UserModel model)
         {
+            var result = new IdentityResult();
             var user = await _userManager.FindByIdAsync(model.Id);
             if (user != null)
             {
                 user.Email = model.Email;
                 user.UserName = model.Email;
 
-                await _userManager.UpdateAsync(user);
+                result = await _userManager.UpdateAsync(user);
             }
+
+            return result;
         }
 
         /// <inheritdoc cref="IUserService.UpdateRole(string, string)"/>
-        public async Task UpdateRole(string id, string role)
+        public async Task<IdentityResult> UpdateRole(string id, string role)
         {
+            var result = new IdentityResult();
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
-
                 await _userManager.RemoveFromRolesAsync(user, userRoles);             
-                await _userManager.AddToRoleAsync(user, role);
+                result = await _userManager.AddToRoleAsync(user, role);
             }
+
+            return result;
         }
 
         /// <inheritdoc cref="IUserService.GetUser(string)"/>
@@ -157,6 +169,14 @@ namespace MusicCatalog.IdentityApi.Services
             var roleNames = roles.Select(role => role.Name);
 
             return roleNames;
+        }
+
+        /// <inheritdoc cref="IUserService.GetUserRoles(IdentityUser)"/>
+        public async Task<IList<string>> GetUserRoles(IdentityUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return roles;
         }
     }
 }

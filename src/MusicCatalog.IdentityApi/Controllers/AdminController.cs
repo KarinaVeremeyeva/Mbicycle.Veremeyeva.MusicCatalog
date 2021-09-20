@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
+using MusicCatalog.IdentityApi.Services;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.IdentityApi.Controllers
@@ -15,17 +14,17 @@ namespace MusicCatalog.IdentityApi.Controllers
     public class AdminController : ControllerBase
     {
         /// <summary>
-        /// User manager
+        /// User service
         /// </summary>
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserService _userService;
 
         /// <summary>
         /// Admin controller constructor
         /// </summary>
-        /// <param name="userManager">User manager</param>
-        public AdminController(UserManager<IdentityUser> userManager)
+        /// <param name="userService">User service</param>
+        public AdminController(IUserService userService)
         {
-            _userManager = userManager;
+            _userService = userService;
         }
 
         /// <summary>
@@ -35,19 +34,9 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetUsersAsync()
         {
-            var users = _userManager.Users.ToList();
-            var usersWithRole = new List<UserModel>();
-            foreach (var user in users)
-            {
-                usersWithRole.Add(new UserModel
-                {
-                    Id = user.Id,
-                    Email = user.Email,
-                    Role = await GetUserRole(user.Id)
-                });
-            }
+            var users = await _userService.GetUsersAsync();
 
-            return Ok(usersWithRole);
+            return Ok(users);
         }
 
         /// <summary>
@@ -58,15 +47,9 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet("{id}")]
         public async Task<UserModel> Get(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            var userWithRole = new UserModel
-            {
-                Id = user.Id,
-                Email = user.Email,
-                Role = await GetUserRole(user.Id)
-            };
-
-            return userWithRole;
+            var user = await _userService.GetUser(id);
+            
+            return user;
         }
 
         /// <summary>
@@ -79,20 +62,13 @@ namespace MusicCatalog.IdentityApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(model.Id);
-                if (user != null)
+                var result = await _userService.UpdateUser(model);
+                if (result.Succeeded)
                 {
-                    user.Email = model.Email;
-                    user.UserName = model.Email;
-
-                    var result = await _userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return Ok(result);
-                    }
+                    return Ok(result);
                 }
             }
-           
+
             return BadRequest(ModelState);
         }
 
@@ -109,14 +85,10 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return NotFound();
             }
 
-            var user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            var result = await _userService.DeleteUser(id);
+            if (result.Succeeded)
             {
-                var result = await _userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return Ok(result);
-                }
+                return Ok(result);
             }
 
             return BadRequest();
@@ -136,17 +108,10 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return NotFound();
             }
 
-            var user = await _userManager.FindByIdAsync(id);
-            if (user != null)
+            var result = await _userService.UpdateRole(id, role);
+            if (result.Succeeded)
             {
-                var userRoles = await _userManager.GetRolesAsync(user);
-                var result = await _userManager.RemoveFromRolesAsync(user, userRoles);
-                await _userManager.AddToRoleAsync(user, role);
-
-                if (result.Succeeded)
-                {
-                    return Ok(result);
-                }
+                return Ok(result);
             }
 
             return BadRequest();
@@ -160,9 +125,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet("role/{id}")]
         public async Task<string> GetUserRole(string id)
         {
-            var user = await _userManager.FindByIdAsync(id);
-            var roles = await _userManager.GetRolesAsync(user);
-            var role = roles.ToList().FirstOrDefault();
+            var role = await _userService.GetUserRole(id);
 
             return role;
         }

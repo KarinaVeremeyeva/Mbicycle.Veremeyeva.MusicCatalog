@@ -16,42 +16,34 @@ namespace MusicCatalog.IdentityApi.Controllers
     public class UsersController : ControllerBase
     {
         /// <summary>
-        /// Users sign in manager
-        /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
-
-        /// <summary>
-        /// Users manager
-        /// </summary>
-        private readonly UserManager<IdentityUser> _userManager;
-
-        /// <summary>
-        /// Roles manager
-        /// </summary>
-        private readonly RoleManager<IdentityRole> _roleManager;
-
-        /// <summary>
         /// Jwt token service
         /// </summary>
         private readonly JwtTokenService _jwtTokenService;
 
         /// <summary>
+        /// User service
+        /// </summary>
+        private readonly IUserService _userService;
+
+        /// <summary>
+        /// Authorization header name
+        /// </summary>
+        private const string Authorization = "Authorization";
+
+        /// <summary>
+        /// Authorization roles header name
+        /// </summary>
+        private const string AuthorizationRoles = "AuthorizationRoles";
+
+        /// <summary>
         /// Users controller constructor
         /// </summary>
-        /// <param name="signInManager">Users sign in manager</param>
-        /// <param name="userManager">Users manager</param>
-        /// <param name="roleManager">Roles manager</param>
         /// <param name="jwtTokenService">Jwt token service</param>
-        public UsersController(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager,
-            JwtTokenService jwtTokenService)
+        /// <param name="userService">User service</param>
+        public UsersController(JwtTokenService jwtTokenService, IUserService userService)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _roleManager = roleManager;
             _jwtTokenService = jwtTokenService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -67,22 +59,17 @@ namespace MusicCatalog.IdentityApi.Controllers
                 Email = model.Email,
                 UserName = model.Email
             };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userService.CreateAsync(model);
 
             if (result == null || !result.Succeeded)
             {
                 return BadRequest(result.Errors);
             }
 
-            if (!string.IsNullOrEmpty(model.Role))
-            {
-                await _userManager.AddToRoleAsync(user, model.Role);
-            }
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userService.GetUserRoles(user);
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-            Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+            Response.Headers.Add(Authorization, _jwtTokenService.GenerateJwtToken(user, roles));
+            Response.Headers.Add(AuthorizationRoles, roles.ToArray());
 
             return Ok();
         }
@@ -95,20 +82,22 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password,
-                model.RememberMe, lockoutOnFailure: false);
-
-            if (user == null || !result.Succeeded)
+            var user = new IdentityUser()
             {
-                return BadRequest(new { errorMessage = "Invalid email or password"} );
+                Email = model.Email,
+                UserName = model.Email
+            };
+            var result = await _userService.AuthenticateAsync(model);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { errorMessage = "Invalid email or password" });
             }
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userService.GetUserRoles(user);
 
             // add token to header of response
-            Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-            Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+            Response.Headers.Add(Authorization, _jwtTokenService.GenerateJwtToken(user, roles));
+            Response.Headers.Add(AuthorizationRoles, roles.ToArray());
 
             return Ok();
         }
@@ -120,7 +109,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _userService.LogoutAsync();
 
             return Ok(new { Message = "Logged out" });
         }
@@ -148,8 +137,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet("getAllRoles")]
         public ActionResult<IEnumerable<string>> GetAllRoles()
         {
-            var roles = _roleManager.Roles.ToList();
-            var roleNames = roles.Select(role => role.Name);
+            var roleNames = _userService.GetAllRoles();
 
             return Ok(roleNames);
         }

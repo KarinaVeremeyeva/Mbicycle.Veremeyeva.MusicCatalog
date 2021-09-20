@@ -17,6 +17,11 @@ namespace MusicCatalog.WebApi.JwtTokenAuth
     public class JwtAuthenticationHandler : AuthenticationHandler<JwtAuthenticationOptions>
     {
         /// <summary>
+        /// Authorization header name
+        /// </summary>
+        private const string Authorization = "Authorization";
+
+        /// <summary>
         /// Jwt authentication handler constructor
         /// </summary>
         /// <param name="options">Options</param>
@@ -38,12 +43,12 @@ namespace MusicCatalog.WebApi.JwtTokenAuth
         /// <returns>AuthenticateResult</returns>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.ContainsKey("Authorization"))
+            if (!Request.Headers.ContainsKey(Authorization))
             {
                 return AuthenticateResult.Fail("Unauthorized");
             }
 
-            var token = Request.Headers["Authorization"].ToString().Substring("Bearer ".Length);
+            var token = Request.Headers[Authorization].ToString().Substring("Bearer ".Length);
 
             var httpClient = new HttpClient();
             httpClient.BaseAddress = new Uri("http://localhost:2563");

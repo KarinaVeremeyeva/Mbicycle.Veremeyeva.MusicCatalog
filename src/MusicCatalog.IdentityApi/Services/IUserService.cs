@@ -10,43 +10,47 @@ namespace MusicCatalog.IdentityApi.Services
     /// </summary>
     public interface IUserService
     {
-        Task<IdentityResult> CreateAsync(RegisterModel model, string password);
-
         /// <summary>
-        ///  Authenticate user
+        /// Creates new user
         /// </summary>
-        /// <param name="email">Email</param>
-        /// <param name="password">password</param>
-        /// <returns>SignInResult</returns>
-        Task<SignInResult> AuthenticateAsync(string email, string password);
+        /// <param name="model">User</param>
+        /// <returns>IdentityResult</returns>
+        Task<IdentityResult> CreateAsync(RegisterModel model);
 
         /// <summary>
-        /// Logout
+        ///  Authenticates user
+        /// </summary>
+        /// <param name="model">User</param>
+        /// <returns>SignInResult</returns>
+        Task<SignInResult> AuthenticateAsync(LoginModel model);
+
+        /// <summary>
+        /// Logout of user
         /// </summary>
         /// <returns></returns>
         Task LogoutAsync();
 
         /// <summary>
-        /// Delete user by id
+        /// Deletes user by id
         /// </summary>
         /// <param name="id">User id</param>
-        /// <returns></returns>
-        Task DeleteUser(string id);
+        /// <returns>IdentityResult</returns>
+        Task<IdentityResult> DeleteUser(string id);
 
         /// <summary>
-        /// Update user
+        /// Updates user
         /// </summary>
         /// <param name="model">user</param>
-        /// <returns></returns>
-        Task UpdateUser(UserModel model);
+        /// <returns>IdentityResult</returns>
+        Task<IdentityResult> UpdateUser(UserModel model);
 
         /// <summary>
         /// Update role
         /// </summary>
         /// <param name="id"></param>
         /// <param name="role"></param>
-        /// <returns></returns>
-        Task UpdateRole(string id, string role);
+        /// <returns>IdentityResult</returns>
+        Task<IdentityResult> UpdateRole(string id, string role);
 
         /// <summary>
         /// Get user by id
@@ -73,5 +77,12 @@ namespace MusicCatalog.IdentityApi.Services
         /// </summary>
         /// <returns>Roles</returns>
         IEnumerable<string> GetAllRoles();
+        
+        /// <summary>
+        /// Gets user roles
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns>Roles</returns>
+        Task<IList<string>> GetUserRoles(IdentityUser user);
     }
 }
