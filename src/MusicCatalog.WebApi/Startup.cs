@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MusicCatalog.WebApi.JwtTokenAuth;
+using MusicCatalog.WebApi.Mappings;
 using MusicCatalog.WebApi.Services;
 using System;
 
@@ -37,6 +39,9 @@ namespace MusicCatalog.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             var uriString = Configuration.GetSection("UriSettings:IdentityApiUri").Value;
+
+            var mapping = new MapperConfiguration(map => map.AddProfile<UserProfile>());
+            services.AddSingleton(mapping.CreateMapper());
 
             services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
             {

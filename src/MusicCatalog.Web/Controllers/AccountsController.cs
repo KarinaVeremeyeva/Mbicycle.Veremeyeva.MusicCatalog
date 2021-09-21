@@ -49,7 +49,7 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Authorization roles header name
         /// </summary>
-        private const string AuthorizationRoles = "AuthorizationRoles";
+        private const string AuthorizationRoles = "Authorization-roles";
 
         /// <summary>
         /// Accounts controller constructor
