@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
 using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
@@ -25,19 +26,37 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         private readonly ISongApiService _songApiService;
 
+        private readonly IGenresService _genresService;
+
+        private readonly IPerformersService _performersService;
+
+        private readonly IAlbumsService _albumsService;
+
         /// <summary>
         /// Mapper
         /// </summary>
         private readonly IMapper _mapper;
 
+
         /// <summary>
         /// Home controller
         /// </summary>
         /// <param name="songApiService">Song api service</param>
+        /// <param name="genresService">Genres service</param>
+        /// <param name="performersService">Performers service</param>
+        /// <param name="albumsService">Albums service</param>
         /// <param name="mapper">Mapper</param>
-        public HomeController(ISongApiService songApiService, IMapper mapper)
+        public HomeController(
+            ISongApiService songApiService,
+            IGenresService genresService,
+            IPerformersService performersService,
+            IAlbumsService albumsService,
+            IMapper mapper)
         {
             _songApiService = songApiService;
+            _genresService = genresService;
+            _performersService = performersService;
+            _albumsService = albumsService;
             _mapper = mapper;
         }
 
@@ -176,9 +195,9 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
         [Authorize(Roles = "admin, manager")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var songToDelete = _songApiService.GetSongById(id);
+            var songToDelete = await _songApiService.GetSongById(id);
             var song = _mapper.Map<SongViewModel>(songToDelete);
 
             if (songToDelete == null)
@@ -209,8 +228,8 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="selectedGenre">Selected genre</param>
         private void PopulateGenresDropDownList(object selectedGenre = null)
         {
-            //var genres = _genresService.GetGenres();
-            //ViewBag.GenreId = new SelectList(genres, "GenreId", "Name", selectedGenre);
+            var genres = _genresService.GetGenres();
+            ViewBag.GenreId = new SelectList(genres, "GenreId", "Name", selectedGenre);
         }
 
         /// <summary>
@@ -219,8 +238,8 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="selectedPerformer">Selected performer</param>
         private void PopulatePerformersDropDownList(object selectedPerformer = null)
         {
-            //var performers = _performersService.GetPerformers();
-            //ViewBag.PerformerId = new SelectList(performers, "PerformerId", "Name", selectedPerformer);
+            var performers = _performersService.GetPerformers();
+            ViewBag.PerformerId = new SelectList(performers, "PerformerId", "Name", selectedPerformer);
         }
 
         /// <summary>
@@ -229,8 +248,8 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="selectedAlbum">Selected album</param>
         private void PopulateAlbumsDropDownList(object selectedAlbum = null)
         {
-            //var albums = _albumsService.GetAlbums();
-            //ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
+            var albums = _albumsService.GetAlbums();
+            ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
         }
 
         /// <summary>
