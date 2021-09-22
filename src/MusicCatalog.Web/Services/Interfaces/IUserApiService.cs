@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MusicCatalog.Web.Services
+namespace MusicCatalog.Web.Services.Interfaces
 {
     /// <summary>
-    /// Typed client service for calling web api
+    /// Typed client service to get users from api
     /// </summary>
-    public interface IWebApiService
+    public interface IUserApiService
     {
         /// <summary>
         /// Register user
@@ -34,7 +34,7 @@ namespace MusicCatalog.Web.Services
         /// Gets all users
         /// </summary>
         /// <returns></returns>
-        Task<List<UserModel>> GetUsers();
+        Task<IEnumerable<UserModel>> GetUsers();
 
         /// <summary>
         /// Gets user by id
@@ -53,7 +53,7 @@ namespace MusicCatalog.Web.Services
         /// <summary>
         /// Deletes user
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="id">User id</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> DeleteUser(string id);
 
