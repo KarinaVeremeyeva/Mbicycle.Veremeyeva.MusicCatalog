@@ -79,7 +79,7 @@ namespace MusicCatalog.WebApi.Controllers
         {
             if (ModelState.IsValid)
             {
-                _songsService.CreateSong(song);
+                _songsService.UpdateSong(song);
 
                 return Ok();
             }

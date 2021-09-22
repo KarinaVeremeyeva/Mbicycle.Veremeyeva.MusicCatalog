@@ -29,5 +29,20 @@
         /// Foreign key for album
         /// </summary>
         public int AlbumId { get; set; }
+
+        /// <summary>
+        /// Album's name
+        /// </summary>
+        public string AlbumName { get; set; }
+
+        /// <summary>
+        /// Genres's name
+        /// </summary>
+        public string GenreName { get; set; }
+
+        /// <summary>
+        /// Performer's name
+        /// </summary>
+        public string PerformerName { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace MusicCatalog.WebApi.Services
         /// <summary>
         /// Users path
         /// </summary>
-        private const string UsersPath = "api/Users";
+        private const string UsersPath = "api/User";
 
         /// <summary>
         /// Admin path

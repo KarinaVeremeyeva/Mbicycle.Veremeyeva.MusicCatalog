@@ -45,6 +45,7 @@ namespace MusicCatalog.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             var uriString = Configuration.GetSection("UriSettings:IdentityApiUri").Value;
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             var mapping = new MapperConfiguration(map => map.AddProfile<BusinessLogicProfile>());
             services.AddSingleton(mapping.CreateMapper());
@@ -70,7 +71,6 @@ namespace MusicCatalog.WebApi
             services.AddScoped<IAlbumsService, AlbumsService>();
             services.AddScoped<ISongsService, SongsService>();
 
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<MusicContext>(options => options.UseSqlServer(connectionString));
 
             services.AddSwaggerGen(swagger =>

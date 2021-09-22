@@ -46,7 +46,7 @@ namespace MusicCatalog.Web.Services
         /// <inheritdoc cref="ISongApiService.GetSongById(int)"/>
         public async Task<SongDto> GetSongById(int id)
         {
-            return await _httpClient.GetFromJsonAsync<SongDto>($"{SongPath}//{id}");
+            return await _httpClient.GetFromJsonAsync<SongDto>($"{SongPath}/{id}");
         }
 
         /// <inheritdoc cref="ISongApiService.GetSongs"/>
@@ -58,7 +58,7 @@ namespace MusicCatalog.Web.Services
         /// <inheritdoc cref="ISongApiService.UpdateSong(SongDto)"/>
         public async Task<HttpResponseMessage> UpdateSong(SongDto song)
         {
-            return await _httpClient.PutAsJsonAsync($"{SongPath}", song);
+            return await _httpClient.PutAsJsonAsync($"{SongPath}/{song.SongId}", song);
         }
     }
 }

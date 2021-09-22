@@ -3,17 +3,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using MusicCatalog.BusinessLogic;
-using MusicCatalog.BusinessLogic.Interfaces;
-using MusicCatalog.BusinessLogic.Services;
-using MusicCatalog.DataAccess;
-using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.Web.Mappings;
 using MusicCatalog.Web.Services;
 using MusicCatalog.Web.Services.Interfaces;
@@ -48,17 +41,13 @@ namespace MusicCatalog.Web
         /// <param name="services">Services collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
             var uriString = Configuration.GetSection("UriSettings:WebApiUri").Value;
 
-            var mapping = new MapperConfiguration(
-                map =>
-                {
-                    map.AddProfile<BusinessLogicProfile>();
-                    map.AddProfile<WebProfile>();
-                    map.AddProfile<AccountProfile>();
-                });
-
+            var mapping = new MapperConfiguration(map =>
+            {
+                map.AddProfile<WebProfile>();
+                map.AddProfile<AccountProfile>();
+            });
             services.AddSingleton(mapping.CreateMapper());
 
             services.AddHttpClient<IUserApiService, UserApiService>(client =>
@@ -99,14 +88,6 @@ namespace MusicCatalog.Web
                     options.AccessDeniedPath = "/Accounts/Login";
                 });
 
-            services.AddScoped<IRepository<Genre>, EFGenreRepository>();
-            services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
-            services.AddScoped<IRepository<Album>, EFAlbumRepository>();
-
-            services.AddScoped<IGenresService, GenresService>();
-            services.AddScoped<IPerformersService, PerformersService>();
-            services.AddScoped<IAlbumsService, AlbumsService>();
-
             services.AddLocalization(options => options.ResourcesPath = "Resources");
 
             services.AddMvc()
@@ -130,9 +111,6 @@ namespace MusicCatalog.Web
                     new CookieRequestCultureProvider()
                 };
             });
-
-            services.AddDbContext<MusicContext>(
-                options => options.UseSqlServer(connectionString));
         }
 
         /// <summary>
