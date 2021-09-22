@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -15,9 +16,9 @@ namespace MusicCatalog.Web.Controllers
     public class GenresController : Controller
     {
         /// <summary>
-        /// Genre service
+        /// Genre api service
         /// </summary>
-        private readonly IGenresService _genresService;
+        private readonly IGenreApiService _genreApiService;
 
         /// <summary>
         /// Mapper
@@ -27,11 +28,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Genres controller
         /// </summary>
-        /// <param name="genresService">Genres service</param>
+        /// <param name="genreApiService">Genres service</param>
         /// <param name="mapper">Mapper</param>
-        public GenresController(IGenresService genresService, IMapper mapper)
+        public GenresController(IGenreApiService genreApiService, IMapper mapper)
         {
-            _genresService = genresService;
+            _genreApiService = genreApiService;
             _mapper = mapper;
         }
 
@@ -39,12 +40,12 @@ namespace MusicCatalog.Web.Controllers
         /// Displays a list of genres
         /// </summary>
         /// <returns>View with genres</returns>
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var genreModels = _genresService.GetGenres();
-            var genres = _mapper.Map<List<GenreViewModel>>(genreModels);
+            var genres = await _genreApiService.GetGenres();
+            var genreViewModels = _mapper.Map<List<GenreViewModel>>(genres);
 
-            return View(genres);
+            return View(genreViewModels);
         }
 
         /// <summary>
@@ -62,15 +63,17 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="genreViewModel">Genre</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(GenreViewModel genreViewModel)
+        public async Task<ActionResult> Create(GenreViewModel genreViewModel)
         {
-            var genre = _mapper.Map<GenreDto>(genreViewModel);
-
             if (ModelState.IsValid)
             {
-                _genresService.CreateGenre(genre);
+                var genre = _mapper.Map<GenreDto>(genreViewModel);
+                var response = await _genreApiService.CreateGenre(genre);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View(genreViewModel);
@@ -81,15 +84,16 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Genre id</param>
         /// <returns>ViewResult</returns>
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var genreToUpdate = _genresService.GetGenreById(id);
-            var genre = _mapper.Map<GenreViewModel>(genreToUpdate);
+            var genreToUpdate = await _genreApiService.GetGenreById(id);
 
             if (genreToUpdate == null)
             {
                 return RedirectToAction("Error", "Home");
             }
+
+            var genre = _mapper.Map<GenreViewModel>(genreToUpdate);
 
             return View(genre);
         }
@@ -100,15 +104,17 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="genreViewModel">Genre</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(GenreViewModel genreViewModel)
+        public async Task<ActionResult> Edit(GenreViewModel genreViewModel)
         {
-            var genre = _mapper.Map<GenreDto>(genreViewModel);
-
             if (ModelState.IsValid)
             {
-                _genresService.UpdateGenre(genre);
+                var genre = _mapper.Map<GenreDto>(genreViewModel);
+                var response = await _genreApiService.UpdateGenre(genre);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View();
@@ -119,15 +125,16 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Genre id</param>
         /// <returns>ViewResult</returns>
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var genreToDelete = _genresService.GetGenreById(id);
-            var genre = _mapper.Map<GenreViewModel>(genreToDelete);
+            var genreToDelete = await _genreApiService.GetGenreById(id);
 
             if (genreToDelete == null)
             {
                 return RedirectToAction("Error", "Home");
             }
+
+            var genre = _mapper.Map<GenreViewModel>(genreToDelete);
 
             return View(genre);
         }
@@ -138,11 +145,16 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Genre id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            _genresService.DeleteGenre(id);
+            var response = await _genreApiService.DeleteGenre(id);
 
-            return RedirectToAction(nameof(Index));
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
         }
     }
 }

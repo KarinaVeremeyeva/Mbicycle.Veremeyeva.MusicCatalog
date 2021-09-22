@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -15,9 +16,9 @@ namespace MusicCatalog.Web.Controllers
     public class AlbumsController : Controller
     {
         /// <summary>
-        /// Albums service
+        /// Album api service
         /// </summary>
-        private readonly IAlbumsService _albumsService;
+        private readonly IAlbumApiService _albumApiService;
 
         /// <summary>
         /// Mapper
@@ -25,13 +26,13 @@ namespace MusicCatalog.Web.Controllers
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Albums controller
+        /// Albums controller constructor
         /// </summary>
-        /// <param name="albumsService">Album service</param>
+        /// <param name="albumApiService">Album api service</param>
         /// <param name="mapper">Mapper</param>
-        public AlbumsController(IAlbumsService albumsService, IMapper mapper)
+        public AlbumsController(IAlbumApiService albumApiService, IMapper mapper)
         {
-            _albumsService = albumsService;
+            _albumApiService = albumApiService;
             _mapper = mapper;
         }
 
@@ -39,12 +40,12 @@ namespace MusicCatalog.Web.Controllers
         ///  Displays a list of albums
         /// </summary>
         /// <returns>View with a album list</returns>
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var albumModels = _albumsService.GetAlbums();
-            var albums = _mapper.Map<List<AlbumViewModel>>(albumModels);
+            var albums = await _albumApiService.GetAlbums();
+            var albumViewModels = _mapper.Map<List<AlbumViewModel>>(albums);
 
-            return View(albums);
+            return View(albumViewModels);
         }
 
         /// <summary>
@@ -62,15 +63,17 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="albumViewModel">Album</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(AlbumViewModel albumViewModel)
+        public async Task<ActionResult> Create(AlbumViewModel albumViewModel)
         {
-            var album = _mapper.Map<AlbumDto>(albumViewModel);
-
             if (ModelState.IsValid)
             {
-                _albumsService.CreateAlbum(album);
+                var album = _mapper.Map<AlbumDto>(albumViewModel);
+                var response = await _albumApiService.CreateAlbum(album);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View(albumViewModel);
@@ -81,15 +84,16 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Album id</param>
         /// <returns>ViewResult</returns>
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var albumToUpdate = _albumsService.GetAlbumById(id);
-            var album = _mapper.Map<AlbumViewModel>(albumToUpdate);
+            var albumToUpdate = await _albumApiService.GetAlbumById(id);
 
             if (albumToUpdate == null)
             {
                 return RedirectToAction("Error", "Home");
             }
+
+            var album = _mapper.Map<AlbumViewModel>(albumToUpdate);
 
             return View(album);
         }
@@ -100,15 +104,17 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="albumViewModel">Album</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(AlbumViewModel albumViewModel)
+        public async Task<ActionResult> Edit(AlbumViewModel albumViewModel)
         {
-            var album = _mapper.Map<AlbumDto>(albumViewModel);
-
             if (ModelState.IsValid)
             {
-                _albumsService.UpdateAlbum(album);
+                var album = _mapper.Map<AlbumDto>(albumViewModel);
+                var response = await _albumApiService.UpdateAlbum(album);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View();
@@ -119,15 +125,16 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Album id</param>
         /// <returns>ViewResult</returns>
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var albumToDelete = _albumsService.GetAlbumById(id);
-            var album = _mapper.Map<AlbumViewModel>(albumToDelete);
+            var albumToDelete = await _albumApiService.GetAlbumById(id);
 
             if (albumToDelete == null)
             {
                 return RedirectToAction("Error", "Home");
             }
+
+            var album = _mapper.Map<AlbumViewModel>(albumToDelete);
 
             return View(album);
         }
@@ -138,11 +145,16 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Album id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            _albumsService.DeleteAlbum(id);
+            var response = await _albumApiService.DeleteAlbum(id);
 
-            return RedirectToAction(nameof(Index));
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
         }
     }
 }

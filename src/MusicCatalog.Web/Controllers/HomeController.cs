@@ -4,13 +4,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -20,24 +21,9 @@ namespace MusicCatalog.Web.Controllers
     public class HomeController : Controller
     {
         /// <summary>
-        /// Songs service
+        /// Songs api service
         /// </summary>
-        private readonly ISongsService _songsService;
-
-        /// <summary>
-        /// Genre service
-        /// </summary>
-        private readonly IGenresService _genresService;
-
-        /// <summary>
-        /// Performer service
-        /// </summary>
-        private readonly IPerformersService _performersService;
-
-        /// <summary>
-        /// Album service
-        /// </summary>
-        private readonly IAlbumsService _albumsService;
+        private readonly ISongApiService _songApiService;
 
         /// <summary>
         /// Mapper
@@ -47,19 +33,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Home controller
         /// </summary>
-        /// <param name="songsService">Songs service</param>
-        /// <param name="genresService">Genres service</param>
-        /// <param name="performersService">Performers service</param>
-        /// <param name="albumsService">Albums service</param>
+        /// <param name="songApiService">Song api service</param>
         /// <param name="mapper">Mapper</param>
-        public HomeController(ISongsService songsService, IGenresService genresService,
-                            IPerformersService performersService, IAlbumsService albumsService,
-                            IMapper mapper)
+        public HomeController(ISongApiService songApiService, IMapper mapper)
         {
-            _songsService = songsService;
-            _genresService = genresService;
-            _performersService = performersService;
-            _albumsService = albumsService;
+            _songApiService = songApiService;
             _mapper = mapper;
         }
 
@@ -86,20 +64,20 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="searchString">String to search</param>
         /// <returns>View with a songs list</returns>
-        public IActionResult Index(string searchString)
+        public async Task<IActionResult> Index(string searchString)
         {
             ViewData["CurrentFilter"] = searchString;
 
-            var songModels = _songsService.GetSongs();
+            var songs = await _songApiService.GetSongs();
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                songModels = songModels.Where(s => s.Name.Contains(searchString));
+                songs = songs.Where(s => s.Name.Contains(searchString));
             }
 
-            var songs = _mapper.Map<List<SongViewModel>>(songModels);
+            var songViewModels = _mapper.Map<List<SongViewModel>>(songs);
 
-            return View(songs);
+            return View(songViewModels);
         }
 
         /// <summary>
@@ -123,17 +101,19 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>ViewResult</returns>
         [HttpPost]
         [Authorize(Roles = "admin, manager")]
-        public IActionResult Create(SongViewModel songViewModel)
+        public async Task<IActionResult> Create(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
 
             if (ModelState.IsValid)
             {
-                _songsService.CreateSong(song);
+                var response = await _songApiService.CreateSong(song);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
-
             PopulateGenresDropDownList(song.GenreId);
             PopulatePerformersDropDownList(song.PerformerId);
             PopulateAlbumsDropDownList(song.AlbumId);
@@ -147,16 +127,15 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Song id</param>
         /// <returns>ViewResult</returns>
         [Authorize(Roles = "admin, manager")]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            var songToUpdate = _songsService.GetSongById(id);
+            var songToUpdate = await _songApiService.GetSongById(id);
             var song = _mapper.Map<SongViewModel>(songToUpdate);
 
             if (songToUpdate == null)
             {
                 return RedirectToAction("Error", "Home");
             }
-
             PopulateGenresDropDownList(songToUpdate.GenreId);
             PopulatePerformersDropDownList(songToUpdate.PerformerId);
             PopulateAlbumsDropDownList(songToUpdate.AlbumId);
@@ -171,15 +150,18 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>ViewResult</returns>
         [HttpPost]
         [Authorize(Roles = "admin, manager")]
-        public IActionResult Edit(SongViewModel songViewModel)
+        public async Task<IActionResult> Edit(SongViewModel songViewModel)
         {
             var song = _mapper.Map<SongDto>(songViewModel);
 
             if (ModelState.IsValid)
             {
-                _songsService.UpdateSong(song);
+                var response = await _songApiService.UpdateSong(song);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
             PopulateGenresDropDownList(song.GenreId);
             PopulatePerformersDropDownList(song.PerformerId);
@@ -196,7 +178,7 @@ namespace MusicCatalog.Web.Controllers
         [Authorize(Roles = "admin, manager")]
         public IActionResult Delete(int id)
         {
-            var songToDelete = _songsService.GetSongById(id);
+            var songToDelete = _songApiService.GetSongById(id);
             var song = _mapper.Map<SongViewModel>(songToDelete);
 
             if (songToDelete == null)
@@ -214,9 +196,9 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
         [Authorize(Roles = "admin, manager")]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            _songsService.DeleteSong(id);
+            var response = await _songApiService.DeleteSong(id);
 
             return RedirectToAction(nameof(Index));
         }
@@ -227,8 +209,8 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="selectedGenre">Selected genre</param>
         private void PopulateGenresDropDownList(object selectedGenre = null)
         {
-            var genres = _genresService.GetGenres();
-            ViewBag.GenreId = new SelectList(genres, "GenreId", "Name", selectedGenre);
+            //var genres = _genresService.GetGenres();
+            //ViewBag.GenreId = new SelectList(genres, "GenreId", "Name", selectedGenre);
         }
 
         /// <summary>
@@ -237,8 +219,8 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="selectedPerformer">Selected performer</param>
         private void PopulatePerformersDropDownList(object selectedPerformer = null)
         {
-            var performers = _performersService.GetPerformers();
-            ViewBag.PerformerId = new SelectList(performers, "PerformerId", "Name", selectedPerformer);
+            //var performers = _performersService.GetPerformers();
+            //ViewBag.PerformerId = new SelectList(performers, "PerformerId", "Name", selectedPerformer);
         }
 
         /// <summary>
@@ -247,8 +229,8 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="selectedAlbum">Selected album</param>
         private void PopulateAlbumsDropDownList(object selectedAlbum = null)
         {
-            var albums = _albumsService.GetAlbums();
-            ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
+            //var albums = _albumsService.GetAlbums();
+            //ViewBag.AlbumId = new SelectList(albums, "AlbumId", "Name", selectedAlbum);
         }
 
         /// <summary>

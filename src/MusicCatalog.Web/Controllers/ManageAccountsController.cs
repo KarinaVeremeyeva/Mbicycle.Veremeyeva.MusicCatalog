@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCatalog.IdentityApi.Models;
-using MusicCatalog.Web.Services;
+using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Web api client
         /// </summary>
-        private readonly IWebApiService _webApiService;
+        private readonly IUserApiService _webApiService;
 
         /// <summary>
         /// Mapper
@@ -32,7 +32,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="webApiService">Web api service</param>
         /// <param name="mapper">Mapper</param>
-        public ManageAccountsController(IWebApiService webApiService, IMapper mapper)
+        public ManageAccountsController(IUserApiService webApiService, IMapper mapper)
         {
             _webApiService = webApiService;
             _mapper = mapper;

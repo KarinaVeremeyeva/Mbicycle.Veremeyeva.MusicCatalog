@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
-using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 
 namespace MusicCatalog.WebApi.Controllers
@@ -20,19 +18,12 @@ namespace MusicCatalog.WebApi.Controllers
         private readonly IGenresService _genresService;
 
         /// <summary>
-        /// Mapper
-        /// </summary>
-        private readonly IMapper _mapper;
-
-        /// <summary>
         /// Genres controller constructor
         /// </summary>
         /// <param name="genresService">Genres service</param>
-        /// <param name="mapper">Mapper</param>
-        public GenresController(IGenresService genresService, IMapper mapper)
+        public GenresController(IGenresService genresService)
         {
             _genresService = genresService;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -40,10 +31,9 @@ namespace MusicCatalog.WebApi.Controllers
         /// </summary>
         /// <returns>Genres</returns>
         [HttpGet]
-        public IEnumerable<GenreViewModel> GetGenres()
+        public IEnumerable<GenreDto> GetGenres()
         {
-            var genreModels = _genresService.GetGenres();
-            var genres = _mapper.Map<List<GenreViewModel>>(genreModels);
+            var genres = _genresService.GetGenres();
 
             return genres;
         }
@@ -54,10 +44,9 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="id">Genre id</param>
         /// <returns>Genre</returns>
         [HttpGet("{id}")]
-        public GenreViewModel GetGenre(int id)
+        public GenreDto GetGenre(int id)
         {
-            var genreModel = _genresService.GetGenreById(id);
-            var genre = _mapper.Map<GenreViewModel>(genreModel);
+            var genre = _genresService.GetGenreById(id);
 
             return genre;
         }
@@ -65,13 +54,11 @@ namespace MusicCatalog.WebApi.Controllers
         /// <summary>
         /// Creates a new genre
         /// </summary>
-        /// <param name="genreViewModel">Genre</param>
+        /// <param name="genre">Genre</param>
         /// <returns>IActionResult</returns>
         [HttpPost]
-        public IActionResult CreateGenre([FromBody] GenreViewModel genreViewModel)
+        public IActionResult CreateGenre([FromBody] GenreDto genre)
         {
-            var genre = _mapper.Map<GenreDto>(genreViewModel);
-
             if (ModelState.IsValid)
             {
                 _genresService.CreateGenre(genre);
@@ -85,13 +72,11 @@ namespace MusicCatalog.WebApi.Controllers
         /// <summary>
         /// Updates specified genre
         /// </summary>
-        /// <param name="genreViewModel">Genre</param>
+        /// <param name="genre">Genre</param>
         /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateGenre([FromBody] GenreViewModel genreViewModel)
+        public IActionResult UpdateGenre([FromBody] GenreDto genre)
         {
-            var genre = _mapper.Map<GenreDto>(genreViewModel);
-
             if (ModelState.IsValid)
             {
                 _genresService.UpdateGenre(genre);
@@ -115,6 +100,7 @@ namespace MusicCatalog.WebApi.Controllers
             if (genre != null)
             {
                 _genresService.DeleteGenre(id);
+
                 return Ok();
             }
 

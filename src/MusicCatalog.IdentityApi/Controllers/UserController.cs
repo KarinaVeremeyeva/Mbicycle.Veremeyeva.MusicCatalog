@@ -13,7 +13,7 @@ namespace MusicCatalog.IdentityApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
         /// <summary>
         /// Jwt token service
@@ -40,7 +40,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <param name="jwtTokenService">Jwt token service</param>
         /// <param name="userService">User service</param>
-        public UsersController(JwtTokenService jwtTokenService, IUserService userService)
+        public UserController(JwtTokenService jwtTokenService, IUserService userService)
         {
             _jwtTokenService = jwtTokenService;
             _userService = userService;

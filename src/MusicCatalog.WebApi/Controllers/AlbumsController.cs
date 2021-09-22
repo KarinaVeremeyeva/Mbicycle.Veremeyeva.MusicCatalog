@@ -1,8 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
-using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 
 namespace MusicCatalog.WebApi.Controllers
@@ -20,19 +18,12 @@ namespace MusicCatalog.WebApi.Controllers
         private readonly IAlbumsService _albumsService;
 
         /// <summary>
-        /// Mapper
-        /// </summary>
-        private readonly IMapper _mapper;
-
-        /// <summary>
         /// Albums controller constructor
         /// </summary>
         /// <param name="albumsService">Album service</param>
-        /// <param name="mapper">Mapper</param>
-        public AlbumsController(IAlbumsService albumsService, IMapper mapper)
+        public AlbumsController(IAlbumsService albumsService)
         {
             _albumsService = albumsService;
-            _mapper = mapper;
         }
 
         /// <summary>
@@ -40,10 +31,9 @@ namespace MusicCatalog.WebApi.Controllers
         /// </summary>
         /// <returns>Albums</returns>
         [HttpGet]
-        public IEnumerable<AlbumViewModel> GetAlbums()
+        public IEnumerable<AlbumDto> GetAlbums()
         {
-            var albumModels = _albumsService.GetAlbums();
-            var albums = _mapper.Map<List<AlbumViewModel>>(albumModels);
+            var albums = _albumsService.GetAlbums();
 
             return albums;
         }
@@ -54,10 +44,9 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="id">Album id</param>
         /// <returns>Album</returns>
         [HttpGet("{id}")]
-        public AlbumViewModel GetAlbum(int id)
+        public AlbumDto GetAlbum(int id)
         {
-            var albumModel = _albumsService.GetAlbumById(id);
-            var album = _mapper.Map<AlbumViewModel>(albumModel);
+            var album = _albumsService.GetAlbumById(id);
 
             return album;
         }
@@ -65,13 +54,11 @@ namespace MusicCatalog.WebApi.Controllers
         /// <summary>
         /// Creates a new album
         /// </summary>
-        /// <param name="albumViewModel">Album</param>
+        /// <param name="album">Album</param>
         /// <returns>IActionResult</returns>
         [HttpPost]
-        public IActionResult CreateAlbum([FromBody] AlbumViewModel albumViewModel)
+        public IActionResult CreateAlbum([FromBody] AlbumDto album)
         {
-            var album = _mapper.Map<AlbumDto>(albumViewModel);
-
             if (ModelState.IsValid)
             {
                 _albumsService.CreateAlbum(album);
@@ -85,13 +72,11 @@ namespace MusicCatalog.WebApi.Controllers
         /// <summary>
         /// Updates specified album
         /// </summary>
-        /// <param name="albumViewModel">Album</param>
+        /// <param name="album">Album</param>
         /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
-        public IActionResult UpdateAlbum([FromBody] AlbumViewModel albumViewModel)
+        public IActionResult UpdateAlbum([FromBody] AlbumDto album)
         {
-            var album = _mapper.Map<AlbumDto>(albumViewModel);
-
             if (ModelState.IsValid)
             {
                 _albumsService.UpdateAlbum(album);
@@ -115,6 +100,7 @@ namespace MusicCatalog.WebApi.Controllers
             if (album != null)
             {
                 _albumsService.DeleteAlbum(id);
+
                 return Ok();
             }
 

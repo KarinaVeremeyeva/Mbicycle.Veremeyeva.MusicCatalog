@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.WebApi.Services;
 using System.Collections.Generic;
@@ -13,17 +12,12 @@ namespace MusicCatalog.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         /// <summary>
         /// Account api client
         /// </summary>
         private readonly IAccountApiService _accountApiService;
-
-        /// <summary>
-        /// Mapper
-        /// </summary>
-        private readonly IMapper _mapper;
 
         /// <summary>
         /// Authorization header name
@@ -39,22 +33,19 @@ namespace MusicCatalog.WebApi.Controllers
         /// Users controller constructor
         /// </summary>
         /// <param name="accountApiService">Account api service</param>
-        /// <param name="mapper">Mapper</param>
-        public UserController(IAccountApiService accountApiService, IMapper mapper)
+        public UsersController(IAccountApiService accountApiService)
         {
             _accountApiService = accountApiService;
-            _mapper = mapper;
         }
 
         /// <summary>
         /// Registers new user
         /// </summary>
-        /// <param name="model">User</param>
+        /// <param name="user">User</param>
         /// <returns>IActionResult</returns>
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody] RegisterModel user)
         {
-            var user = _mapper.Map<RegisterModel>(model);
             var response = await _accountApiService.RegisterUser(user);
 
             if (response.IsSuccessStatusCode
@@ -76,12 +67,11 @@ namespace MusicCatalog.WebApi.Controllers
         /// <summary>
         /// User log in
         /// </summary>
-        /// <param name="model">User</param>
+        /// <param name="user">User</param>
         /// <returns></returns>
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel user)
         {
-            var user = _mapper.Map<LoginModel>(model);
             var response = await _accountApiService.LoginUser(user);
 
             if (response.IsSuccessStatusCode
@@ -123,12 +113,11 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="id">User id</param>
         /// <returns>User</returns>
         [HttpGet("{id}")]
-        public async Task<UserViewModel> Get(string id)
+        public async Task<UserModel> Get(string id)
         {
             var user = await _accountApiService.GetUser(id);
-            var userViewModel = _mapper.Map<UserViewModel>(user);
 
-            return userViewModel;
+            return user;
         }
 
         /// <summary>
@@ -136,24 +125,21 @@ namespace MusicCatalog.WebApi.Controllers
         /// </summary>
         /// <returns>Users</returns>
         [HttpGet]
-        public async Task<IEnumerable<UserViewModel>> GetUsers()
+        public async Task<IEnumerable<UserModel>> GetUsers()
         {
             var users = await _accountApiService.GetUsers();
-            var userViewModels = _mapper.Map<List<UserViewModel>>(users);
 
-            return userViewModels;
+            return users;
         }
 
         /// <summary>
         /// Updates a user
         /// </summary>
-        /// <param name="model">User</param>
+        /// <param name="user">User</param>
         /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromBody] UserViewModel model)
+        public async Task<IActionResult> Update([FromBody] UserModel user)
         {
-            var user = _mapper.Map<UserModel>(model);
-
             var updateUserResponse = await _accountApiService.UpdateUser(user);
             var updateRoleResponse = await _accountApiService.UpdateRole(user.Id, user.Role);
 

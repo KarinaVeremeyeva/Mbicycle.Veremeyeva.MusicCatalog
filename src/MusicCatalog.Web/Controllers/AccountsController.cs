@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MusicCatalog.IdentityApi.Models;
-using MusicCatalog.Web.Services;
+using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,7 +24,7 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Web api service
         /// </summary>
-        private readonly IWebApiService _webApiService;
+        private readonly IUserApiService _webApiService;
 
         /// <summary>
         /// Mapper
@@ -56,7 +56,7 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="webApiService">Web api service</param>
         /// <param name="mapper">Mapper</param>
-        public AccountsController(IWebApiService webApiService, IMapper mapper)
+        public AccountsController(IUserApiService webApiService, IMapper mapper)
         {
             _webApiService = webApiService;
             _mapper = mapper;

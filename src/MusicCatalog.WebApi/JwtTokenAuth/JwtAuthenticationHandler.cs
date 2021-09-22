@@ -54,7 +54,7 @@ namespace MusicCatalog.WebApi.JwtTokenAuth
             httpClient.BaseAddress = new Uri("http://localhost:2563");
             httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
 
-            var response = await httpClient.GetAsync($"api/Users/validate?token={token}");
+            var response = await httpClient.GetAsync($"api/User/validate?token={token}");
 
             if (response.StatusCode == HttpStatusCode.OK)
             {

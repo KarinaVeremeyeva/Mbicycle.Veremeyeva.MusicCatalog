@@ -16,6 +16,7 @@ using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.Web.Mappings;
 using MusicCatalog.Web.Services;
+using MusicCatalog.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -59,11 +60,28 @@ namespace MusicCatalog.Web
                 });
 
             services.AddSingleton(mapping.CreateMapper());
-            services.AddHttpClient<IWebApiService, WebApiService>(client =>
+
+            services.AddHttpClient<IUserApiService, UserApiService>(client =>
             {
                 client.BaseAddress = new Uri(uriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
+            services.AddHttpClient<IAlbumApiService, AlbumApiService>(client =>
+            {
+                client.BaseAddress = new Uri(uriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+            services.AddHttpClient<IGenreApiService, GenreApiService>(client =>
+            {
+                client.BaseAddress = new Uri(uriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+            services.AddHttpClient<IPerformerApiService, PerformerApiService>(client =>
+            {
+                client.BaseAddress = new Uri(uriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
