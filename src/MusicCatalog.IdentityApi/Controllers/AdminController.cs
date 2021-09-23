@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace MusicCatalog.IdentityApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "admin")]
     public class AdminController : ControllerBase
     {
         /// <summary>

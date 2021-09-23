@@ -41,38 +41,39 @@ namespace MusicCatalog.Web
         /// <param name="services">Services collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var uriString = Configuration.GetSection("UriSettings:WebApiUri").Value;
+            var webUriString = Configuration.GetSection("UriSettings:WebApiUri").Value;
+            var identityUriString = Configuration.GetSection("UriSettings:IdentityApiUri").Value;
 
             var mapping = new MapperConfiguration(map =>
             {
                 map.AddProfile<WebProfile>();
-                map.AddProfile<AccountProfile>();
+                map.AddProfile<UserProfile>();
             });
             services.AddSingleton(mapping.CreateMapper());
 
             services.AddHttpClient<IUserApiService, UserApiService>(client =>
             {
-                client.BaseAddress = new Uri(uriString);
+                client.BaseAddress = new Uri(identityUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
             services.AddHttpClient<IAlbumApiService, AlbumApiService>(client =>
             {
-                client.BaseAddress = new Uri(uriString);
+                client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
             services.AddHttpClient<IGenreApiService, GenreApiService>(client =>
             {
-                client.BaseAddress = new Uri(uriString);
+                client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
             services.AddHttpClient<IPerformerApiService, PerformerApiService>(client =>
             {
-                client.BaseAddress = new Uri(uriString);
+                client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
             services.AddHttpClient<ISongApiService, SongApiService>(client =>
             {
-                client.BaseAddress = new Uri(uriString);
+                client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
 

@@ -7,12 +7,12 @@ namespace MusicCatalog.Web.Mappings
     /// <summary>
     /// Configures mapping for types
     /// </summary>
-    public class AccountProfile : Profile
+    public class UserProfile : Profile
     {
         /// <summary>
-        /// AccountProfile constructor
+        /// UserProfile constructor
         /// </summary>
-        public AccountProfile()
+        public UserProfile()
         {
             CreateMap<UserModel, UserViewModel>();
             CreateMap<UserViewModel, UserModel>();

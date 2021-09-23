@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 namespace MusicCatalog.Web.Services.Interfaces
 {
     /// <summary>
-    /// Typed client service to get users from api
+    /// Typed client to get users from identity api
     /// </summary>
     public interface IUserApiService
     {
         /// <summary>
         /// Register user
         /// </summary>
-        /// <param name="model">User</param>
+        /// <param name="model">RegisterModel</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> RegisterUser(RegisterModel model);
 
         /// <summary>
         /// Login user
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="model">LoginModel</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> LoginUser(LoginModel model);
 
@@ -31,36 +31,51 @@ namespace MusicCatalog.Web.Services.Interfaces
         Task<HttpResponseMessage> LogoutUser();
 
         /// <summary>
-        /// Gets all users
+        /// Get all roles
         /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<UserModel>> GetUsers();
+        /// <returns>HttpResponseMessage</returns>
+        Task<List<string>> GetRoles();
 
         /// <summary>
-        /// Gets user by id
+        /// Get all users
+        /// </summary>
+        /// <returns>Users</returns>
+        Task<List<UserModel>> GetUsers();
+
+        /// <summary>
+        /// Get a user by id
         /// </summary>
         /// <param name="id">User id</param>
-        /// <returns>Users</returns>
+        /// <returns>User</returns>
         Task<UserModel> GetUser(string id);
 
         /// <summary>
-        /// Updates user
+        /// Update user
         /// </summary>
-        /// <param name="model">User</param>
+        /// <param name="user">User</param>
         /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> UpdateUser(UserModel model);
+        Task<HttpResponseMessage> UpdateUser(UserModel user);
 
         /// <summary>
-        /// Deletes user
+        /// Delete user by id
         /// </summary>
         /// <param name="id">User id</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> DeleteUser(string id);
 
         /// <summary>
-        /// Gets all roles
+        /// Update user role
         /// </summary>
-        /// <returns>Roles</returns>
-        Task<List<string>> GetRoles();
+        /// <param name="id">User id</param>
+        /// <param name="role">User role</param>
+        /// <returns>HttpResponseMessage</returns>
+        Task<HttpResponseMessage> UpdateRole(string id, string role);
+
+        /// <summary>
+        /// Get user role
+        /// </summary>
+        /// <param name="id">User id</param>
+        /// <returns>Role name</returns>
+        Task<string> GetUserRole(string id);
     }
 }

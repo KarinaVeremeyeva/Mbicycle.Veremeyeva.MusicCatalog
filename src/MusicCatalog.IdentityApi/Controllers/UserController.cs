@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
@@ -52,6 +53,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
             var user = new IdentityUser()
@@ -80,6 +82,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             var user = new IdentityUser()

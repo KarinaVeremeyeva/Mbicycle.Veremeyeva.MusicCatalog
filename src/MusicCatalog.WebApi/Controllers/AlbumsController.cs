@@ -10,6 +10,7 @@ namespace MusicCatalog.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AlbumsController : ControllerBase
     {
         /// <summary>

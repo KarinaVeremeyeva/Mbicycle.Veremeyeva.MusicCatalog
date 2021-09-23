@@ -14,7 +14,6 @@ using MusicCatalog.DataAccess;
 using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.WebApi.JwtTokenAuth;
-using MusicCatalog.WebApi.Services;
 using System;
 
 namespace MusicCatalog.WebApi
@@ -44,17 +43,11 @@ namespace MusicCatalog.WebApi
         /// <param name="services">Services collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var uriString = Configuration.GetSection("UriSettings:IdentityApiUri").Value;
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             var mapping = new MapperConfiguration(map => map.AddProfile<BusinessLogicProfile>());
             services.AddSingleton(mapping.CreateMapper());
 
-            services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
-            {
-                client.BaseAddress = new Uri(uriString);
-                client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
             services.AddAuthentication(JwtAutheticationConstants.SchemeName)
                 .AddScheme<JwtAuthenticationOptions, JwtAuthenticationHandler>(
                 JwtAutheticationConstants.SchemeName, null);
