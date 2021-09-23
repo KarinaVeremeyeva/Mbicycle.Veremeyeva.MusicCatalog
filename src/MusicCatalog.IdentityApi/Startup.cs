@@ -81,7 +81,7 @@ namespace MusicCatalog.IdentityApi
 
             services.Configure<JwtTokenSettings>(tokenSettings);
             services.AddScoped<JwtTokenService>();
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
 

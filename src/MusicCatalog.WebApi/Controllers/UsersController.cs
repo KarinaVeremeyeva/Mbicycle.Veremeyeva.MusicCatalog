@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.WebApi.Services;
 using System.Collections.Generic;
@@ -113,6 +114,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="id">User id</param>
         /// <returns>User</returns>
         [HttpGet("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<UserModel> Get(string id)
         {
             var user = await _accountApiService.GetUser(id);
@@ -125,6 +127,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// </summary>
         /// <returns>Users</returns>
         [HttpGet]
+        [Authorize(Roles = "admin")]
         public async Task<IEnumerable<UserModel>> GetUsers()
         {
             var users = await _accountApiService.GetUsers();
@@ -138,6 +141,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="user">User</param>
         /// <returns>IActionResult</returns>
         [HttpPut("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Update([FromBody] UserModel user)
         {
             var updateUserResponse = await _accountApiService.UpdateUser(user);
@@ -158,6 +162,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="id">Id</param>
         /// <returns>IActionResult</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(string id)
         {
             if (string.IsNullOrEmpty(id))

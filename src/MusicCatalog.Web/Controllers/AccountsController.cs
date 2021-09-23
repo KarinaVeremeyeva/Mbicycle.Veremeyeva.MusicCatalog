@@ -22,9 +22,9 @@ namespace MusicCatalog.Web.Controllers
     public class AccountsController : Controller
     {
         /// <summary>
-        /// Web api service
+        /// User api service
         /// </summary>
-        private readonly IUserApiService _webApiService;
+        private readonly IUserApiService _userApiService;
 
         /// <summary>
         /// Mapper
@@ -54,11 +54,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Accounts controller constructor
         /// </summary>
-        /// <param name="webApiService">Web api service</param>
+        /// <param name="userApiService">User api service</param>
         /// <param name="mapper">Mapper</param>
-        public AccountsController(IUserApiService webApiService, IMapper mapper)
+        public AccountsController(IUserApiService userApiService, IMapper mapper)
         {
-            _webApiService = webApiService;
+            _userApiService = userApiService;
             _mapper = mapper;
         }
 
@@ -81,7 +81,7 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Register([FromForm] RegisterViewModel model)
         {
             var user = _mapper.Map<RegisterModel>(model);
-            var response = await _webApiService.RegisterUser(user);
+            var response = await _userApiService.RegisterUser(user);
 
             if (ModelState.IsValid)
             {
@@ -121,7 +121,7 @@ namespace MusicCatalog.Web.Controllers
         public async Task<IActionResult> Login([FromForm] LoginViewModel model)
         {
             var user = _mapper.Map<LoginModel>(model);
-            var response = await _webApiService.LoginUser(user);
+            var response = await _userApiService.LoginUser(user);
 
             if (ModelState.IsValid)
             {
@@ -149,7 +149,7 @@ namespace MusicCatalog.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> Logout()
         {
-            var response = await _webApiService.LogoutUser();
+            var response = await _userApiService.LogoutUser();
 
             if (response.IsSuccessStatusCode)
             {
@@ -192,7 +192,7 @@ namespace MusicCatalog.Web.Controllers
         /// <returns>Roles</returns>
         private async Task<IEnumerable<SelectListItem>> GetAllRoles()
         {
-            var roles = await _webApiService.GetRoles();
+            var roles = await _userApiService.GetRoles();
             var items = roles
                 .Select(role => new SelectListItem { Text = role, Value = role })
                 .ToList();
