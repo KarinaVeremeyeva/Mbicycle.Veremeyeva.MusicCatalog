@@ -22,12 +22,9 @@ namespace MusicCatalog.UnitTests
                     dest => dest.PerformerId,
                     opt => opt.MapFrom(src => src.PerformerId));
 
-            CreateMap<AlbumViewModel, AlbumDto>()
-                .ForMember(dest => dest.Songs, opt => opt.Ignore());
-            CreateMap<GenreViewModel, GenreDto>()
-                .ForMember(dest => dest.Songs, opt => opt.Ignore());
-            CreateMap<PerformerViewModel, PerformerDto>()
-                .ForMember(dest => dest.Songs, opt => opt.Ignore());
+            CreateMap<AlbumViewModel, AlbumDto>();
+            CreateMap<GenreViewModel, GenreDto>();
+            CreateMap<PerformerViewModel, PerformerDto>();
         }
     }
 }
