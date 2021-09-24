@@ -14,7 +14,6 @@ namespace MusicCatalog.Web.Controllers
     /// <summary>
     /// Controller for accounts managing
     /// </summary>
-    [Authorize(Roles = "admin")]
     public class ManageAccountsController : Controller
     {
         /// <summary>

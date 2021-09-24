@@ -90,7 +90,7 @@ namespace MusicCatalog.Web
                 });
 
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
+            services.AddSession();
             services.AddMvc()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization();
@@ -138,6 +138,7 @@ namespace MusicCatalog.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

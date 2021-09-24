@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
 using System.Collections.Generic;
@@ -10,7 +11,6 @@ namespace MusicCatalog.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AlbumsController : ControllerBase
     {
         /// <summary>
@@ -58,6 +58,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// <param name="album">Album</param>
         /// <returns>IActionResult</returns>
         [HttpPost]
+        [Authorize]
         public IActionResult CreateAlbum([FromBody] AlbumDto album)
         {
             if (ModelState.IsValid)
