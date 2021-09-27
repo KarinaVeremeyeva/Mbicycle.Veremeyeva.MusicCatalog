@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MusicCatalog.IdentityApi.Services
+namespace MusicCatalog.IdentityApi.Services.Interfaces
 {
     /// <summary>
     /// Implementation of user service
@@ -100,23 +100,11 @@ namespace MusicCatalog.IdentityApi.Services
             {
                 user.Email = model.Email;
                 user.UserName = model.Email;
+                await _userManager.UpdateAsync(user);
 
-                result = await _userManager.UpdateAsync(user);
-            }
-
-            return result;
-        }
-
-        /// <inheritdoc cref="IUserService.UpdateRole(string, string)"/>
-        public async Task<IdentityResult> UpdateRole(string id, string role)
-        {
-            var result = new IdentityResult();
-            var user = await _userManager.FindByIdAsync(id);
-            if (user != null)
-            {
                 var userRoles = await _userManager.GetRolesAsync(user);
-                await _userManager.RemoveFromRolesAsync(user, userRoles);             
-                result = await _userManager.AddToRoleAsync(user, role);
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
+                result = await _userManager.AddToRoleAsync(user, model.Role);
             }
 
             return result;
@@ -173,7 +161,7 @@ namespace MusicCatalog.IdentityApi.Services
             return roleNames;
         }
 
-        /// <inheritdoc cref="IUserService.GetUserRoles(IdentityUser)"/>
+        /// <inheritdoc cref="IUserService.GetUserRoles(string)"/>
         public async Task<IList<string>> GetUserRoles(string email)
         {
             var userInManager = await _userManager.FindByEmailAsync(email);

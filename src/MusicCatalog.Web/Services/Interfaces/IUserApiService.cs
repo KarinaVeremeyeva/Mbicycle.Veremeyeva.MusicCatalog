@@ -64,14 +64,6 @@ namespace MusicCatalog.Web.Services.Interfaces
         Task<HttpResponseMessage> DeleteUser(string id);
 
         /// <summary>
-        /// Update user role
-        /// </summary>
-        /// <param name="id">User id</param>
-        /// <param name="role">User role</param>
-        /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> UpdateRole(string id, string role);
-
-        /// <summary>
         /// Get user role
         /// </summary>
         /// <param name="id">User id</param>

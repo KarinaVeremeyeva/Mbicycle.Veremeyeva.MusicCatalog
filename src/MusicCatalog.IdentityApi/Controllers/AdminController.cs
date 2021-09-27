@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
 using System.Collections.Generic;
@@ -12,7 +11,6 @@ namespace MusicCatalog.IdentityApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "admin")]
     public class AdminController : ControllerBase
     {
         /// <summary>
@@ -96,29 +94,6 @@ namespace MusicCatalog.IdentityApi.Controllers
             }
 
             return BadRequest(result.Errors);
-        }
-
-        /// <summary>
-        /// Changes user's role
-        /// </summary>
-        /// <param name="id">User id</param>
-        /// <param name="role">Role</param>
-        /// <returns>IActionResult</returns>
-        [HttpPut("update-role/{id}")]
-        public async Task<IActionResult> UpdateRole(string id, [FromBody] string role)
-        {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrEmpty(role))
-            {
-                return NotFound();
-            }
-
-            var result = await _userService.UpdateRole(id, role);
-            if (result.Succeeded)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest();
         }
 
         /// <summary>

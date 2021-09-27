@@ -18,7 +18,7 @@ namespace MusicCatalog.IdentityApi.Services
         Task<IdentityResult> CreateAsync(RegisterModel model);
 
         /// <summary>
-        ///  Authenticates user
+        /// Authenticates user
         /// </summary>
         /// <param name="model">User</param>
         /// <returns>SignInResult</returns>
@@ -45,28 +45,20 @@ namespace MusicCatalog.IdentityApi.Services
         Task<IdentityResult> UpdateUser(UserModel model);
 
         /// <summary>
-        /// Update role
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="role"></param>
-        /// <returns>IdentityResult</returns>
-        Task<IdentityResult> UpdateRole(string id, string role);
-
-        /// <summary>
-        /// Get user by id
+        /// Gets user by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>User</returns>
         Task<UserModel> GetUser(string id);
 
         /// <summary>
-        /// Get all users
+        /// Gets all users
         /// </summary>
         /// <returns>Users</returns>
         Task<IEnumerable<UserModel>> GetUsersAsync();
 
         /// <summary>
-        /// Get current user role
+        /// Gets current user role
         /// </summary>
         /// <param name="id">User id</param>
         /// <returns>Role</returns>
@@ -81,7 +73,7 @@ namespace MusicCatalog.IdentityApi.Services
         /// <summary>
         /// Gets user roles
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="email">User email</param>
         /// <returns>Roles</returns>
         Task<IList<string>> GetUserRoles(string email);
     }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
+using MusicCatalog.IdentityApi.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <summary>
         /// Jwt token service
         /// </summary>
-        private readonly JwtTokenService _jwtTokenService;
+        private readonly IJwtTokenService _jwtTokenService;
 
         /// <summary>
         /// User service
@@ -40,7 +41,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// </summary>
         /// <param name="jwtTokenService">Jwt token service</param>
         /// <param name="userService">User service</param>
-        public UserController(JwtTokenService jwtTokenService, IUserService userService)
+        public UserController(IJwtTokenService jwtTokenService, IUserService userService)
         {
             _jwtTokenService = jwtTokenService;
             _userService = userService;

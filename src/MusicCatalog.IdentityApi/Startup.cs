@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
+using MusicCatalog.IdentityApi.Services.Interfaces;
 using MusicCatalog.IdentityApi.Settings;
 using System.Text;
 
@@ -80,7 +81,7 @@ namespace MusicCatalog.IdentityApi
                 });
 
             services.Configure<JwtTokenSettings>(tokenSettings);
-            services.AddScoped<JwtTokenService>();
+            services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IUserService, UserService>();
 
             services.AddControllers();
