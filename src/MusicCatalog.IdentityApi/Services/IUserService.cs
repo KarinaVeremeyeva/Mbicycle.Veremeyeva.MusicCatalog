@@ -83,6 +83,6 @@ namespace MusicCatalog.IdentityApi.Services
         /// </summary>
         /// <param name="user"></param>
         /// <returns>Roles</returns>
-        Task<IList<string>> GetUserRoles(IdentityUser user);
+        Task<IList<string>> GetUserRoles(string email);
     }
 }

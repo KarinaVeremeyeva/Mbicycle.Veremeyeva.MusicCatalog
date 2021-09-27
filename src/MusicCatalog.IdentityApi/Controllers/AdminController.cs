@@ -62,16 +62,18 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromBody] UserModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await _userService.UpdateUser(model);
-                if (result.Succeeded)
-                {
-                    return Ok(result);
-                }
+                return BadRequest(ModelState);
+            }
+            
+            var result = await _userService.UpdateUser(model);
+            if (result.Succeeded)
+            {
+                return Ok(result);
             }
 
-            return BadRequest(ModelState);
+            return BadRequest(result.Errors);
         }
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace MusicCatalog.IdentityApi.Controllers
                 return Ok(result);
             }
 
-            return BadRequest();
+            return BadRequest(result.Errors);
         }
 
         /// <summary>

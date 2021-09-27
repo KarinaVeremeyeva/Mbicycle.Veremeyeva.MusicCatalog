@@ -174,9 +174,9 @@ namespace MusicCatalog.IdentityApi.Services
         }
 
         /// <inheritdoc cref="IUserService.GetUserRoles(IdentityUser)"/>
-        public async Task<IList<string>> GetUserRoles(IdentityUser user)
+        public async Task<IList<string>> GetUserRoles(string email)
         {
-            var userInManager = await _userManager.FindByEmailAsync(user.Email);
+            var userInManager = await _userManager.FindByEmailAsync(email);
             var roles = await _userManager.GetRolesAsync(userInManager);
 
             return roles;

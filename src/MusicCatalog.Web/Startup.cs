@@ -88,9 +88,8 @@ namespace MusicCatalog.Web
                     options.LoginPath = "/Accounts/Login";
                     options.AccessDeniedPath = "/Accounts/Login";
                 });
-
+            
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-            services.AddSession();
             services.AddMvc()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization();
@@ -138,7 +137,6 @@ namespace MusicCatalog.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {

@@ -35,12 +35,12 @@ namespace MusicCatalog.IdentityApi.Services
         /// <param name="user">User</param>
         /// <param name="roles">Roles</param>
         /// <returns>Jwt token</returns>
-        public string GenerateJwtToken(IdentityUser user, IList<string> roles)
+        public string GenerateJwtToken(string email, IList<string> roles)
         {
             var userClaims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, email),
             };
             var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
             userClaims.AddRange(roleClaims);

@@ -2,6 +2,7 @@
 using MusicCatalog.Web.Services.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -34,6 +35,12 @@ namespace MusicCatalog.Web.Services
         /// <inheritdoc cref="IAlbumApiService.CreateAlbum(AlbumDto)"/>
         public async Task<HttpResponseMessage> CreateAlbum(AlbumDto album)
         {
+            return await _httpClient.PostAsJsonAsync($"{AlbumPath}", album);
+        }
+
+        public async Task<HttpResponseMessage> CreateAlbum(AlbumDto album, string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             return await _httpClient.PostAsJsonAsync($"{AlbumPath}", album);
         }
 

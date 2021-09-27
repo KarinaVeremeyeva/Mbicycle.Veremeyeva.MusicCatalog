@@ -88,10 +88,8 @@ namespace MusicCatalog.Web.Controllers
                     return RedirectToAction("Login", "Accounts");
                 }
 
-                var token = HttpContext.Request.Cookies[JwtTokenKey];
-                HttpContext.Response.Headers.Add(Authorization, "Bearer " + token);
-
-                var response = await _albumApiService.CreateAlbum(album);
+                var token = HttpContext.Request.Cookies[JwtTokenKey];             
+                var response = await _albumApiService.CreateAlbum(album, token);
 
                 if (response.IsSuccessStatusCode)
                 {
