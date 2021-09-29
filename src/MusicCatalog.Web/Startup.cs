@@ -51,6 +51,7 @@ namespace MusicCatalog.Web
             });
             services.AddSingleton(mapping.CreateMapper());
 
+            services.AddHttpContextAccessor();
             services.AddHttpClient<IUserApiService, UserApiService>(client =>
             {
                 client.BaseAddress = new Uri(identityUriString);
@@ -83,7 +84,7 @@ namespace MusicCatalog.Web
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddCookie(JwtBearerDefaults.AuthenticationScheme,
-                options => 
+                options =>
                 {
                     options.LoginPath = "/Accounts/Login";
                     options.AccessDeniedPath = "/Accounts/Login";

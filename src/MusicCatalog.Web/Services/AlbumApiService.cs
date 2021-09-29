@@ -1,4 +1,5 @@
-﻿using MusicCatalog.BusinessLogic.Models;
+﻿using Microsoft.AspNetCore.Http;
+using MusicCatalog.BusinessLogic.Models;
 using MusicCatalog.Web.Services.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -19,28 +20,37 @@ namespace MusicCatalog.Web.Services
         private readonly HttpClient _httpClient;
 
         /// <summary>
+        /// Provides access to the http context
+        /// </summary>
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        /// <summary>
         /// Album path
         /// </summary>
         private const string AlbumPath = "api/Albums";
 
         /// <summary>
+        /// Jwt token key
+        /// </summary>
+        private const string JwtTokenKey = "secret_jwt_key";
+
+        /// <summary>
         /// AlbumApiService constructor
         /// </summary>
         /// <param name="httpClient">Http client</param>
-        public AlbumApiService(HttpClient httpClient)
+        /// <param name="httpContextAccessor">Http context accessor</param>
+        public AlbumApiService(HttpClient httpClient, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = httpClient;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <inheritdoc cref="IAlbumApiService.CreateAlbum(AlbumDto)"/>
         public async Task<HttpResponseMessage> CreateAlbum(AlbumDto album)
         {
-            return await _httpClient.PostAsJsonAsync($"{AlbumPath}", album);
-        }
-
-        public async Task<HttpResponseMessage> CreateAlbum(AlbumDto album, string token)
-        {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies[JwtTokenKey];
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             return await _httpClient.PostAsJsonAsync($"{AlbumPath}", album);
         }
 

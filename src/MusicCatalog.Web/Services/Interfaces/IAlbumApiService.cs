@@ -30,8 +30,6 @@ namespace MusicCatalog.Web.Services.Interfaces
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> CreateAlbum(AlbumDto album);
 
-        Task<HttpResponseMessage> CreateAlbum(AlbumDto album, string token);
-
         /// <summary>
         /// Updates an album
         /// </summary>

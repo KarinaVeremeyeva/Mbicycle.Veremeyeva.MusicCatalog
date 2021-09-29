@@ -5,10 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Models;
 using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
@@ -33,11 +30,6 @@ namespace MusicCatalog.Web.Controllers
         /// Jwt token key
         /// </summary>
         private const string JwtTokenKey = "secret_jwt_key";
-
-        /// <summary>
-        /// Authorization header name
-        /// </summary>
-        private const string Authorization = "Authorization";
 
         /// <summary>
         /// Albums controller constructor
@@ -81,15 +73,13 @@ namespace MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var album = _mapper.Map<AlbumDto>(albumViewModel);
-
                 if (!HttpContext.Request.Cookies.ContainsKey(JwtTokenKey))
                 {
                     return RedirectToAction("Login", "Accounts");
                 }
 
-                var token = HttpContext.Request.Cookies[JwtTokenKey];             
-                var response = await _albumApiService.CreateAlbum(album, token);
+                var album = _mapper.Map<AlbumDto>(albumViewModel);
+                var response = await _albumApiService.CreateAlbum(album);
 
                 if (response.IsSuccessStatusCode)
                 {

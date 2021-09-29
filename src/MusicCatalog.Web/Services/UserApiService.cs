@@ -1,7 +1,9 @@
-﻿using MusicCatalog.IdentityApi.Models;
+﻿using Microsoft.AspNetCore.Http;
+using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.Web.Services.Interfaces;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 
@@ -18,6 +20,11 @@ namespace MusicCatalog.Web.Services
         private readonly HttpClient _httpClient;
 
         /// <summary>
+        /// Provides access to the http context
+        /// </summary>
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        /// <summary>
         /// User path
         /// </summary>
         private const string UserPath = "api/User";
@@ -28,12 +35,19 @@ namespace MusicCatalog.Web.Services
         private const string AdminPath = "api/Admin";
 
         /// <summary>
+        /// Jwt token key
+        /// </summary>
+        private const string JwtTokenKey = "secret_jwt_key";
+
+        /// <summary>
         /// AccountApiService constructor
         /// </summary>
         /// <param name="client">Http client</param>
-        public UserApiService(HttpClient client)
+        /// <param name="httpContextAccessor">Http context accessor</param>
+        public UserApiService(HttpClient client, IHttpContextAccessor httpContextAccessor)
         {
             _httpClient = client;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         /// <inheritdoc cref="IUserApiService.RegisterUser(RegisterModel)"/>
@@ -63,30 +77,45 @@ namespace MusicCatalog.Web.Services
         /// <inheritdoc cref="IUserApiService.GetUsers"/>
         public async Task<List<UserModel>> GetUsers()
         {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies[JwtTokenKey];
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             return await _httpClient.GetFromJsonAsync<List<UserModel>>($"{AdminPath}");
         }
 
         /// <inheritdoc cref="IUserApiService.GetUser(string)"/>
         public async Task<UserModel> GetUser(string id)
         {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies[JwtTokenKey];
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             return await _httpClient.GetFromJsonAsync<UserModel>($"{AdminPath}/{id}");
         }
 
         /// <inheritdoc cref="IUserApiService.UpdateUser(UserModel)"/>
         public async Task<HttpResponseMessage> UpdateUser(UserModel user)
         {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies[JwtTokenKey];
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             return await _httpClient.PutAsJsonAsync($"{AdminPath}/{user.Id}", user);
         }
 
         /// <inheritdoc cref="IUserApiService.DeleteUser(string)"/>
         public async Task<HttpResponseMessage> DeleteUser(string id)
         {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies[JwtTokenKey];
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             return await _httpClient.DeleteAsync($"{AdminPath}/{id}");
         }
 
         /// <inheritdoc cref="IUserApiService.GetUserRole(string)"/>
         public async Task<string> GetUserRole(string id)
         {
+            var token = _httpContextAccessor.HttpContext.Request.Cookies[JwtTokenKey];
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
             return await _httpClient.GetFromJsonAsync<string>($"{AdminPath}/role/{id}");
         }
     }
