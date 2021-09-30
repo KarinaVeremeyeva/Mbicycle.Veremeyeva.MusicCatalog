@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace MusicCatalog.WebApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class SongsController : ControllerBase
     {
         /// <summary>
@@ -31,6 +33,7 @@ namespace MusicCatalog.WebApi.Controllers
         /// </summary>
         /// <returns>Songs</returns>
         [HttpGet]
+        [AllowAnonymous]
         public IEnumerable<SongDto> GetSongs()
         {
             var songs = _songsService.GetSongs();

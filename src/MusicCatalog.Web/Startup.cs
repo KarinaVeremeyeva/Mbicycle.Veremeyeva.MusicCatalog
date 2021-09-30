@@ -51,27 +51,33 @@ namespace MusicCatalog.Web
             });
             services.AddSingleton(mapping.CreateMapper());
 
+            services.AddTransient<ApiTokenHandler>();
             services.AddHttpContextAccessor();
+
             services.AddHttpClient<IUserApiService, UserApiService>(client =>
             {
                 client.BaseAddress = new Uri(identityUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
             services.AddHttpClient<IAlbumApiService, AlbumApiService>(client =>
             {
                 client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
             services.AddHttpClient<IGenreApiService, GenreApiService>(client =>
             {
                 client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
             services.AddHttpClient<IPerformerApiService, PerformerApiService>(client =>
             {
                 client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
-            });
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
             services.AddHttpClient<ISongApiService, SongApiService>(client =>
             {
                 client.BaseAddress = new Uri(webUriString);

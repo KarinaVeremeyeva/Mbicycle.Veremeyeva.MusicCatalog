@@ -73,11 +73,6 @@ namespace MusicCatalog.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (!HttpContext.Request.Cookies.ContainsKey(JwtTokenKey))
-                {
-                    return RedirectToAction("Login", "Accounts");
-                }
-
                 var album = _mapper.Map<AlbumDto>(albumViewModel);
                 var response = await _albumApiService.CreateAlbum(album);
 
