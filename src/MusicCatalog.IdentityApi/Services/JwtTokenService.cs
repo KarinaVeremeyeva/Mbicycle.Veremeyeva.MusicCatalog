@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using MusicCatalog.IdentityApi.Services.Interfaces;
 using MusicCatalog.IdentityApi.Settings;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -13,7 +13,7 @@ namespace MusicCatalog.IdentityApi.Services
     /// <summary>
     /// Jwt token service
     /// </summary>
-    public class JwtTokenService
+    public class JwtTokenService : IJwtTokenService
     {
         /// <summary>
         /// Jwt token settings
@@ -32,15 +32,15 @@ namespace MusicCatalog.IdentityApi.Services
         /// <summary>
         /// Generate a jwt-token
         /// </summary>
-        /// <param name="user">User</param>
+        /// <param name="email">User email</param>
         /// <param name="roles">Roles</param>
         /// <returns>Jwt token</returns>
-        public string GenerateJwtToken(IdentityUser user, IList<string> roles)
+        public string GenerateJwtToken(string email, IList<string> roles)
         {
             var userClaims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-                new Claim(ClaimsIdentity.DefaultNameClaimType, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Sub, email),
+                new Claim(ClaimsIdentity.DefaultNameClaimType, email),
             };
             var roleClaims = roles.Select(role => new Claim(ClaimTypes.Role, role));
             userClaims.AddRange(roleClaims);

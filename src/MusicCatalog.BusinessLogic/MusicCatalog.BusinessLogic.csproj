@@ -6,10 +6,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MusicCatalog.DataAccess\MusicCatalog.DataAccess.csproj" />
+    <ProjectReference Include="..\MusicCatalog.IdentityApi\MusicCatalog.IdentityApi.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.BusinessLogic.Interfaces;
 using MusicCatalog.BusinessLogic.Models;
+using MusicCatalog.Web.Services.Interfaces;
 using MusicCatalog.Web.ViewModels;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace MusicCatalog.Web.Controllers
 {
@@ -15,9 +16,9 @@ namespace MusicCatalog.Web.Controllers
     public class PerformersController : Controller
     {
         /// <summary>
-        /// Performer service
+        /// Performer api service
         /// </summary>
-        private readonly IPerformersService _performersService;
+        private readonly IPerformerApiService _performerApiService;
 
         /// <summary>
         /// Mapper
@@ -27,11 +28,11 @@ namespace MusicCatalog.Web.Controllers
         /// <summary>
         /// Performers controlller
         /// </summary>
-        /// <param name="performersService">Performer service</param>
+        /// <param name="performerApiService">Performer api service</param>
         /// <param name="mapper">Mapper</param>
-        public PerformersController(IPerformersService performersService, IMapper mapper)
+        public PerformersController(IPerformerApiService performerApiService, IMapper mapper)
         {
-            _performersService = performersService;
+            _performerApiService = performerApiService;
             _mapper = mapper;
         }
 
@@ -39,12 +40,12 @@ namespace MusicCatalog.Web.Controllers
         /// Displays a list of performers
         /// </summary>
         /// <returns>View with performers</returns>
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            var performerModels = _performersService.GetPerformers();
-            var performers = _mapper.Map<List<PerformerViewModel>>(performerModels);
+            var performer = await _performerApiService.GetPerformers();
+            var performerViewModels = _mapper.Map<List<PerformerViewModel>>(performer);
 
-            return View(performers);
+            return View(performerViewModels);
         }
 
         /// <summary>
@@ -62,15 +63,17 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="performerViewModel">Performer</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Create(PerformerViewModel performerViewModel)
+        public async Task<ActionResult> Create(PerformerViewModel performerViewModel)
         {
-            var performer = _mapper.Map<PerformerDto>(performerViewModel);
-
             if (ModelState.IsValid)
             {
-                _performersService.CreatePerformer(performer);
+                var performer = _mapper.Map<PerformerDto>(performerViewModel);
+                var response = await _performerApiService.CreatePerformer(performer);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View(performerViewModel);
@@ -81,15 +84,16 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Performer id</param>
         /// <returns>ViewResult</returns>
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            var performerToUpdate = _performersService.GetPerformerById(id);
-            var performer = _mapper.Map<PerformerViewModel>(performerToUpdate);
+            var performerToUpdate = await _performerApiService.GetPerformerById(id);
 
             if (performerToUpdate == null)
             {
                 return RedirectToAction("Error", "Home");
             }
+
+            var performer = _mapper.Map<PerformerViewModel>(performerToUpdate);
 
             return View(performer);
         }
@@ -100,15 +104,17 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="performerViewModel">Performer</param>
         /// <returns>ViewResult</returns>
         [HttpPost]
-        public ActionResult Edit(PerformerViewModel performerViewModel)
+        public async Task<ActionResult> Edit(PerformerViewModel performerViewModel)
         {
-            var performer = _mapper.Map<PerformerDto>(performerViewModel);
-
             if (ModelState.IsValid)
             {
-                _performersService.UpdatePerformer(performer);
+                var performer = _mapper.Map<PerformerDto>(performerViewModel);
+                var response = await _performerApiService.UpdatePerformer(performer);
 
-                return RedirectToAction(nameof(Index));
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
             }
 
             return View();
@@ -119,9 +125,9 @@ namespace MusicCatalog.Web.Controllers
         /// </summary>
         /// <param name="id">Performer id</param>
         /// <returns>ViewResult</returns>
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var performerToDelete = _performersService.GetPerformerById(id);
+            var performerToDelete = await _performerApiService.GetPerformerById(id);
             var performer = _mapper.Map<PerformerViewModel>(performerToDelete);
 
             if (performerToDelete == null)
@@ -138,11 +144,16 @@ namespace MusicCatalog.Web.Controllers
         /// <param name="id">Performer id</param>
         /// <returns>ViewResult</returns>
         [HttpPost, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            _performersService.DeletePerformer(id);
+            var response = await _performerApiService.DeletePerformer(id);
 
-            return RedirectToAction(nameof(Index));
+            if (response.IsSuccessStatusCode)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View();
         }
     }
 }

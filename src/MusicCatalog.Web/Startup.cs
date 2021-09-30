@@ -3,19 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using MusicCatalog.BusinessLogic;
-using MusicCatalog.BusinessLogic.Interfaces;
-using MusicCatalog.BusinessLogic.Services;
-using MusicCatalog.DataAccess;
-using MusicCatalog.DataAccess.Entities;
-using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.Web.Mappings;
 using MusicCatalog.Web.Services;
+using MusicCatalog.Web.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -47,47 +41,62 @@ namespace MusicCatalog.Web
         /// <param name="services">Services collection</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            var uriString = Configuration.GetSection("UriSettings:UriString").Value;
+            var webUriString = Configuration.GetSection("UriSettings:WebApiUri").Value;
+            var identityUriString = Configuration.GetSection("UriSettings:IdentityApiUri").Value;
 
-            var mapping = new MapperConfiguration(
-                map =>
-                {
-                    map.AddProfile<BusinessLogicProfile>();
-                    map.AddProfile<WebProfile>();
-                    map.AddProfile<AccountProfile>();
-                });
-
-            services.AddSingleton(mapping.CreateMapper());
-            services.AddHttpClient<IAccountApiService, AccountApiService>(client =>
+            var mapping = new MapperConfiguration(map =>
             {
-                client.BaseAddress = new Uri(uriString);
+                map.AddProfile<WebProfile>();
+                map.AddProfile<UserProfile>();
+            });
+            services.AddSingleton(mapping.CreateMapper());
+
+            services.AddTransient<ApiTokenHandler>();
+            services.AddHttpContextAccessor();
+
+            services.AddHttpClient<IUserApiService, UserApiService>(client =>
+            {
+                client.BaseAddress = new Uri(identityUriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
+            services.AddHttpClient<IAlbumApiService, AlbumApiService>(client =>
+            {
+                client.BaseAddress = new Uri(webUriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
+            services.AddHttpClient<IGenreApiService, GenreApiService>(client =>
+            {
+                client.BaseAddress = new Uri(webUriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
+            services.AddHttpClient<IPerformerApiService, PerformerApiService>(client =>
+            {
+                client.BaseAddress = new Uri(webUriString);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }).AddHttpMessageHandler<ApiTokenHandler>();
+
+            services.AddHttpClient<ISongApiService, SongApiService>(client =>
+            {
+                client.BaseAddress = new Uri(webUriString);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             });
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddCookie(JwtBearerDefaults.AuthenticationScheme,
-                options => 
+                options =>
                 {
                     options.LoginPath = "/Accounts/Login";
                     options.AccessDeniedPath = "/Accounts/Login";
                 });
-
-            services.AddScoped<IRepository<Genre>, EFGenreRepository>();
-            services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
-            services.AddScoped<IRepository<Album>, EFAlbumRepository>();
-            services.AddScoped<IRepository<Song>, EFSongRepository>();
-
-            services.AddScoped<IGenresService, GenresService>();
-            services.AddScoped<IPerformersService, PerformersService>();
-            services.AddScoped<IAlbumsService, AlbumsService>();
-            services.AddScoped<ISongsService, SongsService>();
-
+            
             services.AddLocalization(options => options.ResourcesPath = "Resources");
-
             services.AddMvc()
                 .AddViewLocalization()
                 .AddDataAnnotationsLocalization();
@@ -109,9 +118,6 @@ namespace MusicCatalog.Web
                     new CookieRequestCultureProvider()
                 };
             });
-
-            services.AddDbContext<MusicContext>(
-                options => options.UseSqlServer(connectionString));
         }
 
         /// <summary>

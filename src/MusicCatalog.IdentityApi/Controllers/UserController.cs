@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.IdentityApi.Models;
 using MusicCatalog.IdentityApi.Services;
+using MusicCatalog.IdentityApi.Services.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,45 +14,37 @@ namespace MusicCatalog.IdentityApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
-        /// <summary>
-        /// Users sign in manager
-        /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
-
-        /// <summary>
-        /// Users manager
-        /// </summary>
-        private readonly UserManager<IdentityUser> _userManager;
-
-        /// <summary>
-        /// Roles manager
-        /// </summary>
-        private readonly RoleManager<IdentityRole> _roleManager;
-
         /// <summary>
         /// Jwt token service
         /// </summary>
-        private readonly JwtTokenService _jwtTokenService;
+        private readonly IJwtTokenService _jwtTokenService;
+
+        /// <summary>
+        /// User service
+        /// </summary>
+        private readonly IUserService _userService;
+
+        /// <summary>
+        /// Authorization header name
+        /// </summary>
+        private const string Authorization = "Authorization";
+
+        /// <summary>
+        /// Authorization roles header name
+        /// </summary>
+        private const string AuthorizationRoles = "Authorization-roles";
 
         /// <summary>
         /// Users controller constructor
         /// </summary>
-        /// <param name="signInManager">Users sign in manager</param>
-        /// <param name="userManager">Users manager</param>
-        /// <param name="roleManager">Roles manager</param>
         /// <param name="jwtTokenService">Jwt token service</param>
-        public UsersController(
-            SignInManager<IdentityUser> signInManager,
-            UserManager<IdentityUser> userManager,
-            RoleManager<IdentityRole> roleManager,
-            JwtTokenService jwtTokenService)
+        /// <param name="userService">User service</param>
+        public UserController(IJwtTokenService jwtTokenService, IUserService userService)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
-            _roleManager = roleManager;
             _jwtTokenService = jwtTokenService;
+            _userService = userService;
         }
 
         /// <summary>
@@ -60,29 +53,20 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            var user = new IdentityUser()
-            {
-                Email = model.Email,
-                UserName = model.Email
-            };
-            var result = await _userManager.CreateAsync(user, model.Password);
+            var result = await _userService.CreateAsync(model);
 
-            if (result == null || !result.Succeeded)
+            if (result == null)
             {
                 return BadRequest(result.Errors);
             }
 
-            if (!string.IsNullOrEmpty(model.Role))
-            {
-                await _userManager.AddToRoleAsync(user, model.Role);
-            }
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userService.GetUserRoles(model.Email);
 
-            await _signInManager.SignInAsync(user, isPersistent: false);
-            Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-            Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+            Response.Headers.Add(Authorization, _jwtTokenService.GenerateJwtToken(model.Email, roles));
+            Response.Headers.Add(AuthorizationRoles, roles.ToArray());
 
             return Ok();
         }
@@ -93,22 +77,20 @@ namespace MusicCatalog.IdentityApi.Controllers
         /// <param name="model">RegisterModel</param>
         /// <returns>IActionResult</returns>
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password,
-                model.RememberMe, lockoutOnFailure: false);
-
-            if (user == null || !result.Succeeded)
+            var result = await _userService.AuthenticateAsync(model);
+            if (!result.Succeeded)
             {
-                return BadRequest(new { errorMessage = "Invalid email or password"} );
+                return BadRequest(new { errorMessage = "Invalid email or password" });
             }
 
-            var roles = await _userManager.GetRolesAsync(user);
+            var roles = await _userService.GetUserRoles(model.Email);
 
             // add token to header of response
-            Response.Headers.Add("Authorization", _jwtTokenService.GenerateJwtToken(user, roles));
-            Response.Headers.Add("AuthorizationRoles", roles.ToArray());
+            Response.Headers.Add(Authorization, _jwtTokenService.GenerateJwtToken(model.Email, roles));
+            Response.Headers.Add(AuthorizationRoles, roles.ToArray());
 
             return Ok();
         }
@@ -120,7 +102,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
+            await _userService.LogoutAsync();
 
             return Ok(new { Message = "Logged out" });
         }
@@ -148,8 +130,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         [HttpGet("getAllRoles")]
         public ActionResult<IEnumerable<string>> GetAllRoles()
         {
-            var roles = _roleManager.Roles.ToList();
-            var roleNames = roles.Select(role => role.Name);
+            var roleNames = _userService.GetAllRoles();
 
             return Ok(roleNames);
         }

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace MusicCatalog.BusinessLogic.Models
+﻿namespace MusicCatalog.BusinessLogic.Models
 {
     /// <summary>
     /// Represents a performer dto model
@@ -16,10 +14,5 @@ namespace MusicCatalog.BusinessLogic.Models
         /// Performer name
         /// </summary>
         public string Name { get; set; }
-
-        /// <summary>
-        /// Collection navigation property for songs
-        /// </summary>
-        public virtual ICollection<SongDto> Songs { get; set; }
     }
 }

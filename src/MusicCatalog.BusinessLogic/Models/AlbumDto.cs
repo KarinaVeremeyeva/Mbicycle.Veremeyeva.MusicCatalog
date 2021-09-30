@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace MusicCatalog.BusinessLogic.Models
 {
@@ -22,10 +21,5 @@ namespace MusicCatalog.BusinessLogic.Models
         /// Release date
         /// </summary>
         public DateTime ReleaseDate { get; set; }
-
-        /// <summary>
-        /// Collection navigation property for songs
-        /// </summary>
-        public virtual ICollection<SongDto> Songs { get; set; }
     }
 }

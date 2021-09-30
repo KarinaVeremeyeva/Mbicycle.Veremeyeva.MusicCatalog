@@ -21,19 +21,9 @@
         public int GenreId { get; set; }
 
         /// <summary>
-        /// Reference navigation property for genre
-        /// </summary>
-        public GenreDto Genre { get; set; }
-
-        /// <summary>
         /// Foreign key for performer
         /// </summary>
         public int PerformerId { get; set; }
-
-        /// <summary>
-        /// Reference navigation property for performer
-        /// </summary>
-        public PerformerDto Performer { get; set; }
 
         /// <summary>
         /// Foreign key for album
@@ -41,8 +31,18 @@
         public int AlbumId { get; set; }
 
         /// <summary>
-        /// Reference navigation property for album
+        /// Album's name
         /// </summary>
-        public AlbumDto Album { get; set; }
+        public string AlbumName { get; set; }
+
+        /// <summary>
+        /// Genres's name
+        /// </summary>
+        public string GenreName { get; set; }
+
+        /// <summary>
+        /// Performer's name
+        /// </summary>
+        public string PerformerName { get; set; }
     }
 }

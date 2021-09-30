@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MusicCatalog.Web.Services
+namespace MusicCatalog.Web.Services.Interfaces
 {
     /// <summary>
-    /// Typed client for the account api
+    /// Typed client to get users from identity api
     /// </summary>
-    public interface IAccountApiService
+    public interface IUserApiService
     {
         /// <summary>
         /// Register user
@@ -54,7 +54,7 @@ namespace MusicCatalog.Web.Services
         /// </summary>
         /// <param name="user">User</param>
         /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> PutUser(UserModel user);
+        Task<HttpResponseMessage> UpdateUser(UserModel user);
 
         /// <summary>
         /// Delete user by id
@@ -62,14 +62,6 @@ namespace MusicCatalog.Web.Services
         /// <param name="id">User id</param>
         /// <returns>HttpResponseMessage</returns>
         Task<HttpResponseMessage> DeleteUser(string id);
-
-        /// <summary>
-        /// Change user role
-        /// </summary>
-        /// <param name="id">User id</param>
-        /// <param name="role">User role</param>
-        /// <returns>HttpResponseMessage</returns>
-        Task<HttpResponseMessage> UpdateRole(string id, string role);
 
         /// <summary>
         /// Get user role
