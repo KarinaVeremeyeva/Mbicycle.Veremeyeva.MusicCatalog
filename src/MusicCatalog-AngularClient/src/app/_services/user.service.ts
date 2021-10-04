@@ -1,37 +1,41 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../_models/user';
-
-const ADMIN_API_URL = 'http://localhost:2563/api/Admin/';
 
 @Injectable({
   providedIn: 'root'
 })
 // Provides methods to access protected resources
 export class UserService {
-
+  private admin_api_path = 'http://localhost:2563/api/Admin/';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type' : 'application/json'
+    })
+  };
   constructor(private http: HttpClient) { }
 
   // Gets all users
-  getUsers(): Observable<any> {
-    return this.http.get<User[]>(ADMIN_API_URL);
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.admin_api_path);
   }
 
   // Gets user by id
-  getUser(id: string): Observable<any> {
-    return this.http.get<User>(ADMIN_API_URL + id);
+  getUser(id: string): Observable<User> {
+    return this.http.get<User>(this.admin_api_path + id);
   }
 
   // Updates user
-  putUser(credentials): Observable<any> {
-    return this.http.put(ADMIN_API_URL + credentials.id, credentials);
+  putUser(user: User): Observable<User> {
+    return this.http.put<User>(
+      this.admin_api_path + user.id,
+      JSON.stringify(user),
+      this.httpOptions);
   }
 
   // Deletes user by id
-  deleteUser(id: string): Observable<any> {
-    return this.http.delete(ADMIN_API_URL + id);
+  deleteUser(id: string) {
+    return this.http.delete(this.admin_api_path + id, this.httpOptions);
   }
-
-
 }

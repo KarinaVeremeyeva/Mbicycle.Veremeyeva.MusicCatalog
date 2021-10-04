@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../_models/user';
-import { UserService } from '../_services/user.service';
+import { Song } from '../_models/song';
+import {SongService} from '../_services/song.service';
 
 @Component({
   selector: 'app-home',
@@ -8,19 +8,19 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit {
   loading = false;
-  users: User[] = [];
+  songs: Song[] = [];
 
-  constructor(private  userService: UserService) { }
+  constructor(private songService: SongService) { }
 
   ngOnInit(): void {
     this.loading = true;
-    this.userService.getUsers().subscribe(
-      data => {
+    this.songService.getSongs().subscribe(
+      response => {
         this.loading = false;
-        this.users = data;
+        this.songs = response;
       },
       err => {
-        this.users = JSON.parse(err.error).message();
+        this.songs = JSON.parse(err.error).message();
       }
     )
   }

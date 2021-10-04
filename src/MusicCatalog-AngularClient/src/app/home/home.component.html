@@ -1,10 +1,25 @@
 <div class="card mt-4">
-  <h4 class="card-header">MusicCatalog Angular Client</h4>
+  <h4 class="card-header">Songs list</h4>
   <div class="card-body">
-    <h6>Users from secure api end point</h6>
+    <h6>Songs from protected api end point</h6>
     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
-    <ul *ngIf="users">
-      <li *ngFor="let user of users">{{user.email}}</li>
-    </ul>
+    <table class="table" *ngIf="songs">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Genre</th>
+        <th>Performer</th>
+        <th>Album</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let song of songs">
+        <td>{{song.name}}</td>
+        <td>{{song.albumName}}</td>
+        <td>{{song.performerName}}</td>
+        <td>{{song.genreName}}</td>
+      </tr>
+      </tbody>
+    </table>
   </div>
 </div>

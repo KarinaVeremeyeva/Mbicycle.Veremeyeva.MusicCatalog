@@ -3,14 +3,14 @@ import { HttpClient, HttpHeaders} from "@angular/common/http";
 import  { BehaviorSubject, Observable } from "rxjs";
 import { User } from '../_models/user';
 
-const AUTH_API = 'http://localhost:2563/api/User/';
-
-const httpOptions = {
-  headers: new HttpHeaders({'Content-Type' : 'application/json' })
-};
-
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  private auth_api_path = 'http://localhost:2563/api/User/';
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type' : 'application/json'
+    })
+  };
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
@@ -20,23 +20,29 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
+  // Gets current user
+  public get getCurrentUser(): User {
+    return this.currentUserSubject.value;
+  }
+
   // Sends post-request to the api for user login
   loginUser(email: string, password: string): Observable<any> {
-    return this.http.post<any>(AUTH_API + 'login', { email, password }, httpOptions);
+    return this.http.post<any>(
+      this.auth_api_path + 'login',
+      JSON.stringify({ email, password }),
+      this.httpOptions);
   }
 
   // Sends post-request to the api for user sign up
   registerUser(email: string, password: string, role: string): Observable<any> {
-    return this.http.post<any>(AUTH_API + 'register', { email, password, role }, httpOptions);
+    return this.http.post<any>(
+      this.auth_api_path + 'register',
+      JSON.stringify({ email, password, role }),
+      this.httpOptions);
   }
 
   // Sends get-request the api for logging out
   logOut() {
-    return this.http.get(AUTH_API + 'logout')
-  }
-
-  // Gets current user
-  getCurrentUser(): User {
-    return this.currentUserSubject.value;
+    return this.http.get(this.auth_api_path + 'logout')
   }
 }

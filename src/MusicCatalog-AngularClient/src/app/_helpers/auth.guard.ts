@@ -12,15 +12,13 @@ export class  AuthGuard implements CanActivate{
 
   // Prevents unauthenticated users from accessing restricted routes
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.authService.getCurrentUser();
+    const currentUser = this.authService.getCurrentUser;
     if (currentUser) {
       return true
     }
     // redirect not logged user to login page
-    this.router
-      .navigate(['/login'], {queryParams: { returnUrl: state.url }})
-      .then(er => console.error(er));
-     return false;
+    this.router.navigate(['/login'], { queryParams: {returnUrl: state.url }})
+      return false;
   }
 }
 
