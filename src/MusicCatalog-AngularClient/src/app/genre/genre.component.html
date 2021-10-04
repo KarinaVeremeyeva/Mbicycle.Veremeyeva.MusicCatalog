@@ -1,0 +1,19 @@
+<div class="container">
+  <h3>Genres list</h3>
+
+  <p *ngIf="!genres"><em>Loading...</em></p>
+
+  <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="genres">
+    <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let genre of genres">
+      <td>{{ genre.name }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

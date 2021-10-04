@@ -1,0 +1,19 @@
+<div class="container">
+  <h3>Performers list</h3>
+
+  <p *ngIf="!performers"><em>Loading...</em></p>
+
+  <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="performers">
+    <thead>
+    <tr>
+      <th>Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let performer of performers">
+      <td>{{ performer.name }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>

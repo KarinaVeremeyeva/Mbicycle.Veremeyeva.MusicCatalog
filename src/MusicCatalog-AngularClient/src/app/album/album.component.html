@@ -1,0 +1,21 @@
+<div class="container">
+  <h3>Albums list</h3>
+
+  <p *ngIf="!albums"><em>Loading...</em></p>
+
+  <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="albums">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Release date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let album of albums">
+      <td>{{ album.name }}</td>
+      <td>{{ album.releaseDate }}</td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
