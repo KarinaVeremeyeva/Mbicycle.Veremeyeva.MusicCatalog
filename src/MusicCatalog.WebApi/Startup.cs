@@ -53,6 +53,7 @@ namespace MusicCatalog.WebApi
                 JwtAutheticationConstants.SchemeName, null);
 
             services.AddControllers();
+            services.AddCors(c => c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()));
 
             services.AddScoped<IRepository<Genre>, EFGenreRepository>();
             services.AddScoped<IRepository<Performer>, EFPerformerRepository>();
@@ -117,6 +118,7 @@ namespace MusicCatalog.WebApi
             }
 
             app.UseRouting();
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseAuthentication();
             app.UseAuthorization();
