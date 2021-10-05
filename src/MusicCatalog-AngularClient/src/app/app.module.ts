@@ -18,6 +18,8 @@ import { GenreComponent } from './genre/genre.component';
 import { PerformerComponent } from './performer/performer.component';
 import { UserComponent } from './user/user.component';
 import { SongComponent } from './song/song.component';
+import { AddAlbumComponent } from './album/add-album/add-album.component';
+import { AlbumDetailsComponent } from './album/album-details/album-details.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { SongComponent } from './song/song.component';
     GenreComponent,
     PerformerComponent,
     UserComponent,
-    SongComponent
+    SongComponent,
+    AddAlbumComponent,
+    AlbumDetailsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router, ActivatedRoute  } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { first } from 'rxjs/operators';
 
 import { AuthService } from '../_services/auth.service';
 import { TokenStorageService } from '../_services/token-storage.service';
@@ -19,18 +20,19 @@ export class LoginComponent implements OnInit {
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private tokenStorage: TokenStorageService,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     // Redirect to home if user already logged in
-    if (this.authService.currentUser){
+    if (this.authService.getCurrentUser){
       this.router.navigate(['/'])
     }
   }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
-      email: [''],
-      password: ['']
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
@@ -38,14 +40,23 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     this.submitted = true;
-    this.loading = true;
+    if (this.loginForm.invalid) {
+      return;
+    }
 
-    this.authService.loginUser(this.formField.email.value, this.formField.password.value)
-      .subscribe(
-      data => {
-        this.tokenStorage.saveToken(data.token);
-        this.tokenStorage.saveUser(data);
-        this.reloadPage();
+    this.loading = true;
+    let user = {
+      email: this.formField.email.value,
+      password: this.formField.password.value
+    };
+
+    this.authService.loginUser(user)
+      .pipe(first())
+      .subscribe(data => {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.router.navigate([returnUrl]);
+        //this.tokenStorage.saveToken(data.token);
+        //this.tokenStorage.saveUser(data);
       },
       err => {
         this.errorMessage = err;
@@ -53,9 +64,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
-  reloadPage(): void {
-    window.location.reload();
-  }
-
 }

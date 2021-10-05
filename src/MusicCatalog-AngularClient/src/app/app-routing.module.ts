@@ -9,6 +9,7 @@ import { AlbumComponent } from './album/album.component';
 import { GenreComponent } from './genre/genre.component';
 import { PerformerComponent } from './performer/performer.component';
 import { UserComponent } from './user/user.component';
+import {AddAlbumComponent} from "./album/add-album/add-album.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'genres', component: GenreComponent },
   { path: 'performers', component: PerformerComponent },
   { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
+  { path: 'albums/add-album', component: AddAlbumComponent },
   { path: '**', redirectTo: '' }
 ]
 

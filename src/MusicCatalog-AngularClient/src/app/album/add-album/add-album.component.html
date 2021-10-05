@@ -1,0 +1,23 @@
+<div class="col-md-6">
+  <div>
+    <h4 class="header">Create album</h4>
+    <hr>
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="album.name" />
+      </div>
+      <div class="form-group">
+        <label for="releaseDate">Release date</label>
+        <input type="date" class="form-control" id="releaseDate" [(ngModel)]="album.releaseDate" />
+      </div>
+
+      <button (click)="createAlbum()" class="btn btn-success">Create album</button>
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+    </div>
+
+    <div *ngIf="submitted">
+      <h3>You successfully created a product!</h3>
+    </div>
+  </div>
+</div>

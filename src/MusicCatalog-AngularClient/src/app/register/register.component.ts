@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import { AuthService} from '../_services/auth.service';
+import { AuthService } from '../_services/auth.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,27 +15,38 @@ export class RegisterComponent implements OnInit {
   errorMessage = '';
 
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private formBuilder: FormBuilder,
     private authService: AuthService) { }
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      email: [''],
-      password: [''],
-      role: ['']
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      role: ['', [Validators.required]]
     });
   }
 
   get formField() { return this.registerForm.controls; }
 
   onSubmit(): void {
-    this.authService.registerUser(
-      this.formField.email.value,
-      this.formField.role.value,
-      this.formField.role.value
-    ).subscribe(
-      data => {
-        console.log(data);
+    this.submitted = true;
+    if (this.registerForm.invalid) {
+      return;
+    }
+
+    this.loading = true;
+    let user = {
+      email: this.formField.email.value,
+      password: this.formField.password.value,
+      role: this.formField.role.value
+    };
+
+    this.authService.registerUser(user)
+      .subscribe(data => {
+        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.router.navigate([returnUrl]);
       },
       err => {
         this.errorMessage = err;
@@ -42,5 +54,4 @@ export class RegisterComponent implements OnInit {
       }
     );
   }
-
 }
