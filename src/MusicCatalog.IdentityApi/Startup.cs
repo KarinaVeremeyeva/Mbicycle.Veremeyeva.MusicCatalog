@@ -84,8 +84,17 @@ namespace MusicCatalog.IdentityApi
             services.AddScoped<IJwtTokenService, JwtTokenService>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin()
+                               .AllowAnyHeader();
+                    });
+            });
+
             services.AddControllers();
-            services.AddCors(c => c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin()));
 
             services.AddSwaggerGen(swagger =>
             {
@@ -115,7 +124,7 @@ namespace MusicCatalog.IdentityApi
             }
 
             app.UseRouting();
-            app.UseCors(options => options.AllowAnyOrigin());
+            app.UseCors();
 
             app.UseAuthentication();
             app.UseAuthorization();
