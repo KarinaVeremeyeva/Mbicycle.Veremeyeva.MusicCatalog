@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthService } from '../_services/auth.service';
-import { TokenStorageService } from '../_services/token-storage.service';
+import { LoginUser } from "../_models/login-user";
 
 @Component({
   selector: 'app-login',
@@ -17,9 +17,8 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
 
   constructor(
-    private formBuilder: FormBuilder,
     private authService: AuthService,
-    private tokenStorage: TokenStorageService,
+    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -45,18 +44,17 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    let user = {
+
+    let user: LoginUser = {
       email: this.formField.email.value,
       password: this.formField.password.value
-    };
+    }
 
     this.authService.loginUser(user)
       .pipe(first())
       .subscribe(data => {
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
         this.router.navigate([returnUrl]);
-        //this.tokenStorage.saveToken(data.token);
-        //this.tokenStorage.saveUser(data);
       },
       err => {
         this.errorMessage = err;
@@ -65,3 +63,4 @@ export class LoginComponent implements OnInit {
     );
   }
 }
+

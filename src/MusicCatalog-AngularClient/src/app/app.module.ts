@@ -5,6 +5,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { CookieService } from 'ngx-cookie-service';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -19,7 +20,6 @@ import { PerformerComponent } from './performer/performer.component';
 import { UserComponent } from './user/user.component';
 import { SongComponent } from './song/song.component';
 import { AddAlbumComponent } from './album/add-album/add-album.component';
-import { AlbumDetailsComponent } from './album/album-details/album-details.component';
 
 @NgModule({
   declarations: [
@@ -33,8 +33,7 @@ import { AlbumDetailsComponent } from './album/album-details/album-details.compo
     PerformerComponent,
     UserComponent,
     SongComponent,
-    AddAlbumComponent,
-    AlbumDetailsComponent
+    AddAlbumComponent
   ],
   imports: [
     BrowserModule,
@@ -42,11 +41,11 @@ import { AlbumDetailsComponent } from './album/album-details/album-details.compo
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

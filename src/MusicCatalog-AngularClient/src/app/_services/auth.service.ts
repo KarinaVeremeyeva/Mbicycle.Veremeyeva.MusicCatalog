@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders} from "@angular/common/http";
-import { BehaviorSubject, Observable } from "rxjs";
+import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+
 import { User } from '../_models/user';
+import { LoginUser } from '../_models/login-user';
+import { RegisterUser } from '../_models/register-user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -16,8 +19,10 @@ export class AuthService {
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
+
     this.currentUserSubject = new BehaviorSubject<User>(
       JSON.parse(<string>localStorage.getItem('currentUser')));
+
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -31,19 +36,13 @@ export class AuthService {
     return this.http.post<LoginUser>(this.auth_api_path + 'login',
       JSON.stringify(user),
       this.httpOptions);
-      /*.pipe(map(user => {
-        // store user details and jwt token in local storage
-        // to keep user logged in between page refreshes
-        localStorage.setItem('currentUser', JSON.stringify(user));
-        this.currentUserSubject.next(user);
-        return user;
-      }));*/
   }
-
 
   // Sends post-request to the api for user sign up
   registerUser(user: RegisterUser): Observable<any> {
     //let currentUser = { email: user.email, role: user.role, id: "" };
+    //localStorage.setItem('currentUser', JSON.stringify(currentUser));
+
     return this.http.post<RegisterUser>(
       this.auth_api_path + 'register',
       JSON.stringify(user),
@@ -57,18 +56,6 @@ export class AuthService {
 
   // Sends get-request the api for logging out
   logOut() {
-    localStorage.clear();
-    return this.http.get(this.auth_api_path + 'logout')
+    this.http.get(this.auth_api_path + 'logout');
   }
-}
-
-export interface LoginUser {
-  email: string;
-  password: string;
-}
-
-export interface RegisterUser {
-  email: string;
-  password: string;
-  role: string;
 }

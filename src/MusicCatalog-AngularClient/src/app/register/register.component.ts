@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { AuthService } from '../_services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import {RegisterUser} from "../_models/register-user";
 
 @Component({
   selector: 'app-register',
@@ -37,7 +38,7 @@ export class RegisterComponent implements OnInit {
     }
 
     this.loading = true;
-    let user = {
+    let user: RegisterUser = {
       email: this.formField.email.value,
       password: this.formField.password.value,
       role: this.formField.role.value
