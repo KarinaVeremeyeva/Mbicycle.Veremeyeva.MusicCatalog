@@ -1,19 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 
-import { TokenStorageService } from './_services/token-storage.service';
+import { Router } from '@angular/router';
+import { AuthService } from './_services/auth.service';
+import { User } from './_models/user';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit{
-  constructor(private tokenStorageService: TokenStorageService) { }
+  currentUser: User | undefined
+  constructor(
+    private router: Router,
+    private authService: AuthService)
+  {
+    this.authService.currentUser.subscribe(x => this.currentUser = x)
+  }
 
   ngOnInit(): void {
   }
 
   logout(): void {
-  this.tokenStorageService.signOut();
-  window.location.reload();
-}
+    this.authService.logOut();
+    window.location.reload();
+  }
 }

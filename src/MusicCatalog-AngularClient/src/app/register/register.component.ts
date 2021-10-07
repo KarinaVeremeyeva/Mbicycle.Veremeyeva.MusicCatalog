@@ -3,7 +3,10 @@ import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import { AuthService } from '../_services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import {RegisterUser} from "../_models/register-user";
+import { RegisterUser } from '../_models/register-user';
+import {HttpEventType, HttpResponse} from "@angular/common/http";
+import {LoginUser} from "../_models/login-user";
+import {first} from "rxjs/operators";
 
 @Component({
   selector: 'app-register',
@@ -45,9 +48,16 @@ export class RegisterComponent implements OnInit {
     };
 
     this.authService.registerUser(user)
-      .subscribe(data => {
+      .pipe(first())
+      .subscribe((data: HttpResponse<LoginUser>)=> {
+          let token = data.headers.get("Authorization");
+          localStorage.setItem('my-token', JSON.stringify(token));
+          console.log(token);
+
+          data.headers.keys().map( (key) => console.log(`${key}: ${data.headers.get(key)}`));
+
         const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigate([returnUrl]);
+        this.router.navigate([returnUrl]).then(r => console.log(r));
       },
       err => {
         this.errorMessage = err;

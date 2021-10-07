@@ -52,14 +52,21 @@ export class LoginComponent implements OnInit {
 
     this.authService.loginUser(user)
       .pipe(first())
-      .subscribe(data => {
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigate([returnUrl]);
-      },
-      err => {
-        this.errorMessage = err;
-        this.loading = false;
-      }
+      .subscribe(
+        (data: HttpResponse<LoginUser>) => {
+          let token = data.headers.get('Authorization')
+          console.log(token);
+          if (typeof token === "string") {
+            localStorage.setItem('my-token', token);
+          }
+
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigate([returnUrl]);
+          },
+        err => {
+          this.errorMessage = err;
+          this.loading = false;
+        }
     );
   }
 }

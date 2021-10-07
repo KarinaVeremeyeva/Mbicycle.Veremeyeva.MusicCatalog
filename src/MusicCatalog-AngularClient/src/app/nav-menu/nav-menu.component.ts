@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TokenStorageService } from "../_services/token-storage.service";
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -11,24 +11,20 @@ export class NavMenuComponent implements OnInit {
   isLoggedIn = false;
   email!: string;
 
-  constructor(private tokenStorageService: TokenStorageService) { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = !!this.tokenStorageService.getToken();
+    this.isLoggedIn = !!this.authService.getToken();
 
     if (this.isLoggedIn) {
-      const user = this.tokenStorageService.getUser();
-      this.email = user.email;
+      // const user = this.authService.getUser();
+      // this.email = user.email;
     }
   }
 
   logout(): void {
-    this.tokenStorageService.signOut();
+    this.authService.logOut();
     window.location.reload();
-  }
-
-  collapse() {
-    this.isExpanded = false;
   }
 
   toggle() {
