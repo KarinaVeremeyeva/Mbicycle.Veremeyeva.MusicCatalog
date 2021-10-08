@@ -90,7 +90,8 @@ namespace MusicCatalog.IdentityApi
                     builder =>
                     {
                         builder.AllowAnyOrigin()
-                               .AllowAnyHeader();
+                               .AllowAnyHeader()
+                               .WithExposedHeaders("Authorization");
                     });
             });
 

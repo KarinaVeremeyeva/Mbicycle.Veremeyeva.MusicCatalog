@@ -58,7 +58,7 @@ namespace MusicCatalog.IdentityApi.Controllers
         {
             var result = await _userService.CreateAsync(model);
 
-            if (result == null)
+            if (result == null || !result.Succeeded)
             {
                 return BadRequest(result.Errors);
             }

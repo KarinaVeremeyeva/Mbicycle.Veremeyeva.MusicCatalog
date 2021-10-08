@@ -58,7 +58,9 @@ namespace MusicCatalog.WebApi
                     builder =>
                     {
                         builder.AllowAnyOrigin()
-                               .AllowAnyHeader();
+                               .AllowAnyHeader()
+                               .WithExposedHeaders("Authorization");
+                        ;
                     });
             });
             services.AddControllers();
