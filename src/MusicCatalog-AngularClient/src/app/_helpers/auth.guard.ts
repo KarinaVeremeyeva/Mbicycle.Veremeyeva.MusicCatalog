@@ -13,7 +13,6 @@ export class AuthGuard implements CanActivate{
   // Prevents unauthenticated users from accessing restricted routes
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     const currentUser = this.authService.getCurrentUser;
-    //const token = this.authService.getToken('jwt-token');
     if (currentUser) {
       return true
     }

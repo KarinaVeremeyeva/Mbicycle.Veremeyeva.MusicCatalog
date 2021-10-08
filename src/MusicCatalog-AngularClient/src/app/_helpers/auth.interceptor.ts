@@ -13,8 +13,9 @@ export class AuthInterceptor implements HttpInterceptor {
   // Inspects and transforms HTTP requests before they are sent to server
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const currentUser = this.authService.getCurrentUser;
-    request = this.addToken(request)
-
+    if (currentUser){
+      request = this.addToken(request)
+    }
     return next.handle(request);
   }
 
