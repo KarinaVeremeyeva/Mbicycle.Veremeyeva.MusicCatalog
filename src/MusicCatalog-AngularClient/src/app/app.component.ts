@@ -9,7 +9,8 @@ import { User } from './_models/user';
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit{
-  currentUser: User | undefined
+  currentUser: any;
+
   constructor(
     private router: Router,
     private authService: AuthService)

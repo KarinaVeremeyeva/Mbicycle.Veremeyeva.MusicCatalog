@@ -19,7 +19,6 @@ export class PerformerComponent implements OnInit {
 
   getPerformerList() {
     this.service.getPerformers().subscribe(response => {
-      console.log(response);
       this.performers = response;
     })
   }

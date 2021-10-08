@@ -21,12 +21,8 @@ export class GenreComponent implements OnInit {
 
   getGenresList() {
     this.genreService.getGenres().subscribe(response => {
-      console.log(response);
       this.loading = false;
       this.genres = response;
-      },
-      err => {
-      this.genres = JSON.parse(err.error).message();
     })
   }
 }

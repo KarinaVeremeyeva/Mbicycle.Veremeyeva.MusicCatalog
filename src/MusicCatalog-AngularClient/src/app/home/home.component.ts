@@ -18,9 +18,6 @@ export class HomeComponent implements OnInit {
       response => {
         this.loading = false;
         this.songs = response;
-      },
-      err => {
-        this.songs = JSON.parse(err.error).message();
       }
     )
   }

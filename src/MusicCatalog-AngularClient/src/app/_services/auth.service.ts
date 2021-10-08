@@ -2,10 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CookieService } from "ngx-cookie-service";
+import { map } from "rxjs/operators";
 
-import { User } from '../_models/user';
 import { LoginUser } from '../_models/login-user';
 import { RegisterUser } from '../_models/register-user';
+
+const TOKEN_KEY = 'jwt-token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -17,22 +19,19 @@ export class AuthService {
     }),
     observe: 'response' as 'body'
   };
-  private currentUserSubject: BehaviorSubject<User>;
-
-  public currentUser: Observable<User>;
+  private currentUserSubject: BehaviorSubject<any>;
+  public currentUser: Observable<any>;
 
   constructor(
     private http: HttpClient,
     private cookieService: CookieService)
   {
-    this.currentUserSubject = new BehaviorSubject<User>(
-      JSON.parse(<string>localStorage.getItem('currentUser')));
-
+    this.currentUserSubject = new BehaviorSubject<any>(this.getToken(TOKEN_KEY));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   // Gets current user
-  public get getCurrentUser(): User {
+  public get getCurrentUser(): any {
     return this.currentUserSubject.value;
   }
 
@@ -41,7 +40,17 @@ export class AuthService {
     return this.http.post<any>(
       this.auth_api_path + 'login',
       JSON.stringify(user),
-      this.httpOptions);
+      this.httpOptions)
+      .pipe(map(res => {
+        const token = res.headers.get('Authorization');
+        if (token != null) {
+          this.setCookie(TOKEN_KEY, token);
+          //this.setCookie(TOKEN_KEY, JSON.stringify(user));
+          console.log("access-token: " + token);
+        }
+        this.currentUserSubject.next(res);
+        return res;
+      }));
   }
 
   // Sends post-request to the api for user sign up
@@ -50,11 +59,22 @@ export class AuthService {
       this.auth_api_path + 'register',
       JSON.stringify(user),
       this.httpOptions)
+      .pipe(map(res => {
+        const token = res.headers.get('Authorization');
+        if (token != null) {
+          this.setCookie(TOKEN_KEY, token);
+          //this.setCookie(TOKEN_KEY, JSON.stringify(user));
+          console.log("access-token: " + token);
+        }
+        this.currentUserSubject.next(res);
+        return res;
+      }));
   }
 
   // Sends get-request the api for logging out
   logOut() {
     this.cookieService.deleteAll();
+    this.currentUserSubject.next(null);
     return this.http.get(this.auth_api_path + 'logout');
   }
 
@@ -64,7 +84,7 @@ export class AuthService {
   }
 
   // Sets cookie value by key
-  public setCookie(key: string, value: string) {
+  private setCookie(key: string, value: string) {
     return this.cookieService.set(key, value);
   }
 }
