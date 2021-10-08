@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { User } from '../_models/user';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class UserService {
       'Content-Type' : 'application/json'
     })
   };
+
   constructor(private http: HttpClient) { }
 
   // Gets all users

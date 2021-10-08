@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { HttpResponse} from '@angular/common/http';
+import { first } from 'rxjs/operators';
 
 import { AuthService } from '../_services/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
 import { RegisterUser } from '../_models/register-user';
-import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {LoginUser} from "../_models/login-user";
-import {first} from "rxjs/operators";
+
+const TOKEN_KEY = 'jwt-token';
 
 @Component({
   selector: 'app-register',
@@ -49,15 +50,16 @@ export class RegisterComponent implements OnInit {
 
     this.authService.registerUser(user)
       .pipe(first())
-      .subscribe((data: HttpResponse<LoginUser>)=> {
-          let token = data.headers.get("Authorization");
-          localStorage.setItem('my-token', JSON.stringify(token));
-          console.log(token);
-
+      .subscribe((data: HttpResponse<RegisterUser>)=> {
+          const token = data.headers.get("Authorization");
+          if (token != null){
+            this.authService.setCookie(TOKEN_KEY, token);
+            console.log(token);
+          }
           data.headers.keys().map( (key) => console.log(`${key}: ${data.headers.get(key)}`));
 
-        const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-        this.router.navigate([returnUrl]).then(r => console.log(r));
+          const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+          this.router.navigate([returnUrl]).then(r => console.log(r));
       },
       err => {
         this.errorMessage = err;

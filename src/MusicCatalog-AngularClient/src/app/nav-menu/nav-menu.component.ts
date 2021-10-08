@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 
+const TOKEN_KEY = 'jwt-token';
+
 @Component({
   selector: 'app-nav-menu',
   templateUrl: './nav-menu.component.html',
@@ -14,11 +16,11 @@ export class NavMenuComponent implements OnInit {
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.isLoggedIn = !!this.authService.getToken();
+    this.isLoggedIn = !!this.authService.getToken(TOKEN_KEY);
 
     if (this.isLoggedIn) {
-      // const user = this.authService.getUser();
-      // this.email = user.email;
+      const user = this.authService.getCurrentUser;
+      //this.email = user.email;
     }
   }
 

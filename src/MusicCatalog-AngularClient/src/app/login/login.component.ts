@@ -2,9 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { HttpResponse } from '@angular/common/http';
 
 import { AuthService } from '../_services/auth.service';
-import { LoginUser } from "../_models/login-user";
+import { LoginUser } from '../_models/login-user';
+
+const TOKEN_KEY = 'jwt-token';
 
 @Component({
   selector: 'app-login',
@@ -23,9 +26,9 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     // Redirect to home if user already logged in
-    if (this.authService.getCurrentUser){
-      this.router.navigate(['/'])
-    }
+    /*if (this.authService.getCurrentUser){
+      this.router.navigate(['/']).then(r => console.log(r))
+    }*/
   }
 
   ngOnInit(): void {
@@ -44,7 +47,6 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-
     let user: LoginUser = {
       email: this.formField.email.value,
       password: this.formField.password.value
@@ -54,14 +56,17 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data: HttpResponse<LoginUser>) => {
-          let token = data.headers.get('Authorization')
-          console.log(token);
-          if (typeof token === "string") {
-            localStorage.setItem('my-token', token);
+          const token = data.headers.get('Authorization')
+          if (token != null) {
+            this.authService.setCookie(TOKEN_KEY, token);
+            console.log(token);
           }
+          const keys = data.headers.keys();
+          const headers = keys.map(key => `${key}: ${data.headers.get(key)}`);
+          console.table(headers);
 
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigate([returnUrl]);
+          this.router.navigate([returnUrl]).then(r => console.log(r));
           },
         err => {
           this.errorMessage = err;

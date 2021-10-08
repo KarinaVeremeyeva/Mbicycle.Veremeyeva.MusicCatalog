@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { Song } from '../_models/song';
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,8 @@ export class SongService {
   private web_api_path = 'http://localhost:48517/api/songs/';
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     })
   }
   constructor(private http: HttpClient) { }
