@@ -18,10 +18,10 @@
     <tbody>
     <tr *ngFor="let album of albums">
       <td>{{ album.name }}</td>
-      <td>{{ album.releaseDate }}</td>
-      <td>
-        <button class="btn btn-primary" routerLink="/albums/{{album.id}}">Edit</button>
-        <button class="btn btn-dander" routerLink="/albums/{{album.id}}">Delete</button>
+      <td>{{ album.releaseDate | date:"dd/MM/yyyy" }}</td>
+      <td class="text-center">
+        <button class="btn btn-primary mr-1" routerLink="/albums/{{album.id}}">Edit</button>
+        <button class="btn btn-danger" routerLink="/albums/{{album.id}}">Delete</button>
       </td>
     </tr>
     </tbody>

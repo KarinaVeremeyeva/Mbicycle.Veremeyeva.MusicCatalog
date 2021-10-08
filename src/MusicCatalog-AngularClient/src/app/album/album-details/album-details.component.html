@@ -1,0 +1,22 @@
+<div class="col-md-6">
+  <h4 class="header">Album details</h4>
+  <hr>
+  <div *ngIf="currentAlbum.id">
+    <form>
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="currentAlbum.name" />
+      </div>
+      <div class="form-group">
+        <label for="releaseDate">Release date</label>
+        <input type="date" class="form-control" id="releaseDate" [(ngModel)]="currentAlbum.releaseDate" />
+      </div>
+    </form>
+    <button type="submit" (click)="updateAlbum()" class="btn btn-success">Update</button>
+    <button type="submit" (click)="deleteAlbum()" class="btn btn-danger">Delete</button>
+  </div>
+  <div *ngIf="!currentAlbum.id">
+    <br />
+    <p class="h5">Cannot access this album...</p>
+  </div>
+</div>
