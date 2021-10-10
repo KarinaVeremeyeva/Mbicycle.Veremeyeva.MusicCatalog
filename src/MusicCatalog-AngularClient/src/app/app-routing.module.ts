@@ -16,11 +16,11 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'albums', component: AlbumComponent },
-  { path: 'albums/:id', component: AlbumDetailsComponent },
+  { path: 'albums', component: AlbumComponent, canActivate: [AuthGuard] },
   { path: 'albums/add-album', component: AddAlbumComponent },
-  { path: 'genres', component: GenreComponent },
-  { path: 'performers', component: PerformerComponent },
+  { path: 'albums/:id', component: AlbumDetailsComponent },
+  { path: 'genres', component: GenreComponent, canActivate: [AuthGuard] },
+  { path: 'performers', component: PerformerComponent, canActivate: [AuthGuard]},
   { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }
 ]

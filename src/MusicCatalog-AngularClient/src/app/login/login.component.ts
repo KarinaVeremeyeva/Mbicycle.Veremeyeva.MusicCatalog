@@ -7,8 +7,6 @@ import { HttpResponse } from '@angular/common/http';
 import { AuthService } from '../_services/auth.service';
 import { LoginUser } from '../_models/login-user';
 
-const TOKEN_KEY = 'jwt-token';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'

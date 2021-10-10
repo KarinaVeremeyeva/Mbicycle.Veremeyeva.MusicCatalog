@@ -39,8 +39,7 @@ export class AlbumService {
   }
 
   deleteAlbum(id: number){
-    return this.http.delete(
-      this.web_api_path + id,
-      this.httpOptions);
+    const url = `${this.web_api_path}${id}`
+    return this.http.delete(url, this.httpOptions);
   }
 }

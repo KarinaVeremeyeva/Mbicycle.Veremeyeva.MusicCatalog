@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { first } from 'rxjs/operators';
 
 import { AuthService } from '../_services/auth.service';
 import { RegisterUser } from '../_models/register-user';
@@ -46,7 +45,6 @@ export class RegisterComponent implements OnInit {
     };
 
     this.authService.registerUser(user)
-      .pipe(first())
       .subscribe(()=> {
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigate([returnUrl]).then(r => console.log(r));
