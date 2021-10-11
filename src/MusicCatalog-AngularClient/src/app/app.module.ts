@@ -5,22 +5,24 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { NavMenuComponent } from  './nav-menu/nav-menu.component'
-import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { AlbumComponent } from './album/album.component';
+import { AlbumListComponent } from './album/list/album-list.component';
 import { GenreComponent } from './genre/genre.component';
 import { PerformerComponent } from './performer/performer.component';
 import { UserComponent } from './user/user.component';
-import { SongComponent } from './song/song.component';
 import { AddAlbumComponent } from './album/add-album/add-album.component';
-import { AlbumDetailsComponent } from './album/album-details/album-details.component';
+import { EditAlbumComponent } from './album/edit-album/edit-album.component';
+import { AddSongComponent } from './home/add-song/add-song.component';
+import { EditSongComponent } from './home/edit-song/edit-song.component';
 
 @NgModule({
   declarations: [
@@ -29,13 +31,14 @@ import { AlbumDetailsComponent } from './album/album-details/album-details.compo
     RegisterComponent,
     HomeComponent,
     NavMenuComponent,
-    AlbumComponent,
+    AlbumListComponent,
     GenreComponent,
     PerformerComponent,
     UserComponent,
-    SongComponent,
     AddAlbumComponent,
-    AlbumDetailsComponent
+    EditAlbumComponent,
+    AddSongComponent,
+    EditSongComponent
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { AlbumDetailsComponent } from './album/album-details/album-details.compo
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    ModalModule.forRoot(),
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

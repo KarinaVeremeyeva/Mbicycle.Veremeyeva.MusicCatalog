@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { CookieService } from "ngx-cookie-service";
-import { map } from "rxjs/operators";
+import { CookieService } from 'ngx-cookie-service';
+import { map } from 'rxjs/operators';
 
 import { LoginUser } from '../_models/login-user';
 import { RegisterUser } from '../_models/register-user';
@@ -45,8 +45,6 @@ export class AuthService {
         const token = res.headers.get('Authorization');
         if (token != null) {
           this.setCookie(TOKEN_KEY, token);
-          //this.setCookie(TOKEN_KEY, JSON.stringify(user));
-          console.log("access-token: " + token);
         }
         this.currentUserSubject.next(res);
         return res;
@@ -63,7 +61,6 @@ export class AuthService {
         const token = res.headers.get('Authorization');
         if (token != null) {
           this.setCookie(TOKEN_KEY, token);
-          //this.setCookie(TOKEN_KEY, JSON.stringify(user));
           console.log("access-token: " + token);
         }
         this.currentUserSubject.next(res);
@@ -76,6 +73,12 @@ export class AuthService {
     this.cookieService.deleteAll();
     this.currentUserSubject.next(null);
     return this.http.get(this.auth_api_path + 'logout');
+  }
+
+
+  //Gets all role names
+  getAllRoles(): Observable<string[]> {
+    return this.http.get<string[]>(this.auth_api_path + 'getAllRoles');
   }
 
   // Gets token from cookie

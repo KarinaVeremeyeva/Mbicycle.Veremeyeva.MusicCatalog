@@ -1,5 +1,5 @@
 export class Album {
-  id?: number;
+  id!: number;
   releaseDate!: string;
   name!: string;
 }

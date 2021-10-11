@@ -14,18 +14,26 @@ export class RegisterComponent implements OnInit {
   loading = false;
   submitted = false;
   errorMessage = '';
+  roles;
+  roleId;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder,
-    private authService: AuthService) { }
-
-  ngOnInit(): void {
+    private authService: AuthService)
+  {
     this.registerForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       role: ['', [Validators.required]]
+    });
+  }
+
+  ngOnInit(): void {
+    this.roles = this.authService.getAllRoles().subscribe((response: string[]) => {
+      this.roles = response;
+      console.log(response);
     });
   }
 
