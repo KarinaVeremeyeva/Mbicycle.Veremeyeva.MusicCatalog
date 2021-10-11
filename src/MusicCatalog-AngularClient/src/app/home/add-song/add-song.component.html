@@ -1,0 +1,49 @@
+<div class="col-md-6">
+  <div>
+    <h4 class="header">Create song</h4>
+    <hr>
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit(createForm)" *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input formControlName="name" type="text" class="form-control" id="name" [(ngModel)]="song.name" />
+      </div>
+      <div class="form-group">
+        <label for="albumId">Album</label>
+        <select formControlName="albumId" id="albumId" class="form-control" >
+          <option value="" class="form-control">Select album</option>
+          <option *ngFor="let album of albums" [ngValue]="album.id">
+            {{album.name}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="genreId">Genre</label>
+        <select formControlName="genreId" id="genreId" class="form-control" >
+          <option value="" class="form-control">Select genre</option>
+          <option *ngFor="let genre of genres" [ngValue]="genre.id">
+            {{genre.name}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="performerId">Performer</label>
+        <select formControlName="performerId" id="performerId" class="form-control" >
+          <option value="" class="form-control">Select performer</option>
+          <option *ngFor="let performer of performers" [ngValue]="performer.id">
+            {{performer.name}}
+          </option>
+        </select>
+      </div>
+      <div class="d-grid gap-2 d-md-block">
+        <button type="submit" class="btn btn-success mr-1">Create song</button>
+        <a href="#" routerLink="/songs" class="btn btn-secondary">Bask to list</a>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+    </form>
+
+    <div *ngIf="submitted">
+      <h3>You successfully created a song!</h3>
+    </div>
+  </div>
+</div>

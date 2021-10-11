@@ -2,6 +2,11 @@
   <h4 class="card-header">Songs list</h4>
   <div class="card-body">
     <h6>Songs from protected api end point</h6>
+
+    <div class="form-group">
+      <a routerLink="/songs/add-song" class="btn btn-primary">Create song</a>
+    </div>
+
     <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
     <table class="table" *ngIf="songs">
       <thead>
@@ -10,6 +15,7 @@
         <th>Genre</th>
         <th>Performer</th>
         <th>Album</th>
+        <th></th>
       </tr>
       </thead>
       <tbody>
@@ -18,6 +24,10 @@
         <td>{{song.albumName}}</td>
         <td>{{song.performerName}}</td>
         <td>{{song.genreName}}</td>
+        <td class="text-center">
+          <button class="btn btn-primary mr-1" [routerLink]="['/songs/', song.id, 'edit']">Edit</button>
+          <button class="btn btn-danger">Delete</button>
+        </td>
       </tr>
       </tbody>
     </table>
