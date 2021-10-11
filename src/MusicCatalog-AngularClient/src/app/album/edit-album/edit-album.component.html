@@ -1,0 +1,29 @@
+<div class="col-md-6">
+  <div>
+    <h4 class="header">Edit album</h4>
+    <hr>
+    <div>
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm)">
+        <input formControlName="id" id="id" type="hidden">
+
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" formControlName="name" id="name"
+                 class="form-control"[(ngModel)]="album.name" />
+        </div>
+        <div class="form-group">
+          <label for="releaseDate">Release date</label>
+          <input type="date" formControlName="releaseDate" id="releaseDate"
+                 class="form-control" [(ngModel)]="album.releaseDate" />
+        </div>
+
+        <div class="form-group">
+          <div class="d-grid gap-2 d-md-block">
+            <button class="btn btn-primary mr-1" type="submit">Update album</button>
+            <a href="#" routerLink="/albums" class="btn btn-secondary">Bask to list</a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

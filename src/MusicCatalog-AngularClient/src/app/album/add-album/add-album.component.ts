@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Album } from '../../_models/album';
-import {AlbumService} from '../../_services/album.service';
+import { AlbumService } from '../../_services/album.service';
 
 @Component({
   selector: 'app-add-album',
@@ -11,18 +11,18 @@ export class AddAlbumComponent implements OnInit {
   submitted = false;
   errorMessage = '';
 
-  constructor(private albumService: AlbumService ) { }
+  constructor(private albumService: AlbumService) { }
 
   ngOnInit(): void {
   }
 
   createAlbum(): void {
     this.albumService.postAlbum(this.album)
-      .subscribe(response => {
+      .subscribe( response => {
         this.submitted = true;
       },
         err => {
           this.errorMessage = err;
-        })
+      });
   }
 }
