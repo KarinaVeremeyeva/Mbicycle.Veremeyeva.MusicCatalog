@@ -13,10 +13,10 @@ export class AlbumListComponent implements OnInit {
   modalRef: BsModalRef = new BsModalRef<any>();
   idToBeDeleted!: number;
   message: string | undefined;
-
   config = {
     class: 'modal-sm modal-dialog-centered'
   }
+
   constructor(
     private albumService: AlbumService,
     private modalService: BsModalService) {
@@ -35,7 +35,7 @@ export class AlbumListComponent implements OnInit {
 
   deleteAlbum(id: number) {
     this.albumService.deleteAlbum(id).subscribe(response => {
-      this.albums = this.albums.filter(item => item.id !== id);
+      this.albums = this.albums.filter(item => item.albumId !== id);
     })
   }
 

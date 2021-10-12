@@ -1,5 +1,7 @@
 <div class="container">
   <h3>Albums list</h3>
+  <hr>
+  <h6>Albums from protected api end point</h6>
 
   <p *ngIf="!albums"><em>Loading...</em></p>
 
@@ -20,8 +22,8 @@
       <td>{{ album.name }}</td>
       <td>{{ album.releaseDate | date:"dd/MM/yyyy" }}</td>
       <td class="text-center">
-        <button class="btn btn-primary mr-1" [routerLink]="['/albums/', album.id, 'edit']">Edit</button>
-        <button class="btn btn-danger" (click)="confirmDeleteModal(template, album.id)">Delete</button>
+        <button class="btn btn-primary mr-1" [routerLink]="['/albums/', album.albumId, 'edit']">Edit</button>
+        <button class="btn btn-danger" (click)="confirmDeleteModal(template, album.albumId)">Delete</button>
       </td>
     </tr>
     </tbody>

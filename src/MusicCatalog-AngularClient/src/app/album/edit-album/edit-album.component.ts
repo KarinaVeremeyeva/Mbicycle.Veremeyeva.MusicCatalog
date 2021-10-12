@@ -20,17 +20,16 @@ export class EditAlbumComponent implements OnInit {
     private formBuilder: FormBuilder)
   {
     this.editForm = this.formBuilder.group({
+      albumId: [''],
       name: ['', Validators.required],
       releaseDate: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.album.id = this.route.snapshot.params['id'];
+    this.album.albumId = this.route.snapshot.params['id'];
 
-    console.log("1", this.route.snapshot);
-
-    this.albumService.getAlbum(this.album.id).subscribe((response: Album) => {
+    this.albumService.getAlbum(this.album.albumId).subscribe((response: Album) => {
       this.album = response;
     });
   }

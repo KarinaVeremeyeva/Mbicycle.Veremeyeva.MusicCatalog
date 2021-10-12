@@ -11,7 +11,7 @@
         <label for="albumId">Album</label>
         <select formControlName="albumId" id="albumId" class="form-control" >
           <option value="" class="form-control">Select album</option>
-          <option *ngFor="let album of albums" [ngValue]="album.id">
+          <option *ngFor="let album of albums" [ngValue]="album.albumId">
             {{album.name}}
           </option>
         </select>

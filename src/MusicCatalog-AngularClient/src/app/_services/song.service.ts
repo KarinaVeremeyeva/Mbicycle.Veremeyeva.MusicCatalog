@@ -33,7 +33,7 @@ export class SongService {
 
   putSong(song: Song): Observable<Song> {
     return this.http.put<Song>(
-      this.web_api_path + song.id,
+      this.web_api_path + song.songId,
       JSON.stringify(song),
       this.httpOptions);
   }

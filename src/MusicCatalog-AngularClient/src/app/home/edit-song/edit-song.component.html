@@ -1,1 +1,47 @@
-<p>edit-song works!</p>
+<div class="col-md-6">
+  <h4>Edit song</h4>
+  <hr>
+  <div>
+    <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm)">
+      <input  formControlName="songId" id="songId" type="hidden">
+
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" formControlName="name" id="name" class="form-control" />
+      </div>
+      <div class="form-group">
+        <label for="albumId">Album</label>
+        <select formControlName="albumId" id="albumId" class="form-control" >
+          <option value="" class="form-control">Select album</option>
+          <option *ngFor="let album of albums" [ngValue]="album.albumId">
+            {{album.name}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="genreId">Genre</label>
+        <select formControlName="genreId" id="genreId" class="form-control" >
+          <option value="" class="form-control">Select genre</option>
+          <option *ngFor="let genre of genres" [ngValue]="genre.id">
+            {{genre.name}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="performerId">Performer</label>
+        <select formControlName="performerId" id="performerId" class="form-control" >
+          <option value="" class="form-control">Select performer</option>
+          <option *ngFor="let performer of performers" [ngValue]="performer.id">
+            {{performer.name}}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <div class="d-grid gap-2 d-md-block">
+          <button class="btn btn-primary mr-1" type="submit">Update song</button>
+          <a href="#" routerLink="/songs" class="btn btn-secondary">Back to list</a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -38,15 +38,7 @@ export class AddSongComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.albumService.getAlbums().subscribe((response: Album[]) => {
-      this.albums = response;
-    });
-    this.genreService.getGenres().subscribe((response: Genre[]) => {
-      this.genres = response;
-    });
-    this.performerService.getPerformers().subscribe((response: Performer[]) => {
-      this.performers = response;
-    });
+    this.populateDropDownList();
   }
 
   onSubmit(formData): void {
@@ -59,4 +51,15 @@ export class AddSongComponent implements OnInit {
       });
   }
 
+  private populateDropDownList() {
+    this.albumService.getAlbums().subscribe((response: Album[]) => {
+      this.albums = response;
+    });
+    this.genreService.getGenres().subscribe((response: Genre[]) => {
+      this.genres = response;
+    });
+    this.performerService.getPerformers().subscribe((response: Performer[]) => {
+      this.performers = response;
+    });
+  }
 }

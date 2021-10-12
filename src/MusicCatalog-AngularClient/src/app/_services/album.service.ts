@@ -33,7 +33,7 @@ export class AlbumService {
 
   putAlbum(album: Album): Observable<Album> {
     return this.http.put<Album>(
-      this.web_api_path + album.id,
+      this.web_api_path + album.albumId,
       JSON.stringify(album),
       this.httpOptions);
   }
