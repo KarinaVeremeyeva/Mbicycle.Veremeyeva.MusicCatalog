@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
   }
 
   deleteSong(id: number) {
-    this.songService.deleteSong(id).subscribe(response => {
+    this.songService.deleteSong(id).subscribe(() => {
       this.songs = this.songs.filter(item => item.songId !== id);
     })
   }

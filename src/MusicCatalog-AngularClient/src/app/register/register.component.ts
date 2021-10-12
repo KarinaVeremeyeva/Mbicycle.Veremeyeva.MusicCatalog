@@ -15,7 +15,6 @@ export class RegisterComponent implements OnInit {
   submitted = false;
   errorMessage = '';
   roles;
-  roleId;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,7 +54,7 @@ export class RegisterComponent implements OnInit {
     this.authService.registerUser(user)
       .subscribe(()=> {
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigate([returnUrl]).then(r => console.log(r));
+          this.router.navigate([returnUrl]).then();
       },
       err => {
         this.errorMessage = err;

@@ -3,7 +3,7 @@
   <hr>
   <div>
     <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm)">
-      <input  formControlName="songId" id="songId" type="hidden">
+      <input id="songId" type="hidden">
 
       <div class="form-group">
         <label for="name">Name</label>
@@ -22,7 +22,7 @@
         <label for="genreId">Genre</label>
         <select formControlName="genreId" id="genreId" class="form-control" >
           <option value="" class="form-control">Select genre</option>
-          <option *ngFor="let genre of genres" [ngValue]="genre.id">
+          <option *ngFor="let genre of genres" [ngValue]="genre.genreId">
             {{genre.name}}
           </option>
         </select>
@@ -31,7 +31,7 @@
         <label for="performerId">Performer</label>
         <select formControlName="performerId" id="performerId" class="form-control" >
           <option value="" class="form-control">Select performer</option>
-          <option *ngFor="let performer of performers" [ngValue]="performer.id">
+          <option *ngFor="let performer of performers" [ngValue]="performer.performerId">
             {{performer.name}}
           </option>
         </select>

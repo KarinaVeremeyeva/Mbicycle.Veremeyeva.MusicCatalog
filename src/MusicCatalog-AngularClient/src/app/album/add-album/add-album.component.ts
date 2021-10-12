@@ -7,7 +7,7 @@ import { AlbumService } from '../../_services/album.service';
   templateUrl: './add-album.component.html'
 })
 export class AddAlbumComponent implements OnInit {
-  public album: Album = new Album;
+  album: Album = new Album;
   submitted = false;
   errorMessage = '';
 
@@ -18,7 +18,7 @@ export class AddAlbumComponent implements OnInit {
 
   createAlbum(): void {
     this.albumService.postAlbum(this.album)
-      .subscribe( response => {
+      .subscribe( () => {
         this.submitted = true;
       },
         err => {

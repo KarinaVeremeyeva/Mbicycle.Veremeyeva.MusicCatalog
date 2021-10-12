@@ -1,4 +1,4 @@
 export class Performer {
-  id!: number;
+  performerId!: number;
   name!: string;
 }

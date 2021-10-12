@@ -10,7 +10,7 @@ import { AlbumService } from '../../_services/album.service';
   templateUrl: './edit-album.component.html'
 })
 export class EditAlbumComponent implements OnInit {
-  album: Album = new Album;
+  currentAlbum: Album = new Album;
   editForm;
 
   constructor(
@@ -20,24 +20,25 @@ export class EditAlbumComponent implements OnInit {
     private formBuilder: FormBuilder)
   {
     this.editForm = this.formBuilder.group({
-      albumId: [''],
       name: ['', Validators.required],
       releaseDate: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.album.albumId = this.route.snapshot.params['id'];
+    this.currentAlbum.albumId = this.route.snapshot.params['id'];
 
-    this.albumService.getAlbum(this.album.albumId).subscribe((response: Album) => {
-      this.album = response;
+    this.albumService.getAlbum(this.currentAlbum.albumId).subscribe((response: Album) => {
+      this.currentAlbum = response;
     });
   }
 
   onSubmit(formData) {
-    this.albumService.putAlbum(formData.value).subscribe((response => {
-      this.router.navigateByUrl('albums')
-    }))
+    formData.value.albumId = this.currentAlbum.albumId;
+
+    this.albumService.putAlbum(formData.value).subscribe(() => {
+      this.router.navigateByUrl('albums').then();
+    })
   }
 
 }

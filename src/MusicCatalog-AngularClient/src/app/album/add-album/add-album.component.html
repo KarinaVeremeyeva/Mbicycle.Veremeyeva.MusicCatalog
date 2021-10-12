@@ -14,7 +14,7 @@
 
       <div class="d-grid gap-2 d-md-block">
         <button (click)="createAlbum()" class="btn btn-success mr-1">Create album</button>
-        <a href="#" routerLink="/albums" class="btn btn-secondary">Bask to list</a>
+        <a href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
       </div>
 
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
@@ -22,7 +22,7 @@
 
     <div *ngIf="submitted">
       <h6 class="alert alert-success">You successfully created an album!</h6>
-      <a href="#" routerLink="/albums" class="btn btn-secondary">Bask to list</a>
+      <a href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
     </div>
   </div>
 </div>

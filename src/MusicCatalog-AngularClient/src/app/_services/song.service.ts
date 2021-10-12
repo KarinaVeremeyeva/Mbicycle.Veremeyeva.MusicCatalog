@@ -21,7 +21,7 @@ export class SongService {
   }
 
   getSong(id: number) {
-    return this.http.get<Song>(this.web_api_path);
+    return this.http.get<Song>(this.web_api_path + id);
   }
 
   postSong(song: Song): Observable<Song> {

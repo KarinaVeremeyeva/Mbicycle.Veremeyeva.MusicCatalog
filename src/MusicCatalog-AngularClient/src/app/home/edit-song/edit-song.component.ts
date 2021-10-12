@@ -1,21 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, Validators} from "@angular/forms";
+
 import { Song } from '../../_models/song';
 import { SongService } from '../../_services/song.service';
 import { GenreService} from '../../_services/genre.service';
 import { AlbumService} from '../../_services/album.service';
 import { PerformerService} from '../../_services/performer.service';
-import { FormBuilder, Validators} from "@angular/forms";
 import { Album} from '../../_models/album';
 import { Performer } from '../../_models/performer';
 import { Genre} from '../../_models/genre';
-import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit-song',
   templateUrl: './edit-song.component.html'
 })
 export class EditSongComponent implements OnInit {
-  song: Song = new Song();
+  currentSong: Song = new Song();
   submitted = false;
   errorMessage = '';
   editForm;
@@ -33,7 +34,6 @@ export class EditSongComponent implements OnInit {
     private router: Router)
   {
     this.editForm = this.formBuilder.group({
-      songId: [''],
       name: ['', Validators.required],
       albumId: [''],
       genreId: [''],
@@ -42,20 +42,21 @@ export class EditSongComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.song.songId = this.route.snapshot.params['id'];
-
-    this.songService.getSong(this.song.songId).subscribe((response: Song) => {
-      this.song = response;
+    this.currentSong.songId = this.route.snapshot.params['id'];
+    this.songService.getSong(this.currentSong.songId).subscribe((response: Song) => {
+      this.currentSong = response;
     });
 
     this.populateDropDownList();
   }
 
   onSubmit(formData): void {
+    formData.value.songId = this.currentSong.songId;
+
     this.songService.putSong(formData.value)
-      .subscribe(response => {
+      .subscribe(() => {
         this.submitted = true;
-        this.router.navigateByUrl('songs')
+        this.router.navigateByUrl('songs').then();
       });
   }
 
@@ -70,5 +71,4 @@ export class EditSongComponent implements OnInit {
       this.performers = response;
     });
   }
-
 }

@@ -33,7 +33,7 @@ export class PerformerService {
 
   putPerformer(performer: Performer): Observable<Performer> {
     return this.http.put<Performer>(
-      this.web_api_path + performer.id,
+      this.web_api_path + performer.performerId,
       JSON.stringify(performer),
       this.httpOptions);
   }

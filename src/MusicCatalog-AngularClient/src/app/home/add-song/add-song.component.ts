@@ -14,7 +14,7 @@ import { Genre} from '../../_models/genre';
   templateUrl: './add-song.component.html'
 })
 export class AddSongComponent implements OnInit {
-  song: Song = new Song();
+  song: Song | undefined;
   submitted = false;
   errorMessage = '';
   createForm;
@@ -43,7 +43,7 @@ export class AddSongComponent implements OnInit {
 
   onSubmit(formData): void {
     this.songService.postSong(formData.value)
-      .subscribe(response => {
+      .subscribe(() => {
         this.submitted = true;
       },
           err => {

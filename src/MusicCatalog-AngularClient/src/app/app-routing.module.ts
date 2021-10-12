@@ -16,13 +16,13 @@ import { EditSongComponent } from './home/edit-song/edit-song.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'songs/add-song', component: AddSongComponent },
-  { path: 'songs/:id/edit', component: EditSongComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'songs/add-song', component: AddSongComponent, canActivate: [AuthGuard] },
+  { path: 'songs/:id/edit', component: EditSongComponent, canActivate: [AuthGuard] },
   { path: 'albums', component: AlbumListComponent, canActivate: [AuthGuard] },
-  { path: 'albums/add-album', component: AddAlbumComponent },
-  { path: 'albums/:id/edit', component: EditAlbumComponent },
+  { path: 'albums/add-album', component: AddAlbumComponent,canActivate: [AuthGuard] },
+  { path: 'albums/:id/edit', component: EditAlbumComponent, canActivate: [AuthGuard] },
   { path: 'genres', component: GenreComponent, canActivate: [AuthGuard] },
   { path: 'performers', component: PerformerComponent, canActivate: [AuthGuard]},
   { path: 'users', component: UserComponent, canActivate: [AuthGuard] },
