@@ -1,0 +1,24 @@
+<div class="col-md-6">
+  <div>
+    <h4 class="header">Create genre</h4>
+    <hr>
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="genre.name" />
+      </div>
+
+      <div class="d-grid gap-2 d-md-block">
+        <button (click)="createGenre()" class="btn btn-success mr-1">Create genre</button>
+        <a href="#" routerLink="/genres" class="btn btn-secondary">Back to list</a>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+    </div>
+
+    <div *ngIf="submitted">
+      <h6 class="alert alert-success">You successfully created a genre!</h6>
+      <a href="#" routerLink="/genres" class="btn btn-secondary">Back to list</a>
+    </div>
+  </div>
+</div>

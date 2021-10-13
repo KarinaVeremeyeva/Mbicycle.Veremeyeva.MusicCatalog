@@ -5,8 +5,7 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { AuthService } from '../../_services/auth.service';
-import {AuthUser} from "../../_models/auth-user";
-import {Subscription} from "rxjs";
+import { AuthUser } from "../../_models/auth-user";
 
 @Component({
   selector: 'app-user',
