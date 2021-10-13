@@ -33,12 +33,6 @@ export class AlbumListComponent implements OnInit {
     });
   }
 
-  deleteAlbum(id: number) {
-    this.albumService.deleteAlbum(id).subscribe(() => {
-      this.albums = this.albums.filter(item => item.albumId !== id);
-    })
-  }
-
   confirmDeleteModal(template: TemplateRef<any>, id: any){
     this.modalRef = this.modalService.show(template, this.config);
     this.idToBeDeleted = id;
@@ -47,12 +41,14 @@ export class AlbumListComponent implements OnInit {
   confirm(): void {
     this.message = 'Confirmed!';
     this.modalRef.hide();
-    this.delete();
+    this.deleteAlbum();
   }
 
-  delete():void{
-    this.deleteAlbum(this.idToBeDeleted);
-    console.log('deleted',this.idToBeDeleted,' record');
+  deleteAlbum():void{
+    this.albumService.deleteAlbum(this.idToBeDeleted).subscribe(() => {
+      this.albums = this.albums.filter(item => item.albumId !== this.idToBeDeleted);
+    })
+    console.log(`Album with id = ${this.idToBeDeleted} was deleted`);
   }
 
   decline(): void {

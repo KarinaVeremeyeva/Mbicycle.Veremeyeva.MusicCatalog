@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { AuthUser } from "../_models/auth-user";
+import {stringify} from "@angular/compiler/src/util";
 
 const TOKEN_KEY = 'jwt-token';
 
@@ -11,22 +13,27 @@ const TOKEN_KEY = 'jwt-token';
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
   isLoggedIn = false;
-  email!: string;
+  currentUser: AuthUser = new AuthUser();
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService)
+  { }
 
   ngOnInit(): void {
     this.isLoggedIn = !!this.authService.getToken(TOKEN_KEY);
 
     if (this.isLoggedIn) {
-      const user = this.authService.getCurrentUser;
-      //this.email = user.email;
+      this.authService.currentUser.subscribe(x => this.currentUser = x)
+      console.log('isLoggedIn', this.isLoggedIn);
+      //this.authService.currentUserValue.next(true);
+
+      console.log('app-component', this.currentUser)
     }
   }
 
   logout(): void {
     this.authService.logOut();
     window.location.reload();
+    this.isLoggedIn = false;
   }
 
   toggle() {

@@ -1,7 +1,8 @@
-import {Component, OnInit, TemplateRef} from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
+import { BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+
 import { Song } from '../_models/song';
 import { SongService } from '../_services/song.service';
-import { BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-home',
@@ -28,12 +29,6 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  deleteSong(id: number) {
-    this.songService.deleteSong(id).subscribe(() => {
-      this.songs = this.songs.filter(item => item.songId !== id);
-    })
-  }
-
   confirmDeleteModal(template: TemplateRef<any>, id: any){
     this.modalRef = this.modalService.show(template, this.config);
     this.idToBeDeleted = id;
@@ -41,12 +36,14 @@ export class HomeComponent implements OnInit {
 
   confirm(): void {
     this.modalRef.hide();
-    this.delete();
+    this.deleteSong();
   }
 
-  delete():void{
-    this.deleteSong(this.idToBeDeleted);
-    console.log('deleted',this.idToBeDeleted,' record');
+  deleteSong():void{
+    this.songService.deleteSong(this.idToBeDeleted).subscribe(() => {
+      this.songs = this.songs.filter(item => item.songId !== this.idToBeDeleted);
+    });
+    console.log(`Song with id = ${this.idToBeDeleted} was deleted`);
   }
 
   decline(): void {

@@ -9,7 +9,7 @@ import { AlbumService} from '../../_services/album.service';
 import { PerformerService} from '../../_services/performer.service';
 import { Album} from '../../_models/album';
 import { Performer } from '../../_models/performer';
-import { Genre} from '../../_models/genre';
+import { Genre } from '../../_models/genre';
 
 @Component({
   selector: 'app-edit-song',

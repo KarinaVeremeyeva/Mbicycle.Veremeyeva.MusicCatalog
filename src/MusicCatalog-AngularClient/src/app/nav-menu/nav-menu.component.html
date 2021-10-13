@@ -2,19 +2,13 @@
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">MusicCatalog</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded" (click)="toggle()">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
         [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav ml-auto" *ngIf="!isLoggedIn">
+        <ul class="navbar-nav ml-auto" *ngIf="!currentUser">
           <li class="nav-item">
             <a class="nav-link" routerLink="register">Sign Up</a>
           </li>
@@ -23,9 +17,9 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto" *ngIf="isLoggedIn">
+        <ul class="navbar-nav ml-auto" *ngIf="currentUser">
           <li class="nav-item">
-            <a class="nav-link" routerLink="/users">{{ email }}</a>
+            <a class="nav-link" routerLink="/users">Sign in as {{ currentUser.email }}</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" (click)="logout()">LogOut</a>
@@ -47,7 +41,6 @@
             <a class="nav-link text-dark" routerLink="performers">Performers</a>
           </li>
         </ul>
-
       </div>
     </div>
   </nav>

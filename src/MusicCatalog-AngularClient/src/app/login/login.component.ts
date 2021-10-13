@@ -24,8 +24,8 @@ export class LoginComponent implements OnInit {
     private router: Router
   ) {
     // Redirect to home if user already logged in
-    if (this.authService.getCurrentUser){
-      this.router.navigate(['/']).then(r => console.log(r))
+    if (this.authService.currentUserValue){
+      this.router.navigate(['/']).then();
     }
   }
 
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
           console.table(headers);
 
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
-          this.router.navigate([returnUrl]).then(r => console.log(r));
+          this.router.navigate([returnUrl]).then();
           },
         err => {
           this.errorMessage = err;

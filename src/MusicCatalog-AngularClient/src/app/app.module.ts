@@ -18,11 +18,12 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { AlbumListComponent } from './album/list/album-list.component';
 import { GenreComponent } from './genre/genre.component';
 import { PerformerComponent } from './performer/performer.component';
-import { UserComponent } from './user/user.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 import { AddAlbumComponent } from './album/add-album/add-album.component';
 import { EditAlbumComponent } from './album/edit-album/edit-album.component';
 import { AddSongComponent } from './home/add-song/add-song.component';
 import { EditSongComponent } from './home/edit-song/edit-song.component';
+import { EditUserComponent } from './user/edit-user/edit-user.component';
 
 @NgModule({
   declarations: [
@@ -34,11 +35,12 @@ import { EditSongComponent } from './home/edit-song/edit-song.component';
     AlbumListComponent,
     GenreComponent,
     PerformerComponent,
-    UserComponent,
+    UserListComponent,
     AddAlbumComponent,
     EditAlbumComponent,
     AddSongComponent,
-    EditSongComponent
+    EditSongComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,

@@ -12,7 +12,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   // Inspects and transforms HTTP requests before they are sent to server
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const currentUser = this.authService.getCurrentUser;
+    const currentUser = this.authService.currentUserValue;
     if (currentUser){
       request = this.addToken(request)
     }
@@ -24,6 +24,6 @@ export class AuthInterceptor implements HttpInterceptor {
       setHeaders: {
         Authorization: `Bearer ${this.authService.getToken(TOKEN_KEY)}`
       }
-    })
+    });
   }
 }

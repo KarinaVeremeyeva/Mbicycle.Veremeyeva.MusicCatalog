@@ -6,12 +6,13 @@ import { map } from 'rxjs/operators';
 
 import { LoginUser } from '../_models/login-user';
 import { RegisterUser } from '../_models/register-user';
+import { AuthUser } from "../_models/auth-user";
 
 const TOKEN_KEY = 'jwt-token';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private auth_api_path = 'http://localhost:2563/api/User/';
+  private auth_api_path = 'http://localhost:2563/api/user/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type' : 'application/json; charset=utf-8',
@@ -19,19 +20,21 @@ export class AuthService {
     }),
     observe: 'response' as 'body'
   };
-  private currentUserSubject: BehaviorSubject<any>;
-  public currentUser: Observable<any>;
+
+  private currentUserSubject: BehaviorSubject<AuthUser>;
+  public currentUser: Observable<AuthUser>;
 
   constructor(
     private http: HttpClient,
     private cookieService: CookieService)
   {
-    this.currentUserSubject = new BehaviorSubject<any>(this.getToken(TOKEN_KEY));
+    this.currentUserSubject = new BehaviorSubject<AuthUser>(
+      JSON.parse(<string>localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
   // Gets current user
-  public get getCurrentUser(): any {
+  public get currentUserValue(): AuthUser {
     return this.currentUserSubject.value;
   }
 
@@ -44,9 +47,9 @@ export class AuthService {
       .pipe(map(res => {
         const token = res.headers.get('Authorization');
         if (token != null) {
-          this.setCookie(TOKEN_KEY, token);
+          const currentUser = this.authorizeHandle(token, user);
+          this.currentUserSubject.next(currentUser);
         }
-        this.currentUserSubject.next(res);
         return res;
       }));
   }
@@ -59,22 +62,36 @@ export class AuthService {
       this.httpOptions)
       .pipe(map(res => {
         const token = res.headers.get('Authorization');
+        const roles = res.headers.get('Authorization-roles');
+        user.role = roles;
         if (token != null) {
-          this.setCookie(TOKEN_KEY, token);
-          console.log("access-token: " + token);
+          const currentUser = this.authorizeHandle(token, user)
+          this.currentUserSubject.next(currentUser);
         }
-        this.currentUserSubject.next(res);
         return res;
       }));
   }
 
-  // Sends get-request the api for logging out
-  logOut() {
-    this.cookieService.deleteAll();
-    this.currentUserSubject.next(null);
-    return this.http.get(this.auth_api_path + 'logout');
+  private authorizeHandle(token, user): AuthUser {
+    this.setCookie(TOKEN_KEY, token);
+    const currentUser: AuthUser = {
+      email: user.email,
+      role: user.role,
+      token: token
+    };
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    return currentUser;
   }
 
+  // Sends get-request the api for logging out
+  logOut() {
+    localStorage.removeItem('currentUser');
+
+    this.cookieService.deleteAll();
+    let user: any = null;
+    this.currentUserSubject.next(user);
+    return this.http.get(this.auth_api_path + 'logout');
+  }
 
   //Gets all role names
   getAllRoles(): Observable<string[]> {

@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
   loading = false;
   submitted = false;
   errorMessage = '';
-  roles;
+  roles: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -30,9 +30,8 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.roles = this.authService.getAllRoles().subscribe((response: string[]) => {
+    this.authService.getAllRoles().subscribe((response: string[]) => {
       this.roles = response;
-      console.log(response);
     });
   }
 

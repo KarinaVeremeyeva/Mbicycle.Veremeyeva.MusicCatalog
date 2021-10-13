@@ -9,7 +9,7 @@ import { User } from '../_models/user';
 })
 // Provides methods to access protected resources
 export class UserService {
-  private admin_api_path = 'http://localhost:2563/api/Admin/';
+  private admin_api_path = 'http://localhost:2563/api/admin/';
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type' : 'application/json'
