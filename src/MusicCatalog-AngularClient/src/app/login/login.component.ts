@@ -54,11 +54,6 @@ export class LoginComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data: HttpResponse<LoginUser>) => {
-          /*const token = data.headers.get("Authorization");
-          if (token != null){
-            this.authService.setCookie(TOKEN_KEY, token);
-            console.log(token);
-          }*/
           const keys = data.headers.keys();
           const headers = keys.map(key => `${key}: ${data.headers.get(key)}`);
           console.table(headers);

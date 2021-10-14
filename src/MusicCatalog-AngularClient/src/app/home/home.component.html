@@ -7,7 +7,10 @@
       <a routerLink="/songs/add-song" class="btn btn-primary">Create song</a>
     </div>
 
-    <div *ngIf="loading" class="spinner-border spinner-border-sm"></div>
+    <div class="d-flex justify-content-center">
+      <div *ngIf="loading" class="spinner-border spinner-border-lf text-info"></div>
+    </div>
+
     <table class="table" *ngIf="songs">
       <thead>
       <tr>

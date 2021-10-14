@@ -4,7 +4,7 @@ import { SongService } from '../../_services/song.service';
 import { GenreService} from '../../_services/genre.service';
 import { AlbumService} from '../../_services/album.service';
 import { PerformerService} from '../../_services/performer.service';
-import { FormBuilder, Validators} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Album} from '../../_models/album';
 import { Performer } from '../../_models/performer';
 import { Genre} from '../../_models/genre';
@@ -17,7 +17,7 @@ export class AddSongComponent implements OnInit {
   song: Song | undefined;
   submitted = false;
   errorMessage = '';
-  createForm;
+  createForm: FormGroup;
   albums: Album[] = [];
   genres: Genre[] = [];
   performers: Performer[] = [];
@@ -30,10 +30,10 @@ export class AddSongComponent implements OnInit {
     private formBuilder: FormBuilder)
   {
     this.createForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      albumId: [''],
-      genreId: [''],
-      performerId: ['']
+      name: ['', [Validators.required]],
+      albumId: ['', [Validators.required]],
+      genreId: ['', [Validators.required]],
+      performerId: ['', [Validators.required]]
     });
   }
 

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { LoginUser } from '../_models/login-user';
 import { RegisterUser } from '../_models/register-user';
-import { AuthUser } from "../_models/auth-user";
+import { AuthUser } from '../_models/auth-user';
 
 const TOKEN_KEY = 'jwt-token';
 
@@ -46,8 +46,9 @@ export class AuthService {
       this.httpOptions)
       .pipe(map(res => {
         const token = res.headers.get('Authorization');
+        const role = res.headers.get('Authorization-roles');
         if (token != null) {
-          const currentUser = this.authorizeHandle(token, user);
+          const currentUser = this.authorizeHandle(token, { email: user.email, role: role });
           this.currentUserSubject.next(currentUser);
         }
         return res;
@@ -62,8 +63,7 @@ export class AuthService {
       this.httpOptions)
       .pipe(map(res => {
         const token = res.headers.get('Authorization');
-        const roles = res.headers.get('Authorization-roles');
-        user.role = roles;
+        user.role = res.headers.get('Authorization-roles');
         if (token != null) {
           const currentUser = this.authorizeHandle(token, user)
           this.currentUserSubject.next(currentUser);

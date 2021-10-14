@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Genre } from '../_models/genre';
-import { GenreService } from '../_services/genre.service';
+import { Genre } from '../../_models/genre';
+import { GenreService } from '../../_services/genre.service';
 
 @Component({
   selector: 'app-genre',
-  templateUrl: './genre.component.html'
+  templateUrl: './genre-list.component.html'
 })
-export class GenreComponent implements OnInit {
+export class GenreListComponent implements OnInit {
   loading = false;
   genres: Genre[];
 

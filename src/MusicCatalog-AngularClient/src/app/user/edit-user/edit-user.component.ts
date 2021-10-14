@@ -26,7 +26,7 @@ export class EditUserComponent implements OnInit {
     private router: Router)
   {
     this.editForm = this.formBuilder.group({
-      email: ['', Validators.required, Validators.email],
+      email: ['', [Validators.required, Validators.email]],
       role: ['']
     });
   }

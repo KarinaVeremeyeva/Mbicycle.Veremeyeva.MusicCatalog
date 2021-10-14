@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormBuilder, Validators} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Song } from '../../_models/song';
 import { SongService } from '../../_services/song.service';
@@ -19,7 +19,7 @@ export class EditSongComponent implements OnInit {
   currentSong: Song = new Song();
   submitted = false;
   errorMessage = '';
-  editForm;
+  editForm: FormGroup;
   albums: Album[] = [];
   genres: Genre[] = [];
   performers: Performer[] = [];

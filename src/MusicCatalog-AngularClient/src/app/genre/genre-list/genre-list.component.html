@@ -1,0 +1,30 @@
+<div class="card mt-4">
+  <h4 class="card-header">Genres list</h4>
+  <div class="card-body">
+    <h6>Genres from protected api end point</h6>
+    <hr>
+    <p *ngIf="!genres"><em>Loading...</em></p>
+
+    <div class="form-group">
+      <a routerLink="/genres/add-genre" class="btn btn-primary">Create genre</a>
+    </div>
+
+    <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="genres">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let genre of genres">
+        <td>{{ genre.name }}</td>
+        <td class="text-center">
+          <button class="btn btn-primary mr-1" [routerLink]="['/genres/', genre.genreId, 'edit']">Edit</button>
+          <button class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

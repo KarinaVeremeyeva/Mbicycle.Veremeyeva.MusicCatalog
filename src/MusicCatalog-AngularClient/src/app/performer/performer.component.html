@@ -1,19 +1,25 @@
-<div class="container">
-  <h3>Performers list</h3>
+<div class="card mt-4">
+  <h4 class="card-header">Performers list</h4>
+  <div class="card-body">
+    <h6>Performers from protected api end point</h6>
+    <hr>
+    <p *ngIf="!performers"><em>Loading...</em></p>
 
-  <p *ngIf="!performers"><em>Loading...</em></p>
+    <div class="form-group">
+      <a routerLink="/performers/add-performer" class="btn btn-primary">Create performer</a>
+    </div>
 
-  <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="performers">
-    <thead>
-    <tr>
-      <th>Name</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr *ngFor="let performer of performers">
-      <td>{{ performer.name }}</td>
-    </tr>
-    </tbody>
-  </table>
-
+    <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="performers">
+      <thead>
+      <tr>
+        <th>Name</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let performer of performers">
+        <td>{{ performer.name }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

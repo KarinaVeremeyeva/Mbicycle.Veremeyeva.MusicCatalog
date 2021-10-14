@@ -15,8 +15,9 @@ import { HomeComponent } from './home/home.component';
 import { NavMenuComponent } from  './nav-menu/nav-menu.component'
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { AlbumListComponent } from './album/list/album-list.component';
-import { GenreComponent } from './genre/genre.component';
+import { AlbumListComponent } from './album/album-list/album-list.component';
+import { GenreListComponent } from './genre/genre-list/genre-list.component';
+import { AddGenreComponent } from './genre/add-genre/add-genre.component';
 import { PerformerComponent } from './performer/performer.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { AddAlbumComponent } from './album/add-album/add-album.component';
@@ -24,6 +25,7 @@ import { EditAlbumComponent } from './album/edit-album/edit-album.component';
 import { AddSongComponent } from './home/add-song/add-song.component';
 import { EditSongComponent } from './home/edit-song/edit-song.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { EditGenreComponent } from './genre/edit-genre/edit-genre.component';
 
 @NgModule({
   declarations: [
@@ -33,14 +35,16 @@ import { EditUserComponent } from './user/edit-user/edit-user.component';
     HomeComponent,
     NavMenuComponent,
     AlbumListComponent,
-    GenreComponent,
+    GenreListComponent,
+    AddGenreComponent,
     PerformerComponent,
     UserListComponent,
     AddAlbumComponent,
     EditAlbumComponent,
     AddSongComponent,
     EditSongComponent,
-    EditUserComponent
+    EditUserComponent,
+    EditGenreComponent
   ],
   imports: [
     BrowserModule,

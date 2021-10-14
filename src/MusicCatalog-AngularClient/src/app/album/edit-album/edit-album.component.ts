@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators} from '@angular/forms';
-import { ActivatedRoute, Router} from '@angular/router';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Album } from '../../_models/album';
 import { AlbumService } from '../../_services/album.service';
@@ -30,11 +30,6 @@ export class EditAlbumComponent implements OnInit {
 
     this.albumService.getAlbum(this.currentAlbum.albumId).subscribe((response: Album) => {
       this.currentAlbum = response;
-    });
-
-    this.editForm.setValue({
-      name: this.currentAlbum.name,
-      releaseDate: this.currentAlbum.releaseDate
     });
   }
 

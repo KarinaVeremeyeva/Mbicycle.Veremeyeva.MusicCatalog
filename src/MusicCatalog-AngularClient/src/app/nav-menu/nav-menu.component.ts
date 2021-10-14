@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
-import { AuthUser } from "../_models/auth-user";
-import {stringify} from "@angular/compiler/src/util";
+import { AuthUser } from '../_models/auth-user';
 
 const TOKEN_KEY = 'jwt-token';
 
@@ -32,7 +31,6 @@ export class NavMenuComponent implements OnInit {
 
   logout(): void {
     this.authService.logOut();
-    window.location.reload();
     this.isLoggedIn = false;
   }
 

@@ -35,7 +35,7 @@
         </select>
       </div>
       <div class="d-grid gap-2 d-md-block">
-        <button type="submit" class="btn btn-success mr-1">Create song</button>
+        <button [disabled]="!createForm.valid" type="submit" class="btn btn-success mr-1">Create song</button>
         <a href="#" routerLink="/songs" class="btn btn-secondary">Back to list</a>
       </div>
 
