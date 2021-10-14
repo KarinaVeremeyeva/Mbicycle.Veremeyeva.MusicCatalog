@@ -18,7 +18,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { AlbumListComponent } from './album/album-list/album-list.component';
 import { GenreListComponent } from './genre/genre-list/genre-list.component';
 import { AddGenreComponent } from './genre/add-genre/add-genre.component';
-import { PerformerComponent } from './performer/performer.component';
+import { PerformerListComponent } from './performer/performer-list.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { AddAlbumComponent } from './album/add-album/add-album.component';
 import { EditAlbumComponent } from './album/edit-album/edit-album.component';
@@ -37,7 +37,7 @@ import { EditGenreComponent } from './genre/edit-genre/edit-genre.component';
     AlbumListComponent,
     GenreListComponent,
     AddGenreComponent,
-    PerformerComponent,
+    PerformerListComponent,
     UserListComponent,
     AddAlbumComponent,
     EditAlbumComponent,

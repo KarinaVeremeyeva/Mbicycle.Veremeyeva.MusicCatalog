@@ -23,7 +23,6 @@ export class EditGenreComponent implements OnInit {
   ngOnInit(): void {
     this.editForm = this.formBuilder.group({
       name: ['', Validators.required],
-      releaseDate: ['', Validators.required]
     });
 
     this.currentGenre.genreId = this.route.snapshot.params['id'];
@@ -37,8 +36,7 @@ export class EditGenreComponent implements OnInit {
   onSubmit(formData) {
     formData.value.genreId = this.currentGenre.genreId;
 
-    this.genreService.putGenre(formData.value)
-      .subscribe(() => {
+    this.genreService.putGenre(formData.value).subscribe(() => {
         this.router.navigateByUrl('genres').then();
     })
   }

@@ -13,7 +13,7 @@ import { AddGenreComponent } from './genre/add-genre/add-genre.component';
 import { EditGenreComponent } from './genre/edit-genre/edit-genre.component';
 import { AddSongComponent } from './home/add-song/add-song.component';
 import { EditSongComponent } from './home/edit-song/edit-song.component';
-import { PerformerComponent } from './performer/performer.component';
+import { PerformerListComponent } from './performer/performer-list.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { EditUserComponent } from './user/edit-user/edit-user.component';
 
@@ -29,7 +29,7 @@ const routes: Routes = [
   { path: 'genres', component: GenreListComponent, canActivate: [AuthGuard] },
   { path: 'genres/add-genre', component: AddGenreComponent, canActivate: [AuthGuard] },
   { path: 'genres/:id/edit', component: EditGenreComponent, canActivate: [AuthGuard] },
-  { path: 'performers', component: PerformerComponent, canActivate: [AuthGuard]},
+  { path: 'performers', component: PerformerListComponent, canActivate: [AuthGuard]},
   { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
   { path: 'users/:id/edit', component: EditUserComponent, canActivate: [AuthGuard] },
   { path: '**', redirectTo: '' }

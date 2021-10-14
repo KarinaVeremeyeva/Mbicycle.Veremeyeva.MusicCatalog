@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Performer } from '../_models/performer';
-import  { PerformerService } from '../_services/performer.service';
+import { PerformerService } from '../_services/performer.service';
 
 @Component({
   selector: 'app-performer',
-  templateUrl: './performer.component.html'
+  templateUrl: './performer-list.component.html'
 })
-export class PerformerComponent implements OnInit {
+export class PerformerListComponent implements OnInit {
   public performers: Performer[];
 
   constructor(private service: PerformerService) {

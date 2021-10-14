@@ -32,7 +32,7 @@ export class GenreService {
 
   putGenre(genre: Genre): Observable<Genre> {
     return this.http.put<Genre>(
-      this.web_api_path,
+      this.web_api_path + genre.genreId,
       JSON.stringify(genre),
       this.httpOptions);
   }
