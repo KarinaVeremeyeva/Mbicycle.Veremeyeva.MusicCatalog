@@ -1,1 +1,24 @@
-<p>add-performer works!</p>
+<div class="col-md-6">
+  <div>
+    <h4 class="header">Create performer</h4>
+    <hr>
+    <div *ngIf="!submitted">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" class="form-control" id="name" [(ngModel)]="performer.name" />
+      </div>
+
+      <div class="d-grid gap-2 d-md-block">
+        <button (click)="createPerformer()" class="btn btn-success mr-1">Create performer</button>
+        <a href="#" routerLink="/performers" class="btn btn-secondary">Back to list</a>
+      </div>
+
+      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
+    </div>
+
+    <div *ngIf="submitted">
+      <h6 class="alert alert-success">You successfully created a performer!</h6>
+      <a href="#" routerLink="/performers" class="btn btn-secondary">Back to list</a>
+    </div>
+  </div>
+</div>
