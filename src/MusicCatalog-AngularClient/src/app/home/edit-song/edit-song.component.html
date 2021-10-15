@@ -38,7 +38,7 @@
       </div>
       <div class="form-group">
         <div class="d-grid gap-2 d-md-block">
-          <button class="btn btn-primary mr-1" type="submit">Update song</button>
+          <button [disabled]="!editForm.valid" class="btn btn-primary mr-1" type="submit">Update song</button>
           <a href="#" routerLink="/songs" class="btn btn-secondary">Back to list</a>
         </div>
       </div>

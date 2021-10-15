@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Performer } from '../_models/performer';
-import { PerformerService } from '../_services/performer.service';
+import { Performer } from '../../_models/performer';
+import { PerformerService } from '../../_services/performer.service';
 
 @Component({
   selector: 'app-performer',
