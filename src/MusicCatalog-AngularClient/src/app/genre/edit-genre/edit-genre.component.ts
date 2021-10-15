@@ -10,7 +10,7 @@ import { GenreService } from '../../_services/genre.service';
   templateUrl: './edit-genre.component.html'
 })
 export class EditGenreComponent implements OnInit {
-  currentGenre: Genre = new Genre;
+  currentGenre: Genre = new Genre();
   editForm;
 
   constructor(
@@ -22,7 +22,7 @@ export class EditGenreComponent implements OnInit {
 
   ngOnInit(): void {
     this.editForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      name: ['', Validators.required]
     });
 
     this.currentGenre.genreId = this.route.snapshot.params['id'];
@@ -30,7 +30,8 @@ export class EditGenreComponent implements OnInit {
     this.genreService.getGenre(this.currentGenre.genreId)
       .subscribe((response: Genre) => {
         this.currentGenre = response;
-    });
+        this.editForm.controls["name"].setValue(this.currentGenre.name);
+      });
   }
 
   onSubmit(formData) {
@@ -38,6 +39,6 @@ export class EditGenreComponent implements OnInit {
 
     this.genreService.putGenre(formData.value).subscribe(() => {
         this.router.navigateByUrl('genres').then();
-    })
+    });
   }
 }

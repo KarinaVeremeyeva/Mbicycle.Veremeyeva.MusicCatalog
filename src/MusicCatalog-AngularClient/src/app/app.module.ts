@@ -24,7 +24,7 @@ import { EditUserComponent } from './user/edit-user/edit-user.component';
     RegisterComponent,
     NavMenuComponent,
     UserListComponent,
-    EditUserComponent,
+    EditUserComponent
   ],
   imports: [
     BrowserModule,

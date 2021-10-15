@@ -30,6 +30,8 @@ export class EditAlbumComponent implements OnInit {
 
     this.albumService.getAlbum(this.currentAlbum.albumId).subscribe((response: Album) => {
       this.currentAlbum = response;
+      this.editForm.controls["name"].setValue(this.currentAlbum.name);
+      this.editForm.controls["releaseDate"].setValue(this.currentAlbum.releaseDate);
     });
   }
 

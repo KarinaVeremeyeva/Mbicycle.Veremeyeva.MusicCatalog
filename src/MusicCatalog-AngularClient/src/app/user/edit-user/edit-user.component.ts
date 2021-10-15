@@ -17,7 +17,6 @@ export class EditUserComponent implements OnInit {
   editForm;
   roles: string[] = [];
 
-
   constructor(
     private userService: UserService,
     private authService: AuthService,
@@ -27,7 +26,7 @@ export class EditUserComponent implements OnInit {
   {
     this.editForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      role: ['']
+      role: ['', [Validators.required]]
     });
   }
 
@@ -35,6 +34,8 @@ export class EditUserComponent implements OnInit {
     this.currentUser.id = this.route.snapshot.params['id'];
     this.userService.getUser(this.currentUser.id).subscribe((response: User) => {
       this.currentUser = response;
+      this.editForm.controls["email"].setValue(this.currentUser.email);
+      this.editForm.controls["role"].setValue(this.currentUser.role);
     });
 
     this.populateRolesDropDownList();

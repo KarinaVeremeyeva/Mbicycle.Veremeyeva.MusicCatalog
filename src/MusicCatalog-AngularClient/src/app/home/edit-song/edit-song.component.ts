@@ -35,9 +35,9 @@ export class EditSongComponent implements OnInit {
   {
     this.editForm = this.formBuilder.group({
       name: ['', Validators.required],
-      albumId: [''],
-      genreId: [''],
-      performerId: ['']
+      albumId: ['', Validators.required],
+      genreId: ['', Validators.required],
+      performerId: ['', Validators.required]
     });
   }
 
@@ -45,6 +45,10 @@ export class EditSongComponent implements OnInit {
     this.currentSong.songId = this.route.snapshot.params['id'];
     this.songService.getSong(this.currentSong.songId).subscribe((response: Song) => {
       this.currentSong = response;
+      this.editForm.controls["name"].setValue(this.currentSong.name);
+      this.editForm.controls["albumId"].setValue(this.currentSong.albumId);
+      this.editForm.controls["genreId"].setValue(this.currentSong.genreId);
+      this.editForm.controls["performerId"].setValue(this.currentSong.performerId);
     });
 
     this.populateDropDownList();

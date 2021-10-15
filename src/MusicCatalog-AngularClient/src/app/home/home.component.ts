@@ -1,5 +1,5 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService} from "ngx-bootstrap/modal";
+import { BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
 
 import { Song } from '../_models/song';
 import { SongService } from '../_services/song.service';
