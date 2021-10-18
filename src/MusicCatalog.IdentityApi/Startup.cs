@@ -92,7 +92,7 @@ namespace MusicCatalog.IdentityApi
                         builder.AllowAnyOrigin()
                                .AllowAnyHeader()
                                .AllowAnyMethod()
-                               .WithExposedHeaders("Authorization", "Authorization-roles");
+                               .WithExposedHeaders("Authorization");
                     });
             });
 

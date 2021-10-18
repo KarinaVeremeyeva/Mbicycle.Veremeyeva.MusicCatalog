@@ -3,12 +3,14 @@ import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
+import jwt_decode from 'jwt-decode';
 
 import { LoginUser } from '../_models/login-user';
 import { RegisterUser } from '../_models/register-user';
 import { AuthUser } from '../_models/auth-user';
 
 const TOKEN_KEY = 'jwt-token';
+const USER_KEY = 'current-user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -29,7 +31,7 @@ export class AuthService {
     private cookieService: CookieService)
   {
     this.currentUserSubject = new BehaviorSubject<AuthUser>(
-      JSON.parse(<string>localStorage.getItem('currentUser')));
+      JSON.parse(<string>localStorage.getItem(USER_KEY)));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -46,9 +48,8 @@ export class AuthService {
       this.httpOptions)
       .pipe(map(res => {
         const token = res.headers.get('Authorization');
-        const role = res.headers.get('Authorization-roles');
         if (token != null) {
-          const currentUser = this.authorizeHandle(token, { email: user.email, role: role });
+          const currentUser = this.authorizeHandle(token);
           this.currentUserSubject.next(currentUser);
         }
         return res;
@@ -63,34 +64,38 @@ export class AuthService {
       this.httpOptions)
       .pipe(map(res => {
         const token = res.headers.get('Authorization');
-        user.role = res.headers.get('Authorization-roles');
         if (token != null) {
-          const currentUser = this.authorizeHandle(token, user)
+          const currentUser = this.authorizeHandle(token)
           this.currentUserSubject.next(currentUser);
         }
         return res;
       }));
   }
 
-  private authorizeHandle(token, user): AuthUser {
+  private authorizeHandle(token): AuthUser {
     this.setCookie(TOKEN_KEY, token);
+    const decodedToken = jwt_decode<string>(token);
+    const decodedEmail = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
+    const decodedRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+    //const userFromToken = JSON.stringify({ role: decodedRole, email: decodedEmail });
     const currentUser: AuthUser = {
-      email: user.email,
-      role: user.role,
+      email: decodedEmail,
+      role: decodedRole,
       token: token
     };
-    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+    localStorage.setItem(USER_KEY, JSON.stringify(currentUser));
+
     return currentUser;
   }
 
   // Sends get-request the api for logging out
   logOut() {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem(USER_KEY);
+    this.cookieService.delete(TOKEN_KEY);
 
-    this.cookieService.deleteAll();
     let user: any = null;
     this.currentUserSubject.next(user);
-    return this.http.get(this.auth_api_path + 'logout');
+    this.http.get(this.auth_api_path + 'logout');
   }
 
   //Gets all role names

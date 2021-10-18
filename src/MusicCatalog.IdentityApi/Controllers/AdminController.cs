@@ -12,7 +12,7 @@ namespace MusicCatalog.IdentityApi.Controllers
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "admin")]
     public class AdminController : ControllerBase
     {
         /// <summary>

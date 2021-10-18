@@ -11,27 +11,21 @@ const TOKEN_KEY = 'jwt-token';
 })
 export class NavMenuComponent implements OnInit {
   isExpanded = false;
-  isLoggedIn = false;
   currentUser: AuthUser = new AuthUser();
 
   constructor(private authService: AuthService)
   { }
 
   ngOnInit(): void {
-    this.isLoggedIn = !!this.authService.getToken(TOKEN_KEY);
+    this.authService.currentUser.subscribe(x => this.currentUser = x)
+  }
 
-    if (this.isLoggedIn) {
-      this.authService.currentUser.subscribe(x => this.currentUser = x)
-      console.log('isLoggedIn', this.isLoggedIn);
-      //this.authService.currentUserValue.next(true);
-
-      console.log('app-component', this.currentUser)
-    }
+  get isAdmin() {
+    return this.currentUser && this.currentUser.role === 'admin';
   }
 
   logout(): void {
     this.authService.logOut();
-    this.isLoggedIn = false;
   }
 
   toggle() {

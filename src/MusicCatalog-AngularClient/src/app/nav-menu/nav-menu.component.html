@@ -17,9 +17,15 @@
           </li>
         </ul>
 
-        <ul class="navbar-nav ml-auto" *ngIf="currentUser">
+        <ul class="navbar-nav ml-auto" *ngIf="currentUser" >
           <li class="nav-item">
-            <a class="nav-link" routerLink="/users">Sign in as {{ currentUser.email }}</a>
+            <a class="nav-link">Sign in as {{ currentUser.email }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-info">{{ currentUser.role }}</a>
+          </li>
+          <li class="nav-item" *ngIf="isAdmin">
+            <a class="nav-link text-info" routerLink="/users">Users</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" (click)="logout()">LogOut</a>

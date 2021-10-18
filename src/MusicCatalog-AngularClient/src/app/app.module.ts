@@ -14,8 +14,7 @@ import { RegisterComponent } from './register/register.component';
 import { NavMenuComponent } from  './nav-menu/nav-menu.component'
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-import { UserListComponent } from './user/user-list/user-list.component';
-import { EditUserComponent } from './user/edit-user/edit-user.component';
+
 
 @NgModule({
   declarations: [
@@ -23,8 +22,7 @@ import { EditUserComponent } from './user/edit-user/edit-user.component';
     LoginComponent,
     RegisterComponent,
     NavMenuComponent,
-    UserListComponent,
-    EditUserComponent
+
   ],
   imports: [
     BrowserModule,
