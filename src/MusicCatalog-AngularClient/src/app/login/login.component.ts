@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { HttpResponse } from '@angular/common/http';
 
 import { AuthService } from '../_services/auth.service';
 import { LoginUser } from '../_models/login-user';
@@ -53,11 +52,7 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(user)
       .pipe(first())
       .subscribe(
-        (data: HttpResponse<LoginUser>) => {
-          const keys = data.headers.keys();
-          const headers = keys.map(key => `${key}: ${data.headers.get(key)}`);
-          console.table(headers);
-
+        () => {
           const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
           this.router.navigate([returnUrl]).then();
           },

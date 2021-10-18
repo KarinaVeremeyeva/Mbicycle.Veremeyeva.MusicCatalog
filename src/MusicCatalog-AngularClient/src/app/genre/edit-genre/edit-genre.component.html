@@ -13,7 +13,7 @@
 
         <div class="form-group">
           <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-primary mr-1" type="submit">Update genre</button>
+            <button [disabled]="!editForm.valid" class="btn btn-primary mr-1" type="submit">Update genre</button>
             <a href="#" routerLink="/genres" class="btn btn-secondary">Back to list</a>
           </div>
         </div>
