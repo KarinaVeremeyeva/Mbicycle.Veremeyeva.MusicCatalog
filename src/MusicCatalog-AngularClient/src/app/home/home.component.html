@@ -15,9 +15,9 @@
       <thead>
       <tr>
         <th>Name</th>
+        <th>Album</th>
         <th>Genre</th>
         <th>Performer</th>
-        <th>Album</th>
         <th></th>
       </tr>
       </thead>
@@ -25,8 +25,8 @@
       <tr *ngFor="let song of songs">
         <td>{{song.name}}</td>
         <td>{{song.albumName}}</td>
-        <td>{{song.performerName}}</td>
         <td>{{song.genreName}}</td>
+        <td>{{song.performerName}}</td>
         <td class="text-center">
           <button class="btn btn-primary mr-1" [routerLink]="['/songs/', song.songId, 'edit']">Edit</button>
           <button class="btn btn-danger" (click)="confirmDeleteModal(template, song.songId)">Delete</button>
