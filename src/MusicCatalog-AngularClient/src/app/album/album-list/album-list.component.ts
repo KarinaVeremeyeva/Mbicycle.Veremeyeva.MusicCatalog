@@ -19,7 +19,8 @@ export class AlbumListComponent implements OnInit {
 
   constructor(
     private albumService: AlbumService,
-    private modalService: BsModalService) {
+    private modalService: BsModalService)
+  {
     this.albums = [];
   }
 

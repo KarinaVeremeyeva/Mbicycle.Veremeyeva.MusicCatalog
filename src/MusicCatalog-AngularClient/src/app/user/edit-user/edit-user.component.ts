@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { User } from '../../_models/user';
@@ -11,11 +11,11 @@ import { AuthService } from "../../_services/auth.service";
   templateUrl: './edit-user.component.html'
 })
 export class EditUserComponent implements OnInit {
+  editForm: FormGroup;
   currentUser: User = new User();
+  roles: string[] = [];
   submitted = false;
   errorMessage = '';
-  editForm;
-  roles: string[] = [];
 
   constructor(
     private userService: UserService,
@@ -41,12 +41,17 @@ export class EditUserComponent implements OnInit {
     this.populateRolesDropDownList();
   }
 
-  onSubmit(formData): void {
-    formData.value.id = this.currentUser.id;
+  get formField() { return this.editForm.controls; }
 
+  onSubmit(formData): void {
+    this.submitted = true;
+    if (this.editForm.invalid) {
+      return;
+    }
+
+    formData.value.id = this.currentUser.id;
     this.userService.putUser(formData.value)
       .subscribe(() => {
-        this.submitted = true;
         this.router.navigateByUrl('users').then();
       });
   }

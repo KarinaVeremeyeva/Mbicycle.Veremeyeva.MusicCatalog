@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Genre } from '../../_models/genre';
@@ -11,22 +11,22 @@ import { GenreService } from '../../_services/genre.service';
 })
 export class EditGenreComponent implements OnInit {
   currentGenre: Genre = new Genre();
-  editForm;
+  editForm: FormGroup;
+  submitted = false;
 
   constructor(
     private genreService: GenreService,
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder)
-  { }
+  {
+    this.editForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]]
+    });
+  }
 
   ngOnInit(): void {
-    this.editForm = this.formBuilder.group({
-      name: ['', Validators.required]
-    });
-
     this.currentGenre.genreId = this.route.snapshot.params['id'];
-
     this.genreService.getGenre(this.currentGenre.genreId)
       .subscribe((response: Genre) => {
         this.currentGenre = response;
@@ -34,9 +34,15 @@ export class EditGenreComponent implements OnInit {
       });
   }
 
-  onSubmit(formData) {
-    formData.value.genreId = this.currentGenre.genreId;
+  get formField() { return this.editForm.controls; }
 
+  onSubmit(formData) {
+    this.submitted = true;
+    if (this.editForm.invalid) {
+      return;
+    }
+
+    formData.value.genreId = this.currentGenre.genreId;
     this.genreService.putGenre(formData.value).subscribe(() => {
         this.router.navigateByUrl('genres').then();
     });

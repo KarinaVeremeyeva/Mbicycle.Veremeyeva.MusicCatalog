@@ -2,27 +2,29 @@
   <div>
     <h4 class="header">Create album</h4>
     <hr>
-    <div *ngIf="!submitted">
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" class="form-control" id="name" [(ngModel)]="album.name" />
+        <input type="text" formControlName="name" class="form-control" id="name"
+               [ngClass]="{ 'is-invalid': submitted && formField.name.errors }"/>
+        <div *ngIf="formField.name.errors" class="invalid-feedback">
+          <div *ngIf="formField.name.errors?.required">Name is required</div>
+          <div *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
+        </div>
       </div>
       <div class="form-group">
         <label for="releaseDate">Release date</label>
-        <input type="date" class="form-control" id="releaseDate" [(ngModel)]="album.releaseDate" />
+        <input type="date" formControlName="releaseDate" class="form-control" id="releaseDate"
+               [ngClass]="{ 'is-invalid': submitted && formField.releaseDate.errors }"/>
+        <div *ngIf="formField.releaseDate.errors" class="invalid-feedback">
+          <div *ngIf="formField.releaseDate.errors?.required">Release date is required</div>
+        </div>
       </div>
 
       <div class="d-grid gap-2 d-md-block">
-        <button (click)="createAlbum()" class="btn btn-success mr-1">Create album</button>
+        <button type="submit" class="btn btn-success mr-1">Create album</button>
         <a href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
       </div>
-
-      <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
-    </div>
-
-    <div *ngIf="submitted">
-      <h6 class="alert alert-success">You successfully created an album!</h6>
-      <a href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
-    </div>
+    </form>
   </div>
 </div>

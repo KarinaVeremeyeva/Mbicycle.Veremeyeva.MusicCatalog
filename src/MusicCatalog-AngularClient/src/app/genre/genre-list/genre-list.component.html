@@ -21,10 +21,21 @@
         <td>{{ genre.name }}</td>
         <td class="text-center">
           <button class="btn btn-primary mr-1" [routerLink]="['/genres/', genre.genreId, 'edit']">Edit</button>
-          <button class="btn btn-danger">Delete</button>
+          <button class="btn btn-danger" (click)="confirmDeleteModal(template, genre.genreId)">Delete</button>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
 </div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Confirm delete genre</h4>
+  </div>
+  <div class="modal-body text-center">
+    <p>Are you sure you want to delete this genre?</p>
+    <button type="button" class="btn btn-secondary mr-1" (click)="confirm()">Yes</button>
+    <button type="button" class="btn btn-primary" (click)="decline()">No</button>
+  </div>
+</ng-template>

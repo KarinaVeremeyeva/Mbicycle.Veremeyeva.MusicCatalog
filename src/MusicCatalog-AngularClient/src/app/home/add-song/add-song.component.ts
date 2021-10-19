@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+
 import { Song } from '../../_models/song';
 import { SongService } from '../../_services/song.service';
 import { GenreService} from '../../_services/genre.service';
 import { AlbumService} from '../../_services/album.service';
 import { PerformerService} from '../../_services/performer.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Album} from '../../_models/album';
 import { Performer } from '../../_models/performer';
 import { Genre} from '../../_models/genre';
@@ -14,10 +16,9 @@ import { Genre} from '../../_models/genre';
   templateUrl: './add-song.component.html'
 })
 export class AddSongComponent implements OnInit {
-  song: Song | undefined;
-  submitted = false;
-  errorMessage = '';
+  song: Song = new Song();
   createForm: FormGroup;
+  submitted = false;
   albums: Album[] = [];
   genres: Genre[] = [];
   performers: Performer[] = [];
@@ -27,10 +28,11 @@ export class AddSongComponent implements OnInit {
     private albumService: AlbumService,
     private genreService: GenreService,
     private performerService: PerformerService,
+    private router: Router,
     private formBuilder: FormBuilder)
   {
     this.createForm = this.formBuilder.group({
-      name: ['', [Validators.required]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       albumId: ['', [Validators.required]],
       genreId: ['', [Validators.required]],
       performerId: ['', [Validators.required]]
@@ -41,14 +43,17 @@ export class AddSongComponent implements OnInit {
     this.populateDropDownList();
   }
 
+  get formField() { return this.createForm.controls; }
+
   onSubmit(formData): void {
-    this.songService.postSong(formData.value)
-      .subscribe(() => {
-        this.submitted = true;
-      },
-          err => {
-        this.errorMessage = err;
-      });
+    this.submitted = true;
+    if (this.createForm.invalid) {
+      return;
+    }
+
+    this.songService.postSong(formData.value).subscribe(() => {
+      this.router.navigateByUrl('songs').then();
+    });
   }
 
   private populateDropDownList() {

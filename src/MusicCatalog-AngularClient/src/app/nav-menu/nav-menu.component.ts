@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AuthService } from '../_services/auth.service';
 import { AuthUser } from '../_models/auth-user';
-
-const TOKEN_KEY = 'jwt-token';
 
 @Component({
   selector: 'app-nav-menu',
@@ -13,7 +13,9 @@ export class NavMenuComponent implements OnInit {
   isExpanded = false;
   currentUser: AuthUser = new AuthUser();
 
-  constructor(private authService: AuthService)
+  constructor(
+    private authService: AuthService,
+    private router: Router)
   { }
 
   ngOnInit(): void {
@@ -26,6 +28,7 @@ export class NavMenuComponent implements OnInit {
 
   logout(): void {
     this.authService.logOut();
+    this.router.navigate(['/']).then();
   }
 
   toggle() {

@@ -7,7 +7,12 @@
 
       <div class="form-group">
         <label for="name">Name</label>
-        <input type="text" formControlName="name" id="name" class="form-control" />
+        <input type="text" formControlName="name" id="name" class="form-control"
+               [ngClass]="{ 'is-invalid': submitted && formField.name.errors }"/>
+        <div *ngIf="formField.name.errors" class="invalid-feedback">
+          <div *ngIf="formField.name.errors?.required">Name is required</div>
+          <div *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
+        </div>
       </div>
       <div class="form-group">
         <label for="albumId">Album</label>
@@ -35,12 +40,11 @@
       </div>
       <div class="form-group">
         <div class="d-grid gap-2 d-md-block">
-          <button [disabled]="!editForm.valid" class="btn btn-primary mr-1" type="submit">Update song</button>
+          <button class="btn btn-primary mr-1" type="submit">Update song</button>
           <a href="#" routerLink="/songs" class="btn btn-secondary">Back to list</a>
         </div>
       </div>
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>
-
     </form>
   </div>
 </div>

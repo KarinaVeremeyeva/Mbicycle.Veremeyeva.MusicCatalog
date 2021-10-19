@@ -24,7 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           errorMessage = `Error ${error.status}\nMessage: ${error.message}`
         }
         if (error.status === 401 || error.status === 403) {
-          //this.authService.logOut();
+          this.authService.logOut();
         }
         console.log(errorMessage);
         return throwError(errorMessage);

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Genre } from '../../_models/genre';
 import { GenreService } from '../../_services/genre.service';
@@ -9,21 +11,32 @@ import { GenreService } from '../../_services/genre.service';
 })
 export class AddGenreComponent implements OnInit {
   genre: Genre = new Genre();
+  createForm: FormGroup;
   submitted = false;
-  errorMessage = '';
 
-  constructor(private genreService: GenreService) { }
-
-  ngOnInit(): void {
+  constructor(
+    private genreService: GenreService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private formBuilder: FormBuilder)
+  {
+    this.createForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+    });
   }
 
-  createGenre(): void {
-    this.genreService.postGenre(this.genre)
-      .subscribe(() => {
-        this.submitted = true;
-      },
-      err => {
-        this.errorMessage = err;
-      });
+  ngOnInit(): void { }
+
+  get formField() { return this.createForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.createForm.invalid) {
+      return;
+    }
+
+    this.genreService.postGenre(this.genre).subscribe(() => {
+      this.router.navigateByUrl('genres').then();
+    });
   }
 }

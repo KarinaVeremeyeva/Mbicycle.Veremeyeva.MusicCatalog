@@ -17,12 +17,12 @@ import { Genre } from '../../_models/genre';
 })
 export class EditSongComponent implements OnInit {
   currentSong: Song = new Song();
-  submitted = false;
-  errorMessage = '';
   editForm: FormGroup;
   albums: Album[] = [];
   genres: Genre[] = [];
   performers: Performer[] = [];
+  submitted = false;
+  errorMessage = '';
 
   constructor(
     private songService: SongService,
@@ -34,10 +34,10 @@ export class EditSongComponent implements OnInit {
     private router: Router)
   {
     this.editForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      albumId: ['', Validators.required],
-      genreId: ['', Validators.required],
-      performerId: ['', Validators.required]
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      albumId: ['', [Validators.required]],
+      genreId: ['', [Validators.required]],
+      performerId: ['', [Validators.required]]
     });
   }
 
@@ -54,12 +54,17 @@ export class EditSongComponent implements OnInit {
     this.populateDropDownList();
   }
 
+  get formField() { return this.editForm.controls; }
+
   onSubmit(formData): void {
+    this.submitted = true;
+    if (this.editForm.invalid) {
+      return;
+    }
     formData.value.songId = this.currentSong.songId;
 
     this.songService.putSong(formData.value)
       .subscribe(() => {
-        this.submitted = true;
         this.router.navigateByUrl('songs').then();
       });
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { ActivatedRoute, Router} from '@angular/router';
 
 import { Performer } from '../../_models/performer';
@@ -11,22 +11,23 @@ import { PerformerService } from '../../_services/performer.service';
 })
 export class EditPerformerComponent implements OnInit {
   currentPerformer: Performer = new Performer();
-  editForm;
+  editForm: FormGroup;
+  submitted = false;
 
   constructor(
     private performerService: PerformerService,
     private route: ActivatedRoute,
     private router: Router,
     private formBuilder: FormBuilder
-  ) { }
+  )
+  {
+    this.editForm = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]]
+    });
+  }
 
   ngOnInit(): void {
-    this.editForm = this.formBuilder.group({
-      name: ['', Validators.required]
-    });
-
     this.currentPerformer.performerId = this.route.snapshot.params['id'];
-
     this.performerService.getPerformer(this.currentPerformer.performerId)
       .subscribe((response: Performer) => {
         this.currentPerformer = response;
@@ -34,9 +35,15 @@ export class EditPerformerComponent implements OnInit {
       });
   }
 
-  onSubmit(formData) {
-    formData.value.performerId = this.currentPerformer.performerId;
+  get formField() { return this.editForm.controls; }
 
+  onSubmit(formData) {
+    this.submitted = true;
+    if (this.editForm.invalid) {
+      return;
+    }
+
+    formData.value.performerId = this.currentPerformer.performerId;
     this.performerService.putPerformer(formData.value).subscribe(() => {
       this.router.navigateByUrl('performers').then();
     });
