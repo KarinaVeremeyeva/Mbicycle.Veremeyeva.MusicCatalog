@@ -21,8 +21,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    NavMenuComponent,
-
+    NavMenuComponent
   ],
   imports: [
     BrowserModule,

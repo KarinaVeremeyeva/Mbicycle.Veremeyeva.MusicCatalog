@@ -11,6 +11,12 @@
       <div *ngIf="loading" class="spinner-border spinner-border-lf text-info"></div>
     </div>
 
+    <div class="form-group">
+      <label for="search-text">Search by name:</label>
+      <input type="text" class="form-control col-md-6" id="search-text"
+             [(ngModel)]="searchText" placeholder="Enter song name to search" autofocus>
+    </div>
+
     <table class="table" *ngIf="songs">
       <thead>
       <tr>
@@ -22,7 +28,7 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let song of songs">
+      <tr *ngFor="let song of songs | filter:searchText">
         <td>{{song.name}}</td>
         <td>{{song.albumName}}</td>
         <td>{{song.genreName}}</td>

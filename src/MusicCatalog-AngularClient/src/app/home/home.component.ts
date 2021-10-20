@@ -11,6 +11,8 @@ import { SongService } from '../_services/song.service';
 export class HomeComponent implements OnInit {
   loading = false;
   songs: Song[] = [];
+  searchText: any;
+
   modalRef: BsModalRef = new BsModalRef<any>();
   idToBeDeleted!: number;
   config = {
