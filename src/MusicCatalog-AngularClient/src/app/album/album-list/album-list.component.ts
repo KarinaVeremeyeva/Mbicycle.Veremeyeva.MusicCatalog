@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Component, OnInit } from '@angular/core';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import { ModalComponent } from '../../modal/modal.component';
 
 import { Album } from '../../_models/album';
 import { AlbumService } from '../../_services/album.service';
@@ -10,16 +11,11 @@ import { AlbumService } from '../../_services/album.service';
 })
 export class AlbumListComponent implements OnInit {
   public albums: Album[];
-  modalRef: BsModalRef = new BsModalRef<any>();
-  idToBeDeleted!: number;
-  message: string | undefined;
-  config = {
-    class: 'modal-sm modal-dialog-centered'
-  }
+  dialogRef!: MatDialogRef<ModalComponent>;
 
   constructor(
     private albumService: AlbumService,
-    private modalService: BsModalService)
+    public dialog: MatDialog)
   {
     this.albums = [];
   }
@@ -34,26 +30,19 @@ export class AlbumListComponent implements OnInit {
     });
   }
 
-  confirmDeleteModal(template: TemplateRef<any>, id: any){
-    this.modalRef = this.modalService.show(template, this.config);
-    this.idToBeDeleted = id;
-  }
+  openDialog(id: number): void {
+    this.dialogRef = this.dialog.open(ModalComponent, {
+      width: '350px',
+      data: 'Are you sure you want to delete this album?'
+    });
 
-  confirm(): void {
-    this.message = 'Confirmed!';
-    this.modalRef.hide();
-    this.deleteAlbum();
-  }
-
-  deleteAlbum():void{
-    this.albumService.deleteAlbum(this.idToBeDeleted).subscribe(() => {
-      this.albums = this.albums.filter(item => item.albumId !== this.idToBeDeleted);
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Yes clicked');
+        this.albumService.deleteAlbum(id).subscribe(() => {
+          this.albums = this.albums.filter(item => item.albumId !== id);
+        });
+      }
     })
-    console.log(`Album with id = ${this.idToBeDeleted} was deleted`);
-  }
-
-  decline(): void {
-    this.message = 'Declined!';
-    this.modalRef.hide();
   }
 }

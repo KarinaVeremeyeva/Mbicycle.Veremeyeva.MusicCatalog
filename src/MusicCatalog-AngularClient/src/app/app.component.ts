@@ -23,6 +23,5 @@ export class AppComponent implements OnInit{
 
   logout(): void {
     this.authService.logOut();
-    //window.location.reload();
   }
 }

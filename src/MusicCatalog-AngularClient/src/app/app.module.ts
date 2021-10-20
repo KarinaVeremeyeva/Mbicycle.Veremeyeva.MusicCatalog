@@ -14,17 +14,24 @@ import { RegisterComponent } from './register/register.component';
 import { NavMenuComponent } from  './nav-menu/nav-menu.component'
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
-
+import { ModalComponent } from './modal/modal.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    NavMenuComponent
+    NavMenuComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
     ReactiveFormsModule,
     AppRoutingModule,
     FormsModule,
@@ -36,6 +43,7 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     CookieService
   ],
+  entryComponents: [ModalComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
