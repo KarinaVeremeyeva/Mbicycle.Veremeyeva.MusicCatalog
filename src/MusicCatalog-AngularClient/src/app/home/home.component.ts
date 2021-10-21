@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService} from 'ngx-bootstrap/modal';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../modal/modal.component';
 
 import { Song } from '../_models/song';
 import { SongService } from '../_services/song.service';
@@ -13,15 +14,9 @@ export class HomeComponent implements OnInit {
   songs: Song[] = [];
   searchText: any;
 
-  modalRef: BsModalRef = new BsModalRef<any>();
-  idToBeDeleted!: number;
-  config = {
-    class: 'modal-sm modal-dialog-centered'
-  }
-
   constructor(
     private songService: SongService,
-    private modalService: BsModalService) { }
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loading = true;
@@ -31,24 +26,21 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  confirmDeleteModal(template: TemplateRef<any>, id: any){
-    this.modalRef = this.modalService.show(template, this.config);
-    this.idToBeDeleted = id;
-  }
-
-  confirm(): void {
-    this.modalRef.hide();
-    this.deleteSong();
-  }
-
-  deleteSong():void{
-    this.songService.deleteSong(this.idToBeDeleted).subscribe(() => {
-      this.songs = this.songs.filter(item => item.songId !== this.idToBeDeleted);
+  deleteSong(id: number): void {
+    this.songService.deleteSong(id).subscribe(() => {
+      this.songs = this.songs.filter(item => item.songId !== id);
     });
-    console.log(`Song with id = ${this.idToBeDeleted} was deleted`);
   }
 
-  decline(): void {
-    this.modalRef.hide();
+  openDialog(id: number): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: 'Are you sure you want to delete this song?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteSong(id);
+      }
+    });
   }
 }

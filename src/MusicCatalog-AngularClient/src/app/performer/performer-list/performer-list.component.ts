@@ -1,5 +1,6 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../../modal/modal.component';
 
 import { Performer } from '../../_models/performer';
 import { PerformerService } from '../../_services/performer.service';
@@ -9,17 +10,11 @@ import { PerformerService } from '../../_services/performer.service';
   templateUrl: './performer-list.component.html'
 })
 export class PerformerListComponent implements OnInit {
-  public performers: Performer[];
-  modalRef: BsModalRef = new BsModalRef<any>();
-  idToBeDeleted!: number;
-  message: string | undefined;
-  config = {
-    class: 'modal-sm modal-dialog-centered'
-  }
+  performers: Performer[];
 
   constructor(
     private performerService: PerformerService,
-    private modalService: BsModalService)
+    public dialog: MatDialog)
   {
     this.performers = [];
   }
@@ -31,29 +26,24 @@ export class PerformerListComponent implements OnInit {
   getPerformerList() {
     this.performerService.getPerformers().subscribe(response => {
       this.performers = response;
-    })
+    });
   }
 
-  confirmDeleteModal(template: TemplateRef<any>, id: any){
-    this.modalRef = this.modalService.show(template, this.config);
-    this.idToBeDeleted = id;
+  deletePerformer(id: number): void {
+    this.performerService.deletePerformer(id).subscribe(() => {
+      this.performers = this.performers.filter(item => item.performerId !== id);
+    });
   }
 
-  confirm(): void {
-    this.message = 'Confirmed!';
-    this.modalRef.hide();
-    this.deletePerformer();
-  }
+  openDialog(id: number): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: 'Are you sure you want to delete this performer?'
+    });
 
-  deletePerformer():void{
-    this.performerService.deletePerformer(this.idToBeDeleted).subscribe(() => {
-      this.performers = this.performers.filter(item => item.performerId !== this.idToBeDeleted);
-    })
-    console.log(`Performer with id = ${this.idToBeDeleted} was deleted`);
-  }
-
-  decline(): void {
-    this.message = 'Declined!';
-    this.modalRef.hide();
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deletePerformer(id);
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit, TemplateRef} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
-import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from '../../modal/modal.component';
 
 import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
@@ -11,19 +12,15 @@ import { AuthUser } from "../../_models/auth-user";
   selector: 'app-user',
   templateUrl: './user-list.component.html'
 })
-export class UserListComponent implements OnInit, OnDestroy {
+export class UserListComponent implements OnInit {
   users: User[] = [];
   currentUser: AuthUser = new AuthUser();
   loading = false;
-  modalRef: BsModalRef = new BsModalRef<any>();
-  idToBeDeleted!: string;
-  config = {
-    class: 'modal-sm modal-dialog-centered'
-  }
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private modalService: BsModalService)
+    private dialog: MatDialog)
   {
     this.authService.currentUser.subscribe(user => {
       this.currentUser = user;
@@ -35,10 +32,6 @@ export class UserListComponent implements OnInit, OnDestroy {
     this.loadUsers()
   }
 
-  ngOnDestroy() {
-    //this.currentUserSubscription.unsubscribe();
-  }
-
   private loadUsers() {
     this.userService.getUsers().pipe(first()).subscribe(users => {
       this.loading = false;
@@ -46,24 +39,21 @@ export class UserListComponent implements OnInit, OnDestroy {
     });
   }
 
-  confirmDeleteModal(template: TemplateRef<any>, id: any){
-    this.modalRef = this.modalService.show(template, this.config);
-    this.idToBeDeleted = id;
-  }
-
-  confirm(): void {
-    this.modalRef.hide();
-    this.deleteUser();
-  }
-
-  deleteUser():void{
-    this.userService.deleteUser(this.idToBeDeleted).subscribe(() => {
-      this.users = this.users.filter(item => item.id !== this.idToBeDeleted);
+  deleteUser(id: string): void {
+    this.userService.deleteUser(id).subscribe(() => {
+      this.users = this.users.filter(item => item.id !== id);
     });
-    console.log(`User with id = ${this.idToBeDeleted} was deleted`);
   }
 
-  decline(): void {
-    this.modalRef.hide();
+  openDialog(id: string): void {
+    const dialogRef = this.dialog.open(ModalComponent, {
+      data: 'Are you sure you want to delete this user?'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteUser(id);
+      }
+    });
   }
 }
