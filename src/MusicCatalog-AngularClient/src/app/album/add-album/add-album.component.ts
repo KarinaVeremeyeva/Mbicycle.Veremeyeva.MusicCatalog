@@ -30,13 +30,13 @@ export class AddAlbumComponent implements OnInit {
 
   get formField() { return this.createForm.controls; }
 
-  onSubmit() {
+  onSubmit(formData): void {
     this.submitted = true;
     if (this.createForm.invalid) {
       return;
     }
 
-    this.albumService.postAlbum(this.album).subscribe( () => {
+    this.albumService.postAlbum(formData.value).subscribe( () => {
       this.router.navigateByUrl('albums').then();
     });
   }

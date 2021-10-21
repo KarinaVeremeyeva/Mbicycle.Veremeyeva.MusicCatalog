@@ -29,13 +29,13 @@ export class AddPerformerComponent implements OnInit {
 
   get formField() { return this.createForm.controls; }
 
-  onSubmit() {
+  onSubmit(formData): void {
     this.submitted = true;
     if (this.createForm.invalid) {
       return;
     }
 
-    this.performerService.postPerformer(this.performer).subscribe(() => {
+    this.performerService.postPerformer(formData.value).subscribe(() => {
       this.router.navigateByUrl('performers').then();
     });
   }
