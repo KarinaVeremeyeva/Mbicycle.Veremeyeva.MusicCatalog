@@ -1,15 +1,15 @@
 <div class="card mt-4">
-  <h4 class="card-header">Songs list</h4>
+  <h4 i18n="main header|component header@@list-name" class="card-header">Songs list</h4>
   <div class="card-body">
-    <h6>Songs from protected api end point</h6>
+    <h6 i18n="description|component description@@description">Songs from protected api end point</h6>
     <hr>
     <div class="form-group">
-      <a routerLink="/songs/add-song" class="btn btn-primary">Create song</a>
+      <a i18n i18n-href i18n-title routerLink="/songs/add-song" class="btn btn-primary">Create song</a>
     </div>
 
     <div class="form-group">
-      <label for="search-text">Search by name:</label>
-      <input type="text" class="form-control col-md-6" id="search-text"
+      <label i18n="search name label|label" for="search-text">Search by name:</label>
+      <input i18n-placeholder="@@placeholder" type="text" class="form-control col-md-6" id="search-text"
              [(ngModel)]="searchText" placeholder="Enter song name to search" autofocus>
     </div>
 
@@ -20,10 +20,10 @@
     <table class="table" *ngIf="songs && !loading">
       <thead>
       <tr>
-        <th>Name</th>
-        <th>Album</th>
-        <th>Genre</th>
-        <th>Performer</th>
+        <th i18n="@@song-name">Name</th>
+        <th i18n="@@album-name">Album</th>
+        <th i18n="@@genre-name">Genre</th>
+        <th i18n="@@performer-name">Performer</th>
         <th></th>
       </tr>
       </thead>
@@ -34,8 +34,8 @@
         <td>{{song.genreName}}</td>
         <td>{{song.performerName}}</td>
         <td class="text-center">
-          <button class="btn btn-primary mr-1" [routerLink]="['/songs/', song.songId, 'edit']">Edit</button>
-          <button class="btn btn-danger" (click)="openDialog(song.songId)">Delete</button>
+          <button i18n="@@btn-edit" class="btn btn-primary mr-1" [routerLink]="['/songs/', song.songId, 'edit']">Edit</button>
+          <button i18n="@@btn-delete" class="btn btn-danger" (click)="openDialog(song.songId)">Delete</button>
         </td>
       </tr>
       </tbody>

@@ -77,7 +77,7 @@ export class AuthService {
     const decodedToken = jwt_decode<string>(token);
     const decodedEmail = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
     const decodedRole = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-    //const userFromToken = JSON.stringify({ role: decodedRole, email: decodedEmail });
+
     const currentUser: AuthUser = {
       email: decodedEmail,
       role: decodedRole,

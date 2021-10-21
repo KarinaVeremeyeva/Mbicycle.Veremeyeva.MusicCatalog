@@ -13,11 +13,17 @@
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "ru": "src/i18n/messages.ru.xlf"
+        }
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/MusicCatalog-AngularClient",
+            "outputPath": "dist/",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -33,6 +39,9 @@
             "scripts": []
           },
           "configurations": {
+            "ru": {
+              "localize": ["ru"]
+            },
             "production": {
               "budgets": [
                 {
@@ -73,6 +82,9 @@
             },
             "development": {
               "browserTarget": "MusicCatalog-AngularClient:build:development"
+            },
+            "ru": {
+              "browserTarget": "MusicCatalog-AngularClient:build:ru"
             }
           },
           "defaultConfiguration": "development"

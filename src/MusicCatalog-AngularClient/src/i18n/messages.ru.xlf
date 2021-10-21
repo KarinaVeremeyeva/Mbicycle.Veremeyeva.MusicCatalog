@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en-US" target-language="ru" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="list-name" datatype="html">
+        <source>Songs list</source>
+        <target>Список песен</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+        <note priority="1" from="description">component header</note>
+        <note priority="1" from="meaning">main header</note>
+      </trans-unit>
+      <trans-unit id="description" datatype="html">
+        <source>Songs from protected api end point</source>
+        <target>Песни от защищённого api</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">component description</note>
+        <note priority="1" from="meaning">description</note>
+      </trans-unit>
+      <trans-unit id="9180045414157627095" datatype="html">
+        <source>Create song</source>
+        <target>Создать песню</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/home.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+       </trans-unit>
+       <trans-unit id="8648917131058334151" datatype="html">
+          <source>Search by name:</source>
+          <target>Поиск по имени:</target>
+          <context-group purpose="location">
+            <context context-type="sourcefile">src/app/home/home.component.html</context>
+            <context context-type="linenumber">11</context>
+          </context-group>
+          <note priority="1" from="description">label</note>
+          <note priority="1" from="meaning">search name label</note>
+        </trans-unit>
+        <trans-unit id="placeholder" datatype="html">
+          <source>Enter song name to search</source>
+          <target>Введите имя песни для поиска</target>
+          <context-group purpose="location">
+            <context context-type="sourcefile">src/app/home/home.component.html</context>
+            <context context-type="linenumber">13</context>
+           </context-group>
+        </trans-unit>
+        <trans-unit id="song-name" datatype="html">
+          <source>Name</source>
+          <target>Название</target>
+          <context-group purpose="location">
+            <context context-type="sourcefile">src/app/home/home.component.html</context>
+            <context context-type="linenumber">23</context>
+           </context-group>
+           </trans-unit>
+         <trans-unit id="album-name" datatype="html">
+            <source>Album</source>
+            <target>Альбом</target>
+             <context-group purpose="location">
+              <context context-type="sourcefile">src/app/home/home.component.html</context>
+              <context context-type="linenumber">24</context>
+             </context-group>
+            </trans-unit>
+              <trans-unit id="genre-name" datatype="html">
+                <source>Genre</source>
+                <target>Жанр</target>
+                <context-group purpose="location">
+                  <context context-type="sourcefile">src/app/home/home.component.html</context>
+                  <context context-type="linenumber">25</context>
+                </context-group>
+              </trans-unit>
+              <trans-unit id="performer-name" datatype="html">
+                <source>Performer</source>
+                <target>Исполнитель</target>
+                <context-group purpose="location">
+                  <context context-type="sourcefile">src/app/home/home.component.html</context>
+                  <context context-type="linenumber">26</context>
+                </context-group>
+              </trans-unit>
+              <trans-unit id="btn-edit" datatype="html">
+                <source>Edit</source>
+                <target>Изменить</target>
+                <context-group purpose="location">
+                  <context context-type="sourcefile">src/app/home/home.component.html</context>
+                  <context context-type="linenumber">37</context>
+                </context-group>
+              </trans-unit>
+              <trans-unit id="btn-delete" datatype="html">
+                 <source>Delete</source>
+                 <target>Удалить</target>
+                 <context-group purpose="location">
+                  <context context-type="sourcefile">src/app/home/home.component.html</context>
+                  <context context-type="linenumber">38</context>
+                  </context-group>
+              </trans-unit>
+    </body>
+  </file>
+</xliff>
