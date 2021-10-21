@@ -10,8 +10,8 @@ import { GenreService } from '../../_services/genre.service';
   templateUrl: './genre-list.component.html'
 })
 export class GenreListComponent implements OnInit {
-  loading = false;
   genres: Genre[] = [];
+  loading = false;
 
   constructor(
     private genreService: GenreService,

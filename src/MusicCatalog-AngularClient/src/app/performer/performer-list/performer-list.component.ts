@@ -10,21 +10,21 @@ import { PerformerService } from '../../_services/performer.service';
   templateUrl: './performer-list.component.html'
 })
 export class PerformerListComponent implements OnInit {
-  performers: Performer[];
+  performers: Performer[] = [];
+  loading = false;
 
   constructor(
     private performerService: PerformerService,
-    public dialog: MatDialog)
-  {
-    this.performers = [];
-  }
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.getPerformerList();
   }
 
   getPerformerList() {
     this.performerService.getPerformers().subscribe(response => {
+      this.loading = false;
       this.performers = response;
     });
   }

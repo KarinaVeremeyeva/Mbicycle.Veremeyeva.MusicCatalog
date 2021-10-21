@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalComponent } from '../../modal/modal.component';

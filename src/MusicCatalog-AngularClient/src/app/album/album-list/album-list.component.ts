@@ -11,17 +11,20 @@ import { AlbumService } from '../../_services/album.service';
 })
 export class AlbumListComponent implements OnInit {
   albums: Album[] = [];
+  loading = false;
 
   constructor(
     private albumService: AlbumService,
     public dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.getAlbumsList();
   }
 
   getAlbumsList() {
     this.albumService.getAlbums().subscribe(response => {
+      this.loading = false;
       this.albums = response;
     });
   }
