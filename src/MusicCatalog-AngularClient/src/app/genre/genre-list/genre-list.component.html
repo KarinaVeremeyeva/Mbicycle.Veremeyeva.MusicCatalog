@@ -1,10 +1,10 @@
 <div class="card mt-4">
-  <h4 class="card-header">Genres list</h4>
+  <h4 i18n="@@genres-header" class="card-header">Genres list</h4>
   <div class="card-body">
-    <h6>Genres from protected api end point</h6>
+    <h6 i18n="@@genres-description">Genres from protected api end point</h6>
     <hr>
     <div class="form-group">
-      <a routerLink="/genres/add-genre" class="btn btn-primary">Create genre</a>
+      <a i18n="@@create-genre" routerLink="/genres/add-genre" class="btn btn-primary">Create genre</a>
     </div>
 
     <div class="d-flex justify-content-center">
@@ -14,7 +14,7 @@
     <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="genres && !loading">
       <thead>
       <tr>
-        <th>Name</th>
+        <th i18n="@@th-genre-name">Name</th>
         <th></th>
       </tr>
       </thead>
@@ -22,8 +22,8 @@
       <tr *ngFor="let genre of genres">
         <td>{{ genre.name }}</td>
         <td class="text-center">
-          <button class="btn btn-primary mr-1" [routerLink]="['/genres/', genre.genreId, 'edit']">Edit</button>
-          <button class="btn btn-danger" (click)="openDialog(genre.genreId)">Delete</button>
+          <button i18n="@@btn-edit-genre" class="btn btn-primary mr-1" [routerLink]="['/genres/', genre.genreId, 'edit']">Edit</button>
+          <button i18n="@@btn-delete-genre" class="btn btn-danger" (click)="openDialog(genre.genreId)">Delete</button>
         </td>
       </tr>
       </tbody>

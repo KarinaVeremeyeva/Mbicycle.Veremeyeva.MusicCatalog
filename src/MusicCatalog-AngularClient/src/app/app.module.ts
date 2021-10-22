@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,9 +18,7 @@ import { NavMenuComponent } from  './nav-menu/nav-menu.component'
 import { AuthInterceptor } from './_helpers/auth.interceptor';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ModalComponent } from './modal/modal.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SwitchLanguageComponent } from './switch-language/switch-language.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     RegisterComponent,
     NavMenuComponent,
-    ModalComponent
+    ModalComponent,
+    SwitchLanguageComponent
   ],
   imports: [
     BrowserModule,

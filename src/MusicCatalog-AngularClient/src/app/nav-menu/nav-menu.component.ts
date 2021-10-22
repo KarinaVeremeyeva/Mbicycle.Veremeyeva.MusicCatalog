@@ -19,7 +19,7 @@ export class NavMenuComponent implements OnInit {
   { }
 
   ngOnInit(): void {
-    this.authService.currentUser.subscribe(x => this.currentUser = x)
+    this.authService.currentUser.subscribe(x => this.currentUser = x);
   }
 
   get isAdmin() {
