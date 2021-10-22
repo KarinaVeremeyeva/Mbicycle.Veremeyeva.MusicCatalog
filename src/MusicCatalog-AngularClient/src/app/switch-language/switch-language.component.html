@@ -1,0 +1,10 @@
+<ul class="navbar-nav">
+  <li class="nav-item">
+    <select class="form-control form-control-sm" *ngIf="isDev" [(ngModel)]="siteLocale" #language (change)="onChange(language.value)">
+      <option *ngFor="let lang of languageList" [value]="lang.code">
+        {{ lang.label }}
+      </option>
+    </select>
+  </li>
+</ul>
+
