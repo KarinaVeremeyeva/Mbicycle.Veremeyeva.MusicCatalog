@@ -716,6 +716,86 @@
           <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="add-genre-header" datatype="html">
+        <source>Create genre</source>
+        <target>Создать жанр</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/add-genre/add-genre.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="genre-name-lbl" datatype="html">
+        <source>Name</source>
+        <target>Название</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/add-genre/add-genre.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/edit-genre/edit-genre.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="genre-name-required" datatype="html">
+        <source>Name is required</source>
+        <target>Жанр не указан</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/add-genre/add-genre.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/edit-genre/edit-genre.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="genre-length" datatype="html">
+        <source>Name must be at least 3 characters</source>
+        <source>Жанр должен состоять минимум из 3 символов</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/add-genre/add-genre.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/edit-genre/edit-genre.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1322309510070904762" datatype="html">
+        <source>Create genre</source>
+        <target>Создать жанр</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/add-genre/add-genre.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="btn-back-to-list" datatype="html">
+        <source>Back to list</source>
+        <target>Вернуться к списку</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/add-genre/add-genre.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/edit-genre/edit-genre.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="edit-genre-header" datatype="html">
+        <source>Edit genre</source>
+        <target>Изменить жанр</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/edit-genre/edit-genre.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3445734326454706286" datatype="html">
+        <source>Update genre</source>
+        <target>Изменить жанр</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/genre/edit-genre/edit-genre.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
