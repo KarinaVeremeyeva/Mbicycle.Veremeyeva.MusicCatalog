@@ -1,33 +1,33 @@
 <div class="col-md-6">
   <div>
-    <h4 class="header">Edit album</h4>
+    <h4 i18n="@@edit-album-header" class="header">Edit album</h4>
     <hr>
     <div>
       <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm)">
         <input id="albumId" type="hidden">
 
         <div class="form-group">
-          <label for="name">Name</label>
+          <label i18n for="name">Name</label>
           <input type="text" formControlName="name" id="name" class="form-control"
                  [ngClass]="{ 'is-invalid': submitted && formField.name.errors }"/>
           <div *ngIf="formField.name.errors" class="invalid-feedback">
-            <div *ngIf="formField.name.errors?.required">Name is required</div>
-            <div *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
+            <div i18n *ngIf="formField.name.errors?.required">Name is required</div>
+            <div i18n *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
           </div>
         </div>
         <div class="form-group">
-          <label for="releaseDate">Release date</label>
+          <label i18n for="releaseDate">Release date</label>
           <input type="date" formControlName="releaseDate" id="releaseDate" class="form-control"
                  [ngClass]="{ 'is-invalid': submitted && formField.releaseDate.errors }"/>
           <div *ngIf="formField.releaseDate.errors" class="invalid-feedback">
-            <div *ngIf="formField.releaseDate.errors?.required">Release date is required</div>
+            <div i18n *ngIf="formField.releaseDate.errors?.required">Release date is required</div>
           </div>
         </div>
 
         <div class="form-group">
           <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-primary mr-1" type="submit">Update album</button>
-            <a href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
+            <button i18n class="btn btn-primary mr-1" type="submit">Update album</button>
+            <a i18n href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
           </div>
         </div>
       </form>

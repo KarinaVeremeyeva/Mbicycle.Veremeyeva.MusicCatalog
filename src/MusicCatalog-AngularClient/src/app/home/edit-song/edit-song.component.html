@@ -1,21 +1,21 @@
 <div class="col-md-6">
-  <h4>Edit song</h4>
+  <h4 i18n class="header">Edit song</h4>
   <hr>
   <div>
     <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm)">
       <input id="songId" type="hidden">
 
       <div class="form-group">
-        <label for="name">Name</label>
+        <label i18n for="name">Name</label>
         <input type="text" formControlName="name" id="name" class="form-control"
                [ngClass]="{ 'is-invalid': submitted && formField.name.errors }"/>
         <div *ngIf="formField.name.errors" class="invalid-feedback">
-          <div *ngIf="formField.name.errors?.required">Name is required</div>
-          <div *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
+          <div i18n *ngIf="formField.name.errors?.required">Name is required</div>
+          <div i18n *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
         </div>
       </div>
       <div class="form-group">
-        <label for="albumId">Album</label>
+        <label i18n for="albumId">Album</label>
         <select formControlName="albumId" id="albumId" class="form-control" >
           <option *ngFor="let album of albums" [ngValue]="album.albumId">
             {{album.name}}
@@ -23,7 +23,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="genreId">Genre</label>
+        <label i18n for="genreId">Genre</label>
         <select formControlName="genreId" id="genreId" class="form-control" >
           <option *ngFor="let genre of genres" [ngValue]="genre.genreId">
             {{genre.name}}
@@ -31,7 +31,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="performerId">Performer</label>
+        <label i18n for="performerId">Performer</label>
         <select formControlName="performerId" id="performerId" class="form-control" >
           <option *ngFor="let performer of performers" [ngValue]="performer.performerId">
             {{performer.name}}
@@ -40,8 +40,8 @@
       </div>
       <div class="form-group">
         <div class="d-grid gap-2 d-md-block">
-          <button class="btn btn-primary mr-1" type="submit">Update song</button>
-          <a href="#" routerLink="/songs" class="btn btn-secondary">Back to list</a>
+          <button i18n class="btn btn-primary mr-1" type="submit">Update song</button>
+          <a i18n href="#" routerLink="/songs" class="btn btn-secondary">Back to list</a>
         </div>
       </div>
       <div *ngIf="errorMessage" class="alert alert-danger mt-3 mb-0">{{errorMessage}}</div>

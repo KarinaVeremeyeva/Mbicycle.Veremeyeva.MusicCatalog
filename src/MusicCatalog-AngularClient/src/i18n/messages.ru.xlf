@@ -132,6 +132,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/home/home.component.html</context>
           <context context-type="linenumber">7</context>
+          <context-group purpose="location">
+            <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+            <context context-type="linenumber">3</context>
+          </context-group>
+          <context-group purpose="location">
+            <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+            <context context-type="linenumber">56</context>
+          </context-group>
         </context-group>
       </trans-unit>
       <trans-unit id="8648917131058334151" datatype="html">
@@ -272,54 +280,54 @@
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
-       <trans-unit id="login-header" datatype="html">
-              <source>Login user</source>
-              <target>Войти</target>
-              <context-group purpose="location">
-                <context context-type="sourcefile">src/app/login/login.component.html</context>
-                <context context-type="linenumber">3</context>
-              </context-group>
-            </trans-unit>
-            <trans-unit id="login-email" datatype="html">
-              <source>Email</source>
-              <target>Почта</target>
-              <context-group purpose="location">
-                <context context-type="sourcefile">src/app/login/login.component.html</context>
-                <context context-type="linenumber">7</context>
-              </context-group>
-            </trans-unit>
-            <trans-unit id="login-email-required" datatype="html">
-              <source>Email is required</source>
-              <target>Почта не указана</target>
-              <context-group purpose="location">
-                <context context-type="sourcefile">src/app/login/login.component.html</context>
-                <context context-type="linenumber">11</context>
-              </context-group>
-            </trans-unit>
-            <trans-unit id="login-password" datatype="html">
+      <trans-unit id="login-header" datatype="html">
+        <source>Login user</source>
+        <target>Войти</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-email" datatype="html">
+        <source>Email</source>
+        <target>Почта</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-email-required" datatype="html">
+        <source>Email is required</source>
+        <target>Почта не указана</target>
+         <context-group purpose="location">
+           <context context-type="sourcefile">src/app/login/login.component.html</context>
+           <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login-password" datatype="html">
               <source>Password</source>
               <target>Пароль</target>
               <context-group purpose="location">
                 <context context-type="sourcefile">src/app/login/login.component.html</context>
                 <context context-type="linenumber">15</context>
               </context-group>
-            </trans-unit>
-            <trans-unit id="login-password-required" datatype="html">
+      </trans-unit>
+      <trans-unit id="login-password-required" datatype="html">
               <source>Password is required</source>
               <target>Пароль не указан</target>
               <context-group purpose="location">
                 <context context-type="sourcefile">src/app/login/login.component.html</context>
                 <context context-type="linenumber">19</context>
               </context-group>
-            </trans-unit>
-            <trans-unit id="login-password-length" datatype="html">
-              <source>Password must be at least 8 characters</source>
-              <target>Пароль должке состоять из минимум 8 символов</target>
-              <context-group purpose="location">
-                <context context-type="sourcefile">src/app/login/login.component.html</context>
-                <context context-type="linenumber">20</context>
-              </context-group>
-            </trans-unit>
+      </trans-unit>
+      <trans-unit id="login-password-length" datatype="html">
+        <source>Password must be at least 8 characters</source>
+        <target>Пароль должке состоять из минимум 8 символов</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/login/login.component.html</context>
+          <context context-type="linenumber">20</context>
+      </context-group>
+      </trans-unit>
             <trans-unit id="remember-me" datatype="html">
               <source>Remember me</source>
               <target>Запомнить меня</target>
@@ -336,15 +344,15 @@
                 <context context-type="linenumber">31,33</context>
               </context-group>
             </trans-unit>
-             <trans-unit id="performers-header" datatype="html">
-                    <source>Performers list</source>
-                    <target>Список исполнителей</target>
-                    <context-group purpose="location">
+            <trans-unit id="performers-header" datatype="html">
+               <source>Performers list</source>
+               <target>Список исполнителей</target>
+                   <context-group purpose="location">
                       <context context-type="sourcefile">src/app/performer/performer-list/performer-list.component.html</context>
                       <context context-type="linenumber">2</context>
-                    </context-group>
-                  </trans-unit>
-                  <trans-unit id="performers-description" datatype="html">
+             </context-group>
+             </trans-unit>
+          <trans-unit id="performers-description" datatype="html">
                     <source>List of all performers</source>
                     <target>Список всех исполнителей</target>
                     <context-group purpose="location">
@@ -488,22 +496,226 @@
                       <context context-type="linenumber">12</context>
                     </context-group>
                   </trans-unit>
-                  <trans-unit id="btn-edit-user" datatype="html">
-                    <source>Edit</source>
-                    <target>Изменить</target>
-                    <context-group purpose="location">
-                      <context context-type="sourcefile">src/app/user/user-list/user-list.component.html</context>
-                      <context context-type="linenumber">21</context>
-                    </context-group>
-                  </trans-unit>
-                  <trans-unit id="btn-delete-user" datatype="html">
-                    <source>Delete</source>
-                    <target>Удалить</target>
-                    <context-group purpose="location">
-                      <context context-type="sourcefile">src/app/user/user-list/user-list.component.html</context>
-                      <context context-type="linenumber">22</context>
-                    </context-group>
-                  </trans-unit>
+     <trans-unit id="btn-edit-user" datatype="html">
+      <source>Edit</source>
+      <target>Изменить</target>
+       <context-group purpose="location">
+        <context context-type="sourcefile">src/app/user/user-list/user-list.component.html</context>
+         <context context-type="linenumber">21</context>
+       </context-group>
+      </trans-unit>
+      <trans-unit id="btn-delete-user" datatype="html">
+          <source>Delete</source>
+          <target>Удалить</target>
+          <context-group purpose="location">
+            <context context-type="sourcefile">src/app/user/user-list/user-list.component.html</context>
+            <context context-type="linenumber">22</context>
+          </context-group>
+      </trans-unit>
+      <trans-unit id="add-album-header" datatype="html">
+        <source>Create album</source>
+        <target>Создать альбом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8953033926734869941" datatype="html">
+        <source>Name</source>
+        <target>Название</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3833692663709091545" datatype="html">
+        <source>Name is required</source>
+        <target>Название не указано</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="65374267545800610" datatype="html">
+        <source>Name must be at least 3 characters</source>
+        <target>Название должно состоять из не менее 3 символов</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2437533037087698487" datatype="html">
+        <source>Release date</source>
+        <target>Дата релиза</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8525307951273032094" datatype="html">
+        <source>Release date is required</source>
+        <target>Дата релиза не указана</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1239566338223848176" datatype="html">
+        <source>Create album</source>
+        <target>Создать альбом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4176542659011926633" datatype="html">
+        <source>Back to list</source>
+        <target>Вернуться к списку</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/add-album/add-album.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="edit-album-header" datatype="html">
+        <source>Edit album</source>
+        <target>Изменить альбом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2040614161951862907" datatype="html">
+        <source>Update album</source>
+        <target>Изменить альбом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/album/edit-album/edit-album.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1393837337557373364" datatype="html">
+        <source>Album</source>
+        <target>Альбом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/edit-song/edit-song.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7353079273901216392" datatype="html">
+        <source>Select album</source>
+        <target>Выберите альбом</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6896190653261879747" datatype="html">
+        <source>Album is required</source>
+        <target>Альбом не указан</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7599424290971072767" datatype="html">
+        <source>Genre</source>
+        <target>Жанр</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/edit-song/edit-song.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7079796123888408341" datatype="html">
+        <source>Select genre</source>
+        <target>Выберите жанр</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4952656699554473989" datatype="html">
+        <source>Genre is required</source>
+        <target>Жанр не указан</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1648073699008704451" datatype="html">
+        <source>Performer</source>
+        <target>Исполнитель</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/edit-song/edit-song.component.html</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4864593712921117561" datatype="html">
+        <source>Select performer</source>
+        <target>Выберите исполнителя</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">45</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1955247047290479828" datatype="html">
+        <source>Performer is required</source>
+        <target>Исполнитель не указан</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/add-song/add-song.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8977476238512150029" datatype="html">
+        <source>Edit song</source>
+        <target>Изменить песню</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/edit-song/edit-song.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1942699590954412917" datatype="html">
+        <source>Update song</source>
+        <target>Изменить песню</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/home/edit-song/edit-song.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>
