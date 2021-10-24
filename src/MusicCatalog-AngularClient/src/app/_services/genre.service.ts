@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Genre } from '../_models/genre';
 import { Observable } from 'rxjs';
+
+import { Genre } from '../_models/genre';
+import { environment } from '../../environments/environment';
+import { ApiPaths } from '../enums/api-paths';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GenreService {
-  private web_api_path = 'http://localhost:48517/api/genres/';
+  webApiUrl = environment.webApiUrl;
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -16,30 +20,30 @@ export class GenreService {
   constructor(private http: HttpClient) { }
 
   getGenres() {
-    return this.http.get<Genre[]>(this.web_api_path);
+    return this.http.get<Genre[]>(`${this.webApiUrl}/${ApiPaths.Genres}`);
   }
 
   getGenre(id: number) {
-    return this.http.get<Genre>(this.web_api_path + id);
+    return this.http.get<Genre>(`${this.webApiUrl}/${ApiPaths.Genres}/${id}`);
   }
 
   postGenre(genre: Genre): Observable<Genre> {
     return this.http.post<Genre>(
-      this.web_api_path,
+      `${this.webApiUrl}/${ApiPaths.Genres}`,
       JSON.stringify(genre),
       this.httpOptions);
   }
 
   putGenre(genre: Genre): Observable<Genre> {
     return this.http.put<Genre>(
-      this.web_api_path + genre.genreId,
+      `${this.webApiUrl}/${ApiPaths.Genres}/${genre.genreId}`,
       JSON.stringify(genre),
       this.httpOptions);
   }
 
   deleteGenre(id: number){
     return this.http.delete(
-      this.web_api_path + id,
+      `${this.webApiUrl}/${ApiPaths.Genres}/${id}`,
       this.httpOptions);
   }
 }

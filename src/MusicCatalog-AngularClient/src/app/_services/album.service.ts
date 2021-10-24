@@ -1,45 +1,49 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Album } from '../_models/album';
 import { Observable } from 'rxjs';
+
+import { Album } from '../_models/album';
+import { environment } from '../../environments/environment';
+import { ApiPaths } from '../enums/api-paths';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlbumService {
-  private web_api_path = 'http://localhost:48517/api/albums/';
+  webApiUrl = environment.webApiUrl;
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
-  }
+  };
 
   constructor(private http: HttpClient) { }
 
   getAlbums() {
-    return this.http.get<Album[]>(this.web_api_path);
+    return this.http.get<Album[]>(`${this.webApiUrl}/${ApiPaths.Albums}`);
   }
 
   getAlbum(id: number) {
-    return this.http.get<Album>(this.web_api_path + id);
+    return this.http.get<Album>(`${this.webApiUrl}/${ApiPaths.Albums}/${id}`);
   }
 
   postAlbum(album: Album): Observable<Album> {
     return this.http.post<Album>(
-      this.web_api_path,
+      `${this.webApiUrl}/${ApiPaths.Albums}`,
       JSON.stringify(album),
       this.httpOptions);
   }
 
   putAlbum(album: Album): Observable<Album> {
     return this.http.put<Album>(
-      this.web_api_path + album.albumId,
+      `${this.webApiUrl}/${ApiPaths.Albums}/${album.albumId}`,
       JSON.stringify(album),
       this.httpOptions);
   }
 
   deleteAlbum(id: number){
-    const url = `${this.web_api_path}${id}`
+    const url = `${this.webApiUrl}/${ApiPaths.Albums}/${id}`
     return this.http.delete(url, this.httpOptions);
   }
 }

@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Song } from '../_models/song';
+import { environment } from '../../environments/environment';
+import { ApiPaths } from '../enums/api-paths';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SongService {
-  private web_api_path = 'http://localhost:48517/api/songs/';
+  webApiUrl = environment.webApiUrl;
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -18,30 +22,30 @@ export class SongService {
   constructor(private http: HttpClient) { }
 
   getSongs() {
-    return this.http.get<Song[]>(this.web_api_path);
+    return this.http.get<Song[]>(`${this.webApiUrl}/${ApiPaths.Song}`);
   }
 
   getSong(id: number) {
-    return this.http.get<Song>(this.web_api_path + id);
+    return this.http.get<Song>(`${this.webApiUrl}/${ApiPaths.Song}/${id}`);
   }
 
   postSong(song: Song): Observable<Song> {
     return this.http.post<Song>(
-      this.web_api_path,
+          `${this.webApiUrl}/${ApiPaths.Song}`,
       JSON.stringify(song),
       this.httpOptions);
   }
 
   putSong(song: Song): Observable<Song> {
     return this.http.put<Song>(
-      this.web_api_path + song.songId,
+      `${this.webApiUrl}/${ApiPaths.Song}/${song.songId}`,
       JSON.stringify(song),
       this.httpOptions);
   }
 
   deleteSong(id: number) {
     return this.http.delete<Song>(
-      this.web_api_path + id,
+      `${this.webApiUrl}/${ApiPaths.Song}/${id}`,
       this.httpOptions);
   }
 }

@@ -8,16 +8,19 @@ import jwt_decode from 'jwt-decode';
 import { LoginUser } from '../_models/login-user';
 import { RegisterUser } from '../_models/register-user';
 import { AuthUser } from '../_models/auth-user';
+import { environment } from '../../environments/environment';
+import { ApiPaths } from '../enums/api-paths';
 
 const TOKEN_KEY = 'jwt-token';
 const USER_KEY = 'current-user';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private auth_api_path = 'http://localhost:2563/api/user/';
+  authApiUrl = environment.userApiUrl;
+
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type' : 'application/json; charset=utf-8',
+      'Content-Type' : 'application/json',
       'Accept': 'application/json'
     }),
     observe: 'response' as 'body'
@@ -43,7 +46,7 @@ export class AuthService {
   // Sends post-request to the api for user login
   loginUser(user: LoginUser): Observable<HttpResponse<LoginUser>> {
     return this.http.post<any>(
-      this.auth_api_path + 'login',
+      `${this.authApiUrl}/${ApiPaths.User}/login`,
       JSON.stringify(user),
       this.httpOptions)
       .pipe(map(res => {
@@ -59,7 +62,7 @@ export class AuthService {
   // Sends post-request to the api for user sign up
   registerUser(user: RegisterUser): Observable<HttpResponse<RegisterUser>> {
     return this.http.post<any>(
-      this.auth_api_path + 'register',
+      `${this.authApiUrl}/${ApiPaths.User}/register`,
       JSON.stringify(user),
       this.httpOptions)
       .pipe(map(res => {
@@ -95,12 +98,13 @@ export class AuthService {
 
     let user: any = null;
     this.currentUserSubject.next(user);
-    this.http.get(this.auth_api_path + 'logout');
+    this.http.get(`${this.authApiUrl}/${ApiPaths.User}/logout`);
   }
 
   //Gets all role names
   getAllRoles(): Observable<string[]> {
-    return this.http.get<string[]>(this.auth_api_path + 'getAllRoles');
+    const url = `${this.authApiUrl}/${ApiPaths.User}/getAllRoles`;
+    return this.http.get<string[]>(url);
   }
 
   // Gets token from cookie

@@ -15,18 +15,17 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(request).pipe(
       retry(1),
       catchError((error: HttpErrorResponse) => {
-        let errorMessage = '';
+        let errorMessage: string;
         if (error.error instanceof ErrorEvent) {
           // handle client-side error
           errorMessage = `Error ${error.error.message}`;
         } else {
           // handle  server-side error
-          errorMessage = `Error ${error.status}\nMessage: ${error.message}`
+          errorMessage = `${error.error.errorMessage}`;
         }
         if (error.status === 401 || error.status === 403) {
           this.authService.logOut();
         }
-        console.log(errorMessage);
         return throwError(errorMessage);
       })
     );
