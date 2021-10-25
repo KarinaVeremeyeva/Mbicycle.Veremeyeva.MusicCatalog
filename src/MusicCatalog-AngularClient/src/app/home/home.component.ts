@@ -4,6 +4,8 @@ import { ModalComponent } from '../modal/modal.component';
 
 import { Song } from '../_models/song';
 import { SongService } from '../_services/song.service';
+import { AuthUser } from '../_models/auth-user';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -13,9 +15,11 @@ export class HomeComponent implements OnInit {
   loading = false;
   songs: Song[] = [];
   searchText: any;
+  currentUser: AuthUser = new AuthUser();
 
   constructor(
     private songService: SongService,
+    private authService: AuthService,
     private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -23,7 +27,12 @@ export class HomeComponent implements OnInit {
     this.songService.getSongs().subscribe(response => {
       this.loading = false;
       this.songs = response;
-    })
+    });
+    this.authService.currentUser.subscribe(x => this.currentUser = x);
+  }
+
+  get isAuthorized() : AuthUser {
+    return this.currentUser;
   }
 
   deleteSong(id: number): void {

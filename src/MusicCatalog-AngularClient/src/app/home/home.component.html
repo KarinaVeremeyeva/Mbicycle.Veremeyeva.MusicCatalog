@@ -35,7 +35,7 @@
         <td>{{song.performerName}}</td>
         <td class="text-center">
           <button i18n="@@btn-edit" class="btn btn-primary mr-1" [routerLink]="['/songs/', song.songId, 'edit']">Edit</button>
-          <button i18n="@@btn-delete" class="btn btn-danger" (click)="openDialog(song.songId)">Delete</button>
+          <button i18n="@@btn-delete" class="btn btn-danger" [disabled]="!isAuthorized" (click)="openDialog(song.songId)">Delete</button>
         </td>
       </tr>
       </tbody>
