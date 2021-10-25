@@ -37,7 +37,7 @@ export class AlbumListComponent implements OnInit {
 
   openDialog(id: number): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: 'Are you sure you want to delete this album?'
+      data: $localize`Are you sure you want to delete this album?`
     });
 
     dialogRef.afterClosed().subscribe(result => {

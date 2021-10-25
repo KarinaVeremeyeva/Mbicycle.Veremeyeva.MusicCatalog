@@ -37,7 +37,7 @@ export class PerformerListComponent implements OnInit {
 
   openDialog(id: number): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: 'Are you sure you want to delete this performer?'
+      data: $localize`Are you sure you want to delete this performer?`
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -6,11 +6,9 @@
     <div class="form-group">
       <a i18n="@@create-performer" routerLink="/performers/add-performer" class="btn btn-primary">Create performer</a>
     </div>
-
     <div class="d-flex justify-content-center">
       <div *ngIf="loading" class="spinner-border spinner-border-lf text-info"></div>
     </div>
-
     <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="performers&& !loading">
       <thead>
       <tr>

@@ -1,7 +1,7 @@
 <div class="card mt-4">
-  <h4 i18n="@@albums-header" class="card-header">Albums list</h4>
+  <h4 i18n="album list header@@albums-header" class="card-header">Albums list</h4>
   <div class="card-body">
-    <h6 i18n="@@albums-description">List of all albums</h6>
+    <h6 i18n="album list description@@albums-description">List of all albums</h6>
     <hr>
     <div class="form-group">
       <a i18n="@@create-album" routerLink="/albums/add-album" class="btn btn-primary">Create album</a>
@@ -22,7 +22,7 @@
       <tbody>
       <tr *ngFor="let album of albums">
         <td>{{ album.name }}</td>
-        <td>{{ album.releaseDate | date:"dd/MM/yyyy" }}</td>
+        <td>{{ album.releaseDate | date:'mediumDate' }}</td>
         <td class="text-center">
           <button i18n="@@btn-edit-album" type="button" class="btn btn-primary mr-1" [routerLink]="['/albums/', album.albumId, 'edit']">Edit</button>
           <button i18n="@@btn-delete-album" type="button" class="btn btn-danger" (click)="openDialog(album.albumId)">Delete</button>

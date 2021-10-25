@@ -8,7 +8,7 @@ export class SwitchLanguageComponent implements OnInit {
   isDev = isDevMode()
   siteLanguage: string | undefined;
   siteLocale: string | undefined;
-  languageList = [
+  localesList = [
     { code: 'en-US', label: 'English' },
     { code: 'ru', label: 'Русский' },
   ]
@@ -16,11 +16,11 @@ export class SwitchLanguageComponent implements OnInit {
 
   ngOnInit(): void {
     this.siteLocale = window.location.pathname.split('/')[1]
-    this.siteLanguage = this.languageList.find(
+    this.siteLanguage = this.localesList.find(
       (f) => f.code === this.siteLocale
     )?.label
     if (!this.siteLanguage) {
-      this.onChange(this.languageList[0].code)
+      this.onChange(this.localesList[0].code)
     }
   }
 

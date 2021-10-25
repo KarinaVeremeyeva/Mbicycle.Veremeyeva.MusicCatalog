@@ -37,7 +37,7 @@ export class GenreListComponent implements OnInit {
 
   openDialog(id: number): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: 'Are you sure you want to delete this genre?'
+      data: $localize`Are you sure you want to delete this genre?`
     });
 
     dialogRef.afterClosed().subscribe(result => {

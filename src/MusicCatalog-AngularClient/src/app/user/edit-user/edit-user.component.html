@@ -1,29 +1,28 @@
 <div class="col-md-6">
-  <h4>Edit user</h4>
+  <h4 i18n="@@edit-user-header">Edit user</h4>
   <hr>
   <div>
     <form [formGroup]="editForm" (ngSubmit)="onSubmit(editForm)">
       <input id="id" type="hidden">
-
       <div class="form-group">
-        <label for="email">Email</label>
+        <label i18n="@@user-email-lbl" for="email">Email</label>
         <input type="email" formControlName="email" id="email" class="form-control"
                [ngClass]="{ 'is-invalid': submitted && formField.email.errors }"/>
         <div *ngIf="formField.email.errors" class="invalid-feedback">
-          <div *ngIf="formField.email.errors?.required">Email is required</div>
-          <div *ngIf="formField.email.errors?.email">Email is invalid</div>
+          <div i18n="@@email-required" *ngIf="formField.email.errors?.required">Email is required</div>
+          <div i18n="@@email-format" *ngIf="formField.email.errors?.email">Email is invalid</div>
         </div>
       </div>
       <div class="form-group">
-        <label for="role">Role</label>
+        <label i18n="@@user-role-lbl" for="role">Role</label>
         <select formControlName="role" id="role" class="form-control" >
           <option *ngFor="let role of roles" [ngValue]="role">{{role}}</option>
         </select>
       </div>
       <div class="form-group">
         <div class="d-grid gap-2 d-md-block">
-          <button class="btn btn-primary mr-1" type="submit">Update user</button>
-          <a href="#" routerLink="/users" class="btn btn-secondary">Back to list</a>
+          <button i18n class="btn btn-primary mr-1" type="submit">Update user</button>
+          <a i18n="@@btn-back-to-list" href="#" routerLink="/users" class="btn btn-secondary">Back to list</a>
         </div>
       </div>
     </form>

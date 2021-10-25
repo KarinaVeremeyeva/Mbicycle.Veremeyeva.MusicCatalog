@@ -20,6 +20,11 @@ import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { ModalComponent } from './modal/modal.component';
 import { SwitchLanguageComponent } from './switch-language/switch-language.component';
 
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+
+registerLocaleData(localeRu, 'ru');
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -20,10 +20,9 @@
           <div i18n *ngIf="formField.releaseDate.errors?.required">Release date is required</div>
         </div>
       </div>
-
       <div class="d-grid gap-2 d-md-block">
         <button i18n type="submit" class="btn btn-success mr-1">Create album</button>
-        <a i18n href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
+        <a i18n="@@btn-back-to-list" href="#" routerLink="/albums" class="btn btn-secondary">Back to list</a>
       </div>
     </form>
   </div>

@@ -47,7 +47,7 @@ export class UserListComponent implements OnInit {
 
   openDialog(id: string): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: 'Are you sure you want to delete this user?'
+      data: $localize`Are you sure you want to delete this user?`
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
   openDialog(id: number): void {
     const dialogRef = this.dialog.open(ModalComponent, {
-      data: 'Are you sure you want to delete this song?'
+      data: $localize`Are you sure you want to delete this song?`
     });
 
     dialogRef.afterClosed().subscribe(result => {
