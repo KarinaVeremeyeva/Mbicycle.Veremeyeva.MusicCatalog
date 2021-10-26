@@ -27,11 +27,6 @@ namespace MusicCatalog.Web.Controllers
         private readonly IMapper _mapper;
 
         /// <summary>
-        /// Jwt token key
-        /// </summary>
-        private const string JwtTokenKey = "secret_jwt_key";
-
-        /// <summary>
         /// Albums controller constructor
         /// </summary>
         /// <param name="albumApiService">Album api service</param>

@@ -1,0 +1,56 @@
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container">
+      <a class="navbar-brand" [routerLink]="['/']">MusicCatalog</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded" (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse"
+        [ngClass]="{ show: isExpanded }">
+        <app-switch-language></app-switch-language>
+
+        <ul class="navbar-nav ml-auto" *ngIf="!currentUser">
+          <li class="nav-item">
+            <a i18n="@@sign-up" class="nav-link" routerLink="register">Sign Up</a>
+          </li>
+          <li class="nav-item">
+            <a i18n="@@login" class="nav-link" routerLink="login">Login</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav ml-auto" *ngIf="currentUser" >
+          <li class="nav-item">
+            <a i18n="@@sign-in-as" class="nav-link">Sign in as {{ currentUser.email }}</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-info">{{ currentUser.role }}</a>
+          </li>
+          <li class="nav-item" *ngIf="isAdmin">
+            <a i18n="@@users" class="nav-link text-info" routerLink="/users">Users</a>
+          </li>
+          <li class="nav-item">
+            <a i18n="@@logout" class="nav-link" (click)="logout()">LogOut</a>
+          </li>
+        </ul>
+
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item"
+              [routerLinkActive]="['link-active']"
+              [routerLinkActiveOptions]="{ exact: true }">
+            <a i18n="@@home" class="nav-link text-dark" routerLink="['/']">Home</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a i18n="@@albums" class="nav-link text-dark" routerLink="albums">Albums</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a i18n="@@genres" class="nav-link text-dark" routerLink="genres">Genres</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]="['link-active']">
+            <a i18n="@@performers" class="nav-link text-dark" routerLink="performers">Performers</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

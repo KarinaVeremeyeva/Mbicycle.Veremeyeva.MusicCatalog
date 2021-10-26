@@ -1,0 +1,44 @@
+<div class="card mt-4">
+  <h4 i18n="main header|component header@@list-name" class="card-header">Songs list</h4>
+  <div class="card-body">
+    <h6 i18n="description|component description@@description">List of all songs</h6>
+    <hr>
+    <div class="form-group">
+      <a i18n i18n-href i18n-title routerLink="/songs/add-song" class="btn btn-primary">Create song</a>
+    </div>
+
+    <div class="form-group">
+      <label i18n="search name label|label" for="search-text">Search by name:</label>
+      <input i18n-placeholder="@@placeholder" type="text" class="form-control col-md-6" id="search-text"
+             [(ngModel)]="searchText" placeholder="Enter song name to search" autofocus>
+    </div>
+
+    <div class="d-flex justify-content-center">
+      <div *ngIf="loading" class="spinner-border spinner-border-lf text-info"></div>
+    </div>
+
+    <table class="table" *ngIf="songs && !loading">
+      <thead>
+      <tr>
+        <th i18n="@@song-name">Name</th>
+        <th i18n="@@album-name">Album</th>
+        <th i18n="@@genre-name">Genre</th>
+        <th i18n="@@performer-name">Performer</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let song of songs | filter:searchText">
+        <td>{{song.name}}</td>
+        <td>{{song.albumName}}</td>
+        <td>{{song.genreName}}</td>
+        <td>{{song.performerName}}</td>
+        <td class="text-center">
+          <button i18n="@@btn-edit" class="btn btn-primary mr-1" [routerLink]="['/songs/', song.songId, 'edit']">Edit</button>
+          <button i18n="@@btn-delete" class="btn btn-danger" [disabled]="!isAuthorized" (click)="openDialog(song.songId)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

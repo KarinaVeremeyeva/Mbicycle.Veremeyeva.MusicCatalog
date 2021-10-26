@@ -1,0 +1,30 @@
+<div class="card mt-4">
+  <h4 i18n="@@performers-header" class="card-header">Performers list</h4>
+  <div class="card-body">
+    <h6 i18n="@@performers-description">List of all performers</h6>
+    <hr>
+    <div class="form-group">
+      <a i18n="@@create-performer" routerLink="/performers/add-performer" class="btn btn-primary">Create performer</a>
+    </div>
+    <div class="d-flex justify-content-center">
+      <div *ngIf="loading" class="spinner-border spinner-border-lf text-info"></div>
+    </div>
+    <table class='table table-bordered table-hover' aria-labelledby="tableLabel" *ngIf="performers&& !loading">
+      <thead>
+      <tr>
+        <th i18n="@@th-performer-name">Name</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let performer of performers">
+        <td>{{ performer.name }}</td>
+        <td class="text-center">
+          <button i18n="@@btn-edit-performer" class="btn btn-primary mr-1" [routerLink]="['/performers/', performer.performerId, 'edit']">Edit</button>
+          <button i18n="@@btn-delete-performer" class="btn btn-danger" (click)="openDialog(performer.performerId)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

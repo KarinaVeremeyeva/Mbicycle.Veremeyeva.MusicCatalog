@@ -1,0 +1,28 @@
+<div class="card mt-4">
+  <h4 i18n="@@users-header" class="card-header">Users list</h4>
+  <div class="card-body">
+    <h6 i18n="@@users-description">List of all registered users</h6>
+    <div class="d-flex justify-content-center">
+      <div *ngIf="loading" class="spinner-border spinner-border-lf text-info"></div>
+    </div>
+    <table class="table" *ngIf="users && !loading">
+      <thead>
+      <tr>
+        <th i18n="@@th-user-email">Email</th>
+        <th i18n="@@th-user-role">Role</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let user of users">
+        <td>{{user.email}}</td>
+        <td>{{user.role}}</td>
+        <td class="text-center">
+          <button i18n="@@btn-edit-user" class="btn btn-primary mr-1" [routerLink]="['/users/', user.id, 'edit']">Edit</button>
+          <button i18n="@@btn-delete-user" class="btn btn-danger" (click)="openDialog(user.id)">Delete</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

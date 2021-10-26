@@ -1,0 +1,21 @@
+<div class="col-md-6">
+  <div>
+    <h4 i18n="@@add-genre-header" class="header">Create genre</h4>
+    <hr>
+    <form [formGroup]="createForm" (ngSubmit)="onSubmit(createForm)">
+      <div class="form-group">
+        <label i18n="@@genre-name-lbl" for="name">Name</label>
+        <input type="text" formControlName="name" class="form-control" id="name"
+               [ngClass]="{ 'is-invalid': submitted && formField.name.errors }"/>
+        <div *ngIf="formField.name.errors" class="invalid-feedback">
+          <div i18n="@@genre-name-required" *ngIf="formField.name.errors?.required">Name is required</div>
+          <div i18n="@@genre-length" *ngIf="formField.name.errors?.minlength">Name must be at least 3 characters</div>
+        </div>
+      </div>
+      <div class="d-grid gap-2 d-md-block">
+        <button i18n type="submit" class="btn btn-success mr-1">Create genre</button>
+        <a i18n="@@btn-back-to-list" href="#" routerLink="/genres" class="btn btn-secondary">Back to list</a>
+      </div>
+    </form>
+  </div>
+</div>
