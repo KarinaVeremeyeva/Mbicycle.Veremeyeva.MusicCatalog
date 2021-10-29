@@ -1,27 +1,30 @@
 version: '3.4'
 
 services:
-  musiccatalog.identityapi:
-    container_name: identity-api
-    image: ${DOCKER_REGISTRY-}music-catalog-identity-api
-    environment:
-        - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-        - 5000:80
-    expose:
-        - 5000
-    build:
-      context: .
-      dockerfile: src/MusicCatalog.IdentityApi/Dockerfile
-    depends_on: 
-        - musiccatalog.database
-  musiccatalog.database:
-    container_name: database
+  db:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
         ACCEPT_EULA: 'Y'
         SA_PASSWORD: 'YourStrong@Passw0rd'
-    expose:  
-        - 1433
+        MSSQL_PID: Express
     ports:
-        - "${DOCKER_SQL_PORT:-1433}:1433"
+        - 1433:1433
+  musiccatalog.identityapi:
+    image: ${DOCKER_REGISTRY-}musiccatalogidentityapi
+    build:
+      context: .
+      dockerfile: src/MusicCatalog.IdentityApi/Dockerfile
+    ports:
+        - 5000:80
+    depends_on: 
+        - db
+  musiccatalog.webapi:
+    image: ${DOCKER_REGISTRY-}musiccatalogwebapi
+    build:
+      context: .
+      dockerfile: src/MusicCatalog.WebApi/Dockerfile
+    ports:
+        - 5001:80
+    depends_on: 
+        - db
+        - musiccatalog.identityapi
