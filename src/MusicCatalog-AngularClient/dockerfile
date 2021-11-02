@@ -1,0 +1,14 @@
+# Build
+FROM node:14.18.1-alpine as build
+WORKDIR /dist/src/app
+RUN npm cache clean --force
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . . 
+RUN npm run build
+
+# Run
+# FROM nginx:latest
+# COPY nginx.conf /etc/nginx/nginx.conf
+# COPY --from=build /dist/src/app/dist/musiccatalog-angularclient /usr/share/nginx/html
+# EXPOSE 80

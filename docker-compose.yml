@@ -9,6 +9,8 @@ services:
         MSSQL_PID: Express
     ports:
         - 1433:1433
+    volumes:
+       - db-data:/var/lib/mssql/data
   musiccatalog.identityapi:
     image: ${DOCKER_REGISTRY-}musiccatalogidentityapi
     build:
@@ -28,3 +30,5 @@ services:
     depends_on: 
         - db
         - musiccatalog.identityapi
+volumes:
+ db-data:
