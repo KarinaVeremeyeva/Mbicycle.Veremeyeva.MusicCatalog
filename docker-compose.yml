@@ -29,6 +29,5 @@ services:
         - 5001:80
     depends_on: 
         - db
-        - musiccatalog.identityapi
 volumes:
  db-data:
