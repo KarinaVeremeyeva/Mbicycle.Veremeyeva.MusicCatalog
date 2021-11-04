@@ -6,3 +6,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
     ports:
       - "80"
+  musiccatalog.webapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"

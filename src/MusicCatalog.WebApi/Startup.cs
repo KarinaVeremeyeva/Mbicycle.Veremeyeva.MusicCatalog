@@ -57,7 +57,7 @@ namespace MusicCatalog.WebApi
                 options.AddDefaultPolicy(
                     builder =>
                     {
-                        builder.AllowAnyOrigin()
+                        builder.WithOrigins("http://localhost:8080")
                                .AllowAnyHeader()
                                .AllowAnyMethod()
                                .WithExposedHeaders("Authorization");
