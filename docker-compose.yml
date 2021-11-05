@@ -10,15 +10,7 @@ services:
     ports:
         - 1433:1433
     volumes:
-       - db-data:/var/lib/mssql/data
-  db2:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-        ACCEPT_EULA: 'Y'
-        MSSQL_SA_PASSWORD: 'YourStrong@Passw0rd'
-        MSSQL_PID: Express
-    ports:
-        - 1402:1433
+        - db-data:/var/lib/mssql/data
   musiccatalog.identityapi:
     image: ${DOCKER_REGISTRY-}musiccatalogidentityapi
     container_name: identity-api
@@ -38,11 +30,7 @@ services:
     ports:
         - 5001:80
     depends_on: 
-        - db2
+        - db
 
 volumes:
  db-data:
-
-networks:
- api-network:
-  driver: bridge
