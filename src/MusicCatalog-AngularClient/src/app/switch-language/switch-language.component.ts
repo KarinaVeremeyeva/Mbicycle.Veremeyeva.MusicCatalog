@@ -1,11 +1,10 @@
-import { Component, isDevMode, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-switch-language',
   templateUrl: './switch-language.component.html'
 })
 export class SwitchLanguageComponent implements OnInit {
-  isDev = isDevMode()
   siteLanguage: string | undefined;
   siteLocale: string | undefined;
   localesList = [
