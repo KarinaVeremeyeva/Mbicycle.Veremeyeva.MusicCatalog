@@ -1,0 +1,59 @@
+﻿apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-api-deployment
+  labels:
+    app: web-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: musiccatalog.webapi
+  template:
+    metadata:
+      labels:
+        app: web-api
+        service: musiccatalog.webapi
+    spec:
+      containers:
+        - name: web-api
+          image: kveremeyeva/musiccatalog-webapi:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          env:
+            - name: ASPNETCORE_URLS
+              value: http://+:80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-api-service
+  labels:
+    app: web-api
+    service: musiccatalog.webapi
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+  selector:
+    service: musiccatalog.webapi
+  type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+    name: web-api-ingress
+spec:
+    rules:
+    - http:
+        paths:
+        - path: /web-api
+          pathType: Prefix
+          backend:
+            service:
+              name: web-api-service
+              port:
+                number: 80

@@ -20,7 +20,7 @@
     "MusicCatalog.IdentityApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "users",
+      "launchUrl": "identity-api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

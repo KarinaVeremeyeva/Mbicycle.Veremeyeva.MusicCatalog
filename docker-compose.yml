@@ -38,6 +38,9 @@ services:
   musiccatalog-angularclient:
     image: ${DOCKER_REGISTRY-}musiccatalog-angularclient
     container_name: angular-client
+    environment:
+        - WebApiBaseAddress=http://web-api
+        - IdentityApiBaseAddress=http://identity-api
     build:
       context: src/MusicCatalog-AngularClient
       dockerfile: ./Dockerfile

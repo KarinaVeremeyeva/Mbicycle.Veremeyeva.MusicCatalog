@@ -20,7 +20,7 @@
     "MusicCatalog.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api",
+      "launchUrl": "web-api",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
