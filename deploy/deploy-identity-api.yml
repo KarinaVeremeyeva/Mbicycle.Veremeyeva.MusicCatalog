@@ -3,43 +3,45 @@ kind: Deployment
 metadata:
   name: identity-api-deployment
   labels:
-    app: identity-api
+    app: identity-api-pod
 spec:
   replicas: 1
   selector:
     matchLabels:
-      service: musiccatalog.identityapi
+      app: identity-api-pod
   template:
     metadata:
       labels:
-        app: identity-api
-        service: musiccatalog.identityapi
+        app: identity-api-pod
     spec:
       containers:
-        - name: identity-api
-          image: kveremeyeva/musiccatalog-identityapi:latest
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 80
-              protocol: TCP
-          env:
-            - name: ASPNETCORE_URLS
-              value: http://+:80
+      - name: identity-api
+        image: kveremeyeva/musiccatalog-identityapi:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        env:
+        - name: ASPNETCORE_URLS
+          value: http://+:80
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: identity-api-service
   labels:
-    app: identity-api
-    service: musiccatalog.identityapi
+    app: identity-api-pod
 spec:
-  ports:
-    - port: 80
-      targetPort: 80
-      protocol: TCP
   selector:
-    service: musiccatalog.identityapi
+    app: identity-api-pod
+  ports:
+  - port: 5000
+    targetPort: 80
+    protocol: TCP
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1

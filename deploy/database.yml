@@ -1,3 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: mssql-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,23 +30,24 @@ spec:
       containers:
       - name: mssql
         image: mcr.microsoft.com/mssql/server:2019-latest
+        imagePullPolicy: IfNotPresent
         ports:
-          - containerPort: 1433
+        - containerPort: 1433
         env:
-          - name: MSSQL_PID
-            value: Express
-          - name: ACCEPT_EULA
-            value: Y
-          - name: SA_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: mssql
-                key: SA_PASSWORD 
-         volumeMounts:
-            - name: mssqldb
-              mountPath: /var/lib/mssql/data
-       volumes:
-       - name: mssqldb
+        - name: MSSQL_PID
+          value: "Express"
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mssql
+              key: SA_PASSWORD
+        volumeMounts:
+        - name: mssqldb
+          mountPath: /var/opt/mssql
+      volumes:
+      - name: mssqldb
         persistentVolumeClaim:
           claimName: mssql-data
 ---
@@ -52,4 +64,3 @@ spec:
     port: 1433
     targetPort: 1433
  type: LoadBalancer
-
