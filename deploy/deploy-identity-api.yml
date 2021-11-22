@@ -21,7 +21,7 @@ spec:
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "250m"
         ports:
         - containerPort: 80
           protocol: TCP
@@ -39,8 +39,8 @@ spec:
   selector:
     app: identity-api-pod
   ports:
-  - port: 5000
-    targetPort: 80
+  - port: 80
+    targetPort: 5000
     protocol: TCP
   type: ClusterIP
 ---
@@ -58,4 +58,4 @@ spec:
             service:
               name: identity-api-service
               port:
-                number: 80
+                number: 5000

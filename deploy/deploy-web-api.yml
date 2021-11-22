@@ -21,7 +21,7 @@ spec:
         resources:
           limits:
             memory: "128Mi"
-            cpu: "500m"
+            cpu: "250m"
         ports:
         - containerPort: 80
           protocol: TCP
@@ -39,8 +39,8 @@ spec:
   selector:
     app: web-api-pod
   ports:
-    - port: 5001
-      targetPort: 80
+    - port: 80
+      targetPort: 5001
       protocol: TCP
   type: ClusterIP
 ---
@@ -58,4 +58,4 @@ spec:
             service:
               name: web-api-service
               port:
-                number: 80
+                number: 5001

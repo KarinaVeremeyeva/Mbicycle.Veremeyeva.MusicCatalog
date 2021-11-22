@@ -15,6 +15,10 @@ spec:
       - name: angular-client
         image: kveremeyeva/musiccatalog-angularclient:latest
         imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "500m"
         ports:
         - containerPort: 8080
           protocol: TCP
