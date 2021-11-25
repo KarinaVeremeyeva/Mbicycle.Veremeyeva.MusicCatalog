@@ -33,8 +33,8 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "256Mi"
-            cpu: "500m"
+            memory: "3Gi"
+            cpu: "200m"
         ports:
         - containerPort: 1433
         env:
@@ -54,19 +54,6 @@ spec:
       - name: mssqldb
         persistentVolumeClaim:
           claimName: mssql-data
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mssql-srv
-spec:
- selector:
-   app: mssql
- ports:
-  - protocol: TCP
-    port: 1433
-    targetPort: 1433
- type: ClusterIP
 ---
 apiVersion: v1
 kind: Service

@@ -18,13 +18,19 @@ spec:
       - name: identity-api
         image: kveremeyeva/musiccatalog-identityapi:latest
         imagePullPolicy: IfNotPresent
+        readinessProbe:
+          tcpSocket:
+            port: 5000
+          initialDelaySeconds: 300
+          periodSeconds: 30
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "250m"
+            memory: "256Mi"
+            cpu: "200m"
         ports:
-        - containerPort: 80
+        - containerPort: 5000
           protocol: TCP
+        command: ["/bin/sh", "-ec", "sleep 1000"]
         env:
         - name: ASPNETCORE_URLS
           value: http://+:80
@@ -47,15 +53,17 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: identity-api-ingress
+  name: identity-api-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
 spec:
-    rules:
-    - http:
-        paths:
-        - path: /identity-api
-          pathType: Prefix
-          backend:
-            service:
-              name: identity-api-service
-              port:
-                number: 5000
+  rules:
+  - http:
+      paths:
+      - path: /identity-api
+        pathType: Prefix
+        backend:
+          service:
+            name: identity-api-service
+            port:
+              number: 5000

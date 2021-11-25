@@ -20,11 +20,12 @@ spec:
         imagePullPolicy: IfNotPresent
         resources:
           limits:
-            memory: "128Mi"
-            cpu: "250m"
+            memory: "256Mi"
+            cpu: "200m"
         ports:
-        - containerPort: 80
+        - containerPort: 5001
           protocol: TCP
+        command: ["/bin/sh", "-ec", "sleep 1000"]
         env:
         - name: ASPNETCORE_URLS
           value: http://+:80
@@ -39,23 +40,25 @@ spec:
   selector:
     app: web-api-pod
   ports:
-    - port: 80
-      targetPort: 5001
-      protocol: TCP
+  - port: 80
+    targetPort: 5001
+    protocol: TCP
   type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-    name: web-api-ingress
+  name: web-api-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
 spec:
-    rules:
-    - http:
-        paths:
-        - path: /web-api
-          pathType: Prefix
-          backend:
-            service:
-              name: web-api-service
-              port:
-                number: 5001
+  rules:
+  - http:
+      paths:
+      - path: /web-api
+        pathType: Prefix
+        backend:
+          service:
+            name: web-api-service
+            port:
+              number: 5001
