@@ -1,7 +1,5 @@
 export const environment = {
   production: true,
-  userApiUrl: 'http://localhost/identity-api/api',
-  webApiUrl: 'http://localhost/web-api/api'
-  //userApiUrl: 'http://localhost:5000/api',
-  //webApiUrl: 'http://localhost:5001/api'
+  userApiUrl: 'http://identity-api-service:80/api',
+  webApiUrl: 'http://web-api-service:80/api'
 };

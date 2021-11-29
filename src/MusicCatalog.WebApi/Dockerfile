@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
 WORKDIR /app
 EXPOSE 80
 
-FROM mcr.microsoft.com/dotnet/sdk:5 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["src/MusicCatalog.WebApi/MusicCatalog.WebApi.csproj", "src/MusicCatalog.WebApi/"]
 COPY ["src/MusicCatalog.BusinessLogic/MusicCatalog.BusinessLogic.csproj", "src/MusicCatalog.BusinessLogic/"]
