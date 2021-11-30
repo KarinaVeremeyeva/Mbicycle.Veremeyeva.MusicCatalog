@@ -7,16 +7,17 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: 'true'
 spec:
   rules:
-  - http:
+  - host: acme.com
+    http:
       paths:
-      - path: /identity-api
+      - path: /api/user
         pathType: Prefix
         backend:
           service:
             name: identity-api-service
             port:
               number: 80
-      - path: /web-api
+      - path: /api/songs
         pathType: Prefix
         backend:
           service:
