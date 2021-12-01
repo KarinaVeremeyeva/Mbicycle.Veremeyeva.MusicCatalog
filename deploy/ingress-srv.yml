@@ -10,14 +10,14 @@ spec:
   - host: acme.com
     http:
       paths:
-      - path: /api/user
+      - path: /api/(user|admin)
         pathType: Prefix
         backend:
           service:
             name: identity-api-service
             port:
               number: 80
-      - path: /api/songs
+      - path: /api/(albums|genres|performers|songs)
         pathType: Prefix
         backend:
           service:

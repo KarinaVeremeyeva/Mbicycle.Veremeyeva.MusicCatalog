@@ -33,7 +33,7 @@ metadata:
   labels:
     app: web-api
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: web-api
   ports:
