@@ -38,5 +38,5 @@ spec:
     app: identity-api
   ports:
   - port: 80
-    targetPort: 80
+    nodePort: 30753
     protocol: TCP
