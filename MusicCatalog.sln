@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.IdentityApi", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MusicCatalog.WebApi", "src\MusicCatalog.WebApi\MusicCatalog.WebApi.csproj", "{CC2FB4C3-D3DC-474C-8EFF-8B1BF28A19D9}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{A9262CE5-22D0-458A-80ED-CE2F5363FC75}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{CC2FB4C3-D3DC-474C-8EFF-8B1BF28A19D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC2FB4C3-D3DC-474C-8EFF-8B1BF28A19D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC2FB4C3-D3DC-474C-8EFF-8B1BF28A19D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9262CE5-22D0-458A-80ED-CE2F5363FC75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9262CE5-22D0-458A-80ED-CE2F5363FC75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9262CE5-22D0-458A-80ED-CE2F5363FC75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9262CE5-22D0-458A-80ED-CE2F5363FC75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
