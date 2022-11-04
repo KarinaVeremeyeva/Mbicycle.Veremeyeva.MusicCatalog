@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  musiccatalog.identityapi:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+    ports:
+      - "5000:80"
+  musiccatalog.webapi:
+   environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+   ports:
+      - "5001:80"

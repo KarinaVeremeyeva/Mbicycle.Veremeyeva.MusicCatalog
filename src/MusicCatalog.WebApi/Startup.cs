@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MusicCatalog.BusinessLogic;
 using MusicCatalog.BusinessLogic.Interfaces;
@@ -15,6 +16,7 @@ using MusicCatalog.DataAccess.Entities;
 using MusicCatalog.DataAccess.Repositories.EFRepositories;
 using MusicCatalog.WebApi.JwtTokenAuth;
 using System;
+using System.Text;
 
 namespace MusicCatalog.WebApi
 {
@@ -44,13 +46,32 @@ namespace MusicCatalog.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            var tokenSettings = Configuration.GetSection("JwtTokenSettings");
 
             var mapping = new MapperConfiguration(map => map.AddProfile<BusinessLogicProfile>());
             services.AddSingleton(mapping.CreateMapper());
 
-            services.AddAuthentication(JwtAutheticationConstants.SchemeName)
-                .AddScheme<JwtAuthenticationOptions, JwtAuthenticationHandler>(
-                JwtAutheticationConstants.SchemeName, null);
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = tokenSettings[nameof(JwtTokenSettings.JwtIssuer)],
+                        ValidateAudience = true,
+                        ValidAudience = tokenSettings[nameof(JwtTokenSettings.JwtAudience)],
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(tokenSettings[nameof(JwtTokenSettings.JwtSecretKey)])),
+                        ValidateLifetime = false,
+                    };
+                });
 
             services.AddCors(options =>
             {

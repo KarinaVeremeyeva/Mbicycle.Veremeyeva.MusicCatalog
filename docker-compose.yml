@@ -1,0 +1,55 @@
+version: '3.4'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: mssql
+    environment:
+        ACCEPT_EULA: 'Y'
+        MSSQL_SA_PASSWORD: 'YourStrong@Passw0rd'
+        MSSQL_PID: Express
+    ports:
+        - 1433:1433
+    volumes:
+        - db-data:/var/lib/mssql/data
+  musiccatalog.identityapi:
+    image: ${DOCKER_REGISTRY-}musiccatalog-identityapi
+    container_name: identity-api
+    environment:
+      - ConnectionString=Server=db;Database=Users;User Id=sa;Password=YourStrong@Passw0rd
+    build:
+      context: .
+      dockerfile: src/MusicCatalog.IdentityApi/Dockerfile
+    ports:
+        - 5000:80
+    depends_on: 
+        - db
+  musiccatalog.webapi:
+    image: ${DOCKER_REGISTRY-}musiccatalog-webapi
+    container_name: web-api
+    environment:
+      - ConnectionString=Server=db;Database=MusicCatalogDatabase;User Id=sa;Password=YourStrong@Passw0rd
+    build:
+      context: .
+      dockerfile: src/MusicCatalog.WebApi/Dockerfile
+    ports:
+        - 5001:80
+    depends_on: 
+        - db
+  musiccatalog-angularclient:
+    image: ${DOCKER_REGISTRY-}musiccatalog-angularclient
+    container_name: angular-client
+    environment:
+        - WebApiBaseAddress=http://web-api
+        - IdentityApiBaseAddress=http://identity-api
+    build:
+      context: src/MusicCatalog-AngularClient
+      dockerfile: ./Dockerfile
+    ports:
+        - 8080:80
+    depends_on:
+        -  musiccatalog.identityapi
+        -  musiccatalog.webapi
+
+volumes:
+ db-data:
